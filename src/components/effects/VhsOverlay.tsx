@@ -8,7 +8,7 @@ export default function VhsOverlay() {
     const [isGlitching, setIsGlitching] = useState(false);
 
     useEffect(() => {
-        if (theme !== "vampire") return;
+        if (theme !== "noche") return;
 
         // Random glitch loop
         const glitchLoop = () => {
@@ -26,7 +26,7 @@ export default function VhsOverlay() {
         return () => clearTimeout(timeoutId);
     }, [theme]);
 
-    if (theme !== "vampire") return null;
+    if (theme !== "noche") return null;
 
     return (
         <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden mix-blend-screen opacity-50">

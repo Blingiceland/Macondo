@@ -1,24 +1,13 @@
 "use client";
 
-import { useTheme } from "@/context/ThemeContext";
-import { motion, AnimatePresence } from "framer-motion";
-import { Moon, Sun, Wine, Zap } from "lucide-react";
+import { motion } from "framer-motion";
 import CocktailMenu from "@/components/CocktailMenu";
-import { useState } from "react";
 import BookingForm from "@/components/BookingForm";
-import VhsOverlay from "@/components/effects/VhsOverlay";
-import BloodDrip from "@/components/effects/BloodDrip";
-import BloodyCursor from "@/components/effects/BloodyCursor";
-import SpookyAudio from "@/components/effects/SpookyAudio";
+import Butterflies from "@/components/effects/Butterflies";
+import FireflyCursor from "@/components/effects/FireflyCursor";
 import NeonSign from "@/components/effects/NeonSign";
 
 export default function Home() {
-  const { theme, toggleTheme, isManualOverride } = useTheme();
-
-
-
-  const isLounge = theme === "lounge";
-
   const scrollToReservation = () => {
     const section = document.getElementById('reservation-form');
     if (section) {
@@ -28,118 +17,66 @@ export default function Home() {
 
   return (
     <>
-      <VhsOverlay />
-      <BloodDrip />
-      <BloodyCursor />
-      <SpookyAudio isMuted={false} profile="drone" />
-      <main className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden transition-colors duration-[2000ms]">
-        {/* Background Ambience */}
+      <Butterflies />
+      <FireflyCursor />
+      <main className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+        {/* Background Ambience — deep blue radial + subtle yellow top glow */}
         <div className="absolute inset-0 pointer-events-none">
-          {isLounge ? (
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--color-lounge-primary)] opacity-80" />
-          ) : (
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--color-vampire-secondary)_0%,_transparent_70%)] opacity-20 animate-pulse" />
-          )}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#1A527620_0%,_transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_#F4D03F08_0%,_transparent_40%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_#E91E6308_0%,_transparent_50%)]" />
         </div>
-
-        {/* Manual Toggle Switch (Top Right) */}
-        <button
-          onClick={toggleTheme}
-          className="absolute top-6 right-6 p-2 rounded-full border border-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-primary)] transition-all z-50 cursor-pointer"
-          title="Toggle Time Warp"
-        >
-          {isLounge ? <Moon size={24} /> : <Sun size={24} />}
-        </button>
 
         {/* Main Content Container */}
         <div className="z-10 text-center max-w-4xl px-6">
 
-          {/* Animated Title */}
+          {/* Title */}
           <div className="min-h-32 mb-16 flex items-center justify-center">
-            <AnimatePresence mode="wait">
-              {isLounge ? (
-                <motion.h1
-                  key="lounge-title"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.8 }}
-                  className="text-6xl md:text-8xl font-serif tracking-widest text-[var(--color-lounge-text)]"
-                  style={{ fontFamily: 'var(--font-cinzel)' }}
-                >
-                  Pablo
-                  <span className="block text-4xl md:text-6xl mt-4 tracking-widest font-light opacity-80">
-                    Tequila Bar
-                  </span>
-                </motion.h1>
-              ) : (
-                <motion.div
-                  key="vampire-title"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.2 }}
-                  transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
-                >
-                  <NeonSign />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
+            >
+              <NeonSign />
+            </motion.div>
           </div>
 
-          {/* Description / Vibe Text */}
+          {/* Quote */}
           <div className="h-24 mb-12">
-            <AnimatePresence mode="wait">
-              {isLounge ? (
-                <motion.p
-                  key="lounge-desc"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="text-lg md:text-xl font-light italic leading-relaxed"
-                >
-                  "A hidden sanctuary behind the wooden door. Fine spirits, hushed conversations, and the warmth of old leather."
-                </motion.p>
-              ) : (
-                null
-              )}
-            </AnimatePresence>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="text-sm md:text-base font-light italic leading-relaxed opacity-50"
+              style={{ fontFamily: 'var(--font-cinzel), serif', color: '#F48FB1' }}
+            >
+              &ldquo;The world was so recent that many things lacked names.&rdquo;
+            </motion.p>
           </div>
 
-          {/* Action Button */}
+          {/* Action Button — warm pink border with yellow hover */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={scrollToReservation}
-            className={`
-              px-12 py-4 rounded-full text-lg font-bold tracking-[0.2em] transition-all duration-300
-              ${isLounge
-                ? 'bg-[#d4a017] text-black hover:bg-[#b8860b] shadow-lg border border-[#ffd700]/30'
-                : 'bg-red-950/80 text-red-500 border border-red-600 shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:text-red-400 hover:border-red-400 hover:shadow-red-500/50'
-              }
-            `}
-            style={{ fontFamily: isLounge ? 'var(--font-cinzel)' : 'sans-serif' }}
+            className="px-12 py-4 rounded-full text-lg font-bold tracking-[0.2em] transition-all duration-300 bg-transparent text-[#F4D03F] border border-[#D4A017] shadow-[0_0_20px_rgba(244,208,63,0.15)] hover:bg-[#F4D03F]/10 hover:shadow-[0_0_30px_rgba(244,208,63,0.25)] hover:border-[#F4D03F]"
+            style={{ fontFamily: 'var(--font-cinzel), serif' }}
           >
-            {isLounge ? "RESERVE A TABLE" : "JOIN THE RITUAL"}
+            ENTER MACONDO
           </motion.button>
         </div>
 
-
-
       </main>
 
-      {/* Sections that appear "below" the fold */}
-      <HeroSection>
+      {/* Sections below the fold */}
+      <div className="relative z-10 w-full min-h-screen flex flex-col items-center">
         <div className="w-full">
           <CocktailMenu />
         </div>
         <div id="reservation-form" className="w-full">
           <BookingForm />
         </div>
-      </HeroSection>
+      </div>
     </>
   );
-}
-
-function HeroSection({ children }: { children: React.ReactNode }) {
-  return <div className="relative z-10 w-full min-h-screen flex flex-col items-center">{children}</div>;
 }

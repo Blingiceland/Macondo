@@ -16,7 +16,7 @@ export default function SpookyAudio({ isMuted, profile }: SpookyAudioProps) {
 
     useEffect(() => {
         // Shutdown if not vampire or muted
-        if (theme !== "vampire" || isMuted) {
+        if (theme !== "noche" || isMuted) {
             if (timeoutRef.current) clearTimeout(timeoutRef.current);
             if (audioCtxRef.current) {
                 audioCtxRef.current.close().catch(() => { });
@@ -31,7 +31,7 @@ export default function SpookyAudio({ isMuted, profile }: SpookyAudioProps) {
         }
 
         const playSound = () => {
-            if (!audioCtxRef.current || theme !== "vampire" || isMuted) return;
+            if (!audioCtxRef.current || theme !== "noche" || isMuted) return;
 
             const ctx = audioCtxRef.current;
             if (ctx.state === "suspended") ctx.resume();

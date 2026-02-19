@@ -16,7 +16,7 @@ interface AudioControlProps {
 export default function AudioControl({ onProfileChange, onMuteToggle, isMuted, currentProfile }: AudioControlProps) {
     const { theme } = useTheme();
 
-    if (theme !== "vampire") return null; // Only show in Vampire mode
+    if (theme !== "noche") return null; // Only show in Noche mode
 
     return (
         <div className="fixed top-24 right-6 z-50 flex flex-col items-end gap-2 animate-in fade-in slide-in-from-right-10 duration-500">

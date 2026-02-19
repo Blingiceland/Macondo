@@ -16,7 +16,7 @@ export default function BloodyCursor() {
     const [trail, setTrail] = useState<Point[]>([]);
 
     useEffect(() => {
-        if (theme !== "vampire") {
+        if (theme !== "noche") {
             setTrail([]);
             return;
         }
@@ -42,14 +42,14 @@ export default function BloodyCursor() {
 
     // Cleanup old points
     useEffect(() => {
-        if (theme !== "vampire") return;
+        if (theme !== "noche") return;
         const interval = setInterval(() => {
             setTrail((prev) => prev.filter((p) => Date.now() - p.id < 500));
         }, 100);
         return () => clearInterval(interval);
     }, [theme]);
 
-    if (theme !== "vampire") return null;
+    if (theme !== "noche") return null;
 
     return (
         <div className="fixed inset-0 pointer-events-none z-[9998]">

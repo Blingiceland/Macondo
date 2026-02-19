@@ -8,7 +8,7 @@ const GLITCH_CHARS = "!<>-_\\/[]{}—=+*^?#________";
 export default function GlitchText({ children, className }: { children: string, className?: string }) {
     const { theme } = useTheme();
     const [displayText, setDisplayText] = useState(children);
-    const isVampire = theme === "vampire";
+    const isVampire = theme === "noche";
 
     useEffect(() => {
         if (!isVampire) {

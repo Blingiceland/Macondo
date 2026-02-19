@@ -1,15 +1,16 @@
 import type { Metadata } from 'next'
-import { Cinzel, Nosifer, Inter } from 'next/font/google'
+import { Cinzel, Inter } from 'next/font/google'
+import { Macondo as MacondoFont } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/context/ThemeContext'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const cinzel = Cinzel({ subsets: ['latin'], variable: '--font-cinzel' })
-const nosifer = Nosifer({ weight: '400', subsets: ['latin'], variable: '--font-nosifer' })
+const macondoFont = MacondoFont({ weight: '400', subsets: ['latin'], variable: '--font-macondo-gf' })
 
 export const metadata: Metadata = {
-  title: 'Tequila Bar',
-  description: 'A secret place.',
+  title: 'Macondo — Bar & Spirits',
+  description: 'A place that exists between memory and dream. Cocktails, tequila, and the spirit of magical realism.',
 }
 
 export default function RootLayout({
@@ -19,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${cinzel.variable} ${nosifer.variable} antialiased`}>
+      <body className={`${inter.variable} ${cinzel.variable} ${macondoFont.variable} antialiased`}>
         <ThemeProvider>
           {children}
         </ThemeProvider>

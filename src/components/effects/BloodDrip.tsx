@@ -17,7 +17,7 @@ export default function BloodDrip() {
     const [streaks, setStreaks] = useState<BloodStreak[]>([]);
 
     useEffect(() => {
-        if (theme !== "vampire") {
+        if (theme !== "noche") {
             setStreaks([]);
             return;
         }
@@ -52,7 +52,7 @@ export default function BloodDrip() {
         return () => clearInterval(interval);
     }, [theme]);
 
-    if (theme !== "vampire") return null;
+    if (theme !== "noche") return null;
 
     return (
         <div className="fixed inset-0 pointer-events-none z-0">

@@ -1,132 +1,149 @@
 @import "tailwindcss";
 
 @theme {
-  --color-lounge-primary: #2C1A1D;
-  --color-lounge-secondary: #D4AF37;
-  --color-lounge-accent: #1A1A1A;
-  --color-lounge-text: #EADDCD;
-  --color-lounge-highlight: #B87333;
+  /* Macondo palette — inspired by García Márquez's Colombia */
 
-  --color-vampire-primary: #050002;
-  --color-vampire-secondary: #ff0000;
-  --color-vampire-accent: #FF00FF;
-  --color-vampire-text: #F8F8FF;
-  --color-vampire-highlight: #9D00FF;
-  --color-vampire-green: #39ff14;
+  /* Radiant Yellow — abundance, sun, the butterflies */
+  --color-macondo-yellow: #F4D03F;
+  --color-macondo-gold: #D4A017;
 
-  /* Semantic colors that switch based on theme */
-  --color-primary: var(--primary);
-  --color-secondary: var(--secondary);
-  --color-accent: var(--accent);
-  --color-text-main: var(--text-main);
-  --color-highlight: var(--highlight);
+  /* Caribbean Sea Blues — the ocean, the sky, dreams */
+  --color-macondo-blue: #1A5276;
+  --color-macondo-blue-light: #2E86C1;
+
+  /* Jungle Green — lush, alive, the banana plantations */
+  --color-macondo-green: #1E8449;
+  --color-macondo-green-light: #2ECC71;
+
+  /* Pink Afternoons — warmth, nostalgia, magical realism */
+  --color-macondo-pink: #E91E63;
+  --color-macondo-pink-soft: #F48FB1;
+
+  /* Earth & Night — deep backgrounds */
+  --color-macondo-night: #0B0E1A;
+  --color-macondo-earth: #1A120B;
+  --color-macondo-cream: #F5E6CC;
+
+  /* Semantic tokens */
+  --color-primary: var(--color-macondo-night);
+  --color-secondary: var(--color-macondo-gold);
+  --color-accent: var(--color-macondo-yellow);
+  --color-text-main: var(--color-macondo-cream);
+  --color-highlight: var(--color-macondo-green);
 
   --font-display: var(--font-cinzel), serif;
-  --font-vampire: var(--font-nosifer), cursive;
+  --font-macondo: var(--font-macondo-gf), cursive;
   --font-sans: var(--font-inter), sans-serif;
 }
 
-:root {
-  /* Default to Lounge */
-  --primary: var(--color-lounge-primary);
-  --secondary: var(--color-lounge-secondary);
-  --accent: var(--color-lounge-accent);
-  --text-main: var(--color-lounge-text);
-  --highlight: var(--color-lounge-highlight);
-}
-
-[data-theme='vampire'] {
-  --primary: var(--color-vampire-primary);
-  --secondary: var(--color-vampire-secondary);
-  --accent: var(--color-vampire-accent);
-  --text-main: var(--color-vampire-text);
-  --highlight: var(--color-vampire-highlight);
-}
-
 body {
-  background-color: var(--primary);
-  color: var(--text-main);
-  transition: background-color 2s ease-in-out, color 2s ease-in-out;
+  background-color: var(--color-macondo-night);
+  color: var(--color-macondo-cream);
 }
 
-@keyframes scanlines {
-  0% {
-    background-position: 0 0;
-  }
-
-  100% {
-    background-position: 0 4px;
-  }
-}
-
-@keyframes noise {
+/* Butterfly float animation */
+@keyframes butterfly-float {
 
   0%,
   100% {
-    transform: translate(0, 0);
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0.6;
   }
 
-  10% {
-    transform: translate(-5%, -5%);
-  }
-
-  20% {
-    transform: translate(-10%, 5%);
+  15% {
+    transform: translate(40px, -30px) rotate(12deg) scale(1.1);
+    opacity: 0.9;
   }
 
   30% {
-    transform: translate(5%, -10%);
-  }
-
-  40% {
-    transform: translate(-5%, 15%);
+    transform: translate(-15px, -70px) rotate(-8deg) scale(0.95);
+    opacity: 0.7;
   }
 
   50% {
-    transform: translate(-10%, 5%);
-  }
-
-  60% {
-    transform: translate(15%, 0);
+    transform: translate(25px, -100px) rotate(15deg) scale(1.05);
+    opacity: 0.5;
   }
 
   70% {
-    transform: translate(0, 10%);
+    transform: translate(-30px, -60px) rotate(-12deg) scale(1.1);
+    opacity: 0.8;
   }
 
-  80% {
-    transform: translate(-15%, 0);
-  }
-
-  90% {
-    transform: translate(10%, 5%);
+  85% {
+    transform: translate(15px, -30px) rotate(5deg) scale(0.9);
+    opacity: 0.6;
   }
 }
 
-@keyframes tracking {
-  0% {
-    top: 0;
+/* Butterfly wing flap — left */
+@keyframes wing-flap-left {
+
+  0%,
+  100% {
+    transform: scaleX(1) rotate(0deg);
+  }
+
+  50% {
+    transform: scaleX(0.3) rotate(8deg);
+  }
+}
+
+/* Butterfly wing flap — right */
+@keyframes wing-flap-right {
+
+  0%,
+  100% {
+    transform: scaleX(1) rotate(0deg);
+  }
+
+  50% {
+    transform: scaleX(0.3) rotate(-8deg);
+  }
+}
+
+/* Firefly glow pulse */
+@keyframes firefly-glow {
+
+  0%,
+  100% {
     opacity: 0;
+    transform: scale(0.5);
   }
 
   50% {
     opacity: 1;
+    transform: scale(1);
   }
+}
 
+/* Gentle shimmer */
+@keyframes heat-shimmer {
+
+  0%,
   100% {
-    top: 100%;
-    opacity: 0;
+    opacity: 0.02;
+    transform: translateY(0);
+  }
+
+  50% {
+    opacity: 0.06;
+    transform: translateY(-2px);
   }
 }
 
-.animate-scanlines {
-  animation: scanlines 0.8s linear infinite;
+.animate-butterfly {
+  animation: butterfly-float 8s ease-in-out infinite;
 }
 
-.animate-noise {
-  animation: noise 0.5s steps(1) infinite;
+.animate-wing-flap {
+  animation: wing-flap 0.3s ease-in-out infinite;
 }
 
-.animate-tracking {
-  animation: tracking 7s linear infinite;
+.animate-firefly {
+  animation: firefly-glow 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: heat-shimmer 4s ease-in-out infinite;
 }

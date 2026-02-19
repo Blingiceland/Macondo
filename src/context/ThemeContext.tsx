@@ -1,58 +1,24 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 
-type Theme = "lounge" | "vampire";
+type Theme = "noche";
 
 interface ThemeContextType {
   theme: Theme;
-  toggleTheme: () => void;
-  isManualOverride: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("lounge");
-  const [isManualOverride, setIsManualOverride] = useState(false);
+  const theme: Theme = "noche";
 
   useEffect(() => {
-    const checkTime = () => {
-      if (isManualOverride) return;
-
-      const now = new Date();
-      const hour = now.getHours();
-
-      // "Midnight" logic: Let's assume Vampire mode is from 00:00 to 06:00
-      const isVampireTime = hour >= 0 && hour < 6;
-
-      const targetTheme = isVampireTime ? "vampire" : "lounge";
-      
-      if (theme !== targetTheme) {
-        setTheme(targetTheme);
-      }
-    };
-
-    // Check immediately
-    checkTime();
-
-    // Check every minute
-    const interval = setInterval(checkTime, 60000);
-    return () => clearInterval(interval);
-  }, [theme, isManualOverride]);
-
-  useEffect(() => {
-    // Apply theme to body
-    document.body.setAttribute("data-theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setIsManualOverride(true);
-    setTheme((prev) => (prev === "lounge" ? "vampire" : "lounge"));
-  };
+    document.body.setAttribute("data-theme", "noche");
+  }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, isManualOverride }}>
+    <ThemeContext.Provider value={{ theme }}>
       {children}
     </ThemeContext.Provider>
   );
