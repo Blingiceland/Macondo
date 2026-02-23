@@ -54,12 +54,10 @@ export default function AmbientAudio() {
                             className="flex items-center gap-3 px-6 py-3 rounded-full backdrop-blur-md bg-[#0B0E1A]/70 border border-[#1A8FB4]/30 text-[#F5E6CC]/70 hover:text-[#F5E6CC] hover:border-[#2ECC71]/50 transition-all duration-300 shadow-[0_0_30px_rgba(0,0,0,0.3)]"
                         >
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2ECC71" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M9 18V5l12-2v13" />
-                                <circle cx="6" cy="18" r="3" />
-                                <circle cx="18" cy="16" r="3" />
+                                <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 018 17c3 0 3.5 2.1 3.5 2.1L13 21l1-2c.5-1.5.5-3 0-4l-1-1c2 0 3.5-.5 5-2l1-2c0-2.5-2-4-4-4z" />
                             </svg>
                             <span className="text-xs uppercase tracking-[0.2em]" style={{ fontFamily: "var(--font-cinzel), serif" }}>
-                                Spila tónlist
+                                Hljóð djungulsins
                             </span>
                         </button>
                     </motion.div>
@@ -73,8 +71,8 @@ export default function AmbientAudio() {
                 transition={{ duration: 0.3 }}
                 onClick={toggleAudio}
                 className={`fixed bottom-6 right-6 z-[95] w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md transition-all duration-300 ${isPlaying
-                        ? "bg-[#2ECC71]/10 border border-[#2ECC71]/30 shadow-[0_0_15px_rgba(46,204,113,0.15)]"
-                        : "bg-[#0B0E1A]/50 border border-white/10"
+                    ? "bg-[#2ECC71]/10 border border-[#2ECC71]/30 shadow-[0_0_15px_rgba(46,204,113,0.15)]"
+                    : "bg-[#0B0E1A]/50 border border-white/10"
                     }`}
                 aria-label={isPlaying ? "Þagga tónlist" : "Spila tónlist"}
             >
