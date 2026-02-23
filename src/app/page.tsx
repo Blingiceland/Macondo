@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { useState, useCallback } from "react";
 import CocktailMenu from "@/components/CocktailMenu";
 import BookingForm from "@/components/BookingForm";
+import Footer from "@/components/Footer";
+import StickyNav from "@/components/StickyNav";
 import Butterflies from "@/components/effects/Butterflies";
 import FireflyCursor from "@/components/effects/FireflyCursor";
 import NeonSign from "@/components/effects/NeonSign";
@@ -35,9 +37,10 @@ export default function Home() {
       {/* Effects */}
       {introComplete && <Butterflies />}
       <FireflyCursor />
+      <StickyNav />
 
       {/* HERO SECTION */}
-      <main className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+      <main id="hero" className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
         {/* Ambient overlays */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#1A527615_0%,_transparent_70%)]" />
@@ -157,6 +160,8 @@ export default function Home() {
         <div id="reservation-form" className="w-full">
           <BookingForm />
         </div>
+
+        <Footer />
       </div>
     </>
   );

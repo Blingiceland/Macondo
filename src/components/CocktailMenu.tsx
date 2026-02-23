@@ -118,7 +118,7 @@ export default function CocktailMenu() {
         <div className="py-20 px-6 w-full max-w-6xl mx-auto">
 
             {/* COCKTAILS SECTION */}
-            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="mb-24">
+            <motion.div id="cocktails" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="mb-24">
                 <div className="text-center mb-12">
                     <NeonMenuHeader text="REMEDIOS" color="yellow" />
                 </div>
@@ -164,7 +164,7 @@ export default function CocktailMenu() {
             </motion.div>
 
             {/* SHOTS SECTION */}
-            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
+            <motion.div id="shots" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
                 <div className="text-center mb-12">
                     <NeonMenuHeader text="LA ALQUIMIA" color="pink" />
                 </div>
