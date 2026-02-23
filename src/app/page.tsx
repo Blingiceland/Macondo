@@ -11,6 +11,7 @@ import FireflyCursor from "@/components/effects/FireflyCursor";
 import NeonSign from "@/components/effects/NeonSign";
 import HeroIntro from "@/components/effects/HeroIntro";
 import ParallaxBackground from "@/components/effects/ParallaxBackground";
+import AmbientAudio from "@/components/effects/AmbientAudio";
 
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false);
@@ -38,6 +39,7 @@ export default function Home() {
       {introComplete && <Butterflies />}
       <FireflyCursor />
       <StickyNav />
+      <AmbientAudio />
 
       {/* HERO SECTION */}
       <main id="hero" className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
