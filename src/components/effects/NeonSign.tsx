@@ -33,7 +33,7 @@ export default function NeonSign() {
                 }}
             >
                 <div
-                    className="text-5xl md:text-7xl font-black tracking-widest mb-4"
+                    className="text-6xl md:text-8xl lg:text-9xl font-black tracking-[0.15em] mb-6"
                     style={{ fontFamily: "var(--font-macondo-gf), cursive", color: "#2E86C1", textShadow: "0 0 15px #2E86C1" }}
                 >
                     {titleText.split("").map((char, i) => (
@@ -44,7 +44,7 @@ export default function NeonSign() {
 
             {/* Main Layer — blue to green gradient letters */}
             <div
-                className="relative z-10 text-5xl md:text-7xl font-black tracking-widest mb-4"
+                className="relative z-10 text-6xl md:text-8xl lg:text-9xl font-black tracking-[0.15em] mb-6"
                 style={{ fontFamily: "var(--font-macondo-gf), cursive" }}
             >
                 {titleText.split("").map((char, i) => (
@@ -63,7 +63,7 @@ export default function NeonSign() {
 
             {/* Subtitle — Tequila Bar */}
             <div
-                className="relative z-10 text-sm md:text-base font-light tracking-[0.4em] uppercase opacity-70"
+                className="relative z-10 text-sm md:text-base font-light tracking-[0.5em] uppercase opacity-70"
                 style={{ fontFamily: "var(--font-cinzel), serif", color: "#F48FB1" }}
             >
                 Tequila Bar
