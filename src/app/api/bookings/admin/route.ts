@@ -15,7 +15,7 @@ function isAuthorized(request: NextRequest): boolean {
     const authHeader = request.headers.get("authorization");
     if (!authHeader) return false;
     const password = authHeader.replace("Bearer ", "");
-    return password === (process.env.ADMIN_PASSWORD || "macondo2026");
+    return password === (process.env.ADMIN_PASSWORD || "macondo2024");
 }
 
 /** GET — fetch reservations + blocked slots for a date */
