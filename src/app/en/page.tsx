@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useCallback, useEffect } from "react";
 import NeonSign from "@/components/effects/NeonSign";
 import Butterflies from "@/components/effects/Butterflies";
 import FireflyCursor from "@/components/effects/FireflyCursor";
@@ -47,107 +47,174 @@ const SHOTS: Drink[] = [
    ================================================================ */
 
 function BookingFormEN() {
-    const [step, setStep] = useState<'DETAILS' | 'RIDDLE' | 'CONFIRMED'>('DETAILS');
-    const [formData, setFormData] = useState({ name: '', guests: '2', time: '22:00', email: '' });
-    const [riddleAnswer, setRiddleAnswer] = useState('');
-    const [errorShake, setErrorShake] = useState(false);
+    type Step = "DATE" | "TIME" | "DETAILS" | "CONFIRMED";
+    interface SlotInfo { slot: string; available: boolean; tablesLeft: number; }
 
-    const handleDetailsSubmit = (e: React.FormEvent) => { e.preventDefault(); setStep('RIDDLE'); };
+    const [step, setStep] = useState<Step>("DATE");
+    const [selectedDate, setSelectedDate] = useState("");
+    const [selectedTime, setSelectedTime] = useState("");
+    const [guests, setGuests] = useState(2);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [slots, setSlots] = useState<SlotInfo[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [confirmationId, setConfirmationId] = useState("");
 
-    const handleRiddleSubmit = (e: React.FormEvent) => {
+    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    const dates = Array.from({ length: 14 }, (_, i) => {
+        const d = new Date(); d.setDate(d.getDate() + i);
+        return {
+            date: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`,
+            label: `${d.getDate()} ${monthNames[d.getMonth()]}`,
+            dayName: dayNames[d.getDay()],
+        };
+    });
+
+    const fetchSlots = useCallback(async () => {
+        if (!selectedDate) return;
+        setLoading(true);
+        try {
+            const res = await fetch(`/api/bookings/available?date=${selectedDate}&guests=${guests}`);
+            const data = await res.json();
+            if (data.slots) setSlots(data.slots);
+        } catch { setError("Could not fetch availability"); }
+        setLoading(false);
+    }, [selectedDate, guests]);
+
+    useEffect(() => { if (step === "TIME" && selectedDate) fetchSlots(); }, [step, selectedDate, guests, fetchSlots]);
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const answer = riddleAnswer.toLowerCase().trim();
-        if (['ice', 'hielo', 'ís', 'tequila', 'macondo', 'butterfly', 'fiðrildi', 'mariposa'].some(a => answer.includes(a))) {
-            setStep('CONFIRMED');
-        } else {
-            setErrorShake(true);
-            setTimeout(() => setErrorShake(false), 500);
-        }
+        setLoading(true); setError("");
+        try {
+            const res = await fetch("/api/bookings/create", {
+                method: "POST", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ date: selectedDate, timeSlot: selectedTime, guests, name, email }),
+            });
+            const data = await res.json();
+            if (data.success) { setConfirmationId(data.id); setStep("CONFIRMED"); }
+            else setError(data.error || "Something went wrong");
+        } catch { setError("Booking failed"); }
+        setLoading(false);
     };
 
+    const resetForm = () => { setStep("DATE"); setSelectedDate(""); setSelectedTime(""); setGuests(2); setName(""); setEmail(""); setError(""); setConfirmationId(""); };
+
+    const fadeSlide = { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -20 }, transition: { duration: 0.4 } };
+
     return (
-        <div id="booking" className="py-20 px-6 w-full max-w-2xl mx-auto mb-20 text-center">
-            <motion.div layout initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
-                className="p-10 rounded-lg border-2 transition-all duration-700 relative overflow-hidden border-[#D4A017]/30 bg-[#0B0E1A]/80 shadow-[0_0_50px_rgba(244,208,63,0.05)]"
-            >
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#F4D03F] to-transparent opacity-40" />
-                <h2 className="text-3xl mb-8 font-bold font-sans uppercase tracking-[0.2em] text-[#F5E6CC]">
-                    {step === 'CONFIRMED' ? "WELCOME TO MACONDO" : "BOOK A TABLE"}
-                </h2>
+        <section id="booking" className="relative py-32 px-6">
+            <div className="max-w-lg mx-auto">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold tracking-[0.15em] mb-3" style={{ fontFamily: "var(--font-cinzel), serif", color: "#F4D03F" }}>
+                        BOOK A TABLE
+                    </h2>
+                    <div className="w-24 h-[1px] mx-auto bg-gradient-to-r from-transparent via-[#F4D03F]/40 to-transparent" />
+                </div>
 
-                {step === 'DETAILS' && (
-                    <motion.form initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={handleDetailsSubmit} className="space-y-6 text-left">
-                        <div>
-                            <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]">Name</label>
-                            <input type="text" required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                className="w-full p-3 bg-transparent border-b-2 focus:outline-none transition-colors border-zinc-800 focus:border-[#F4D03F] text-white" placeholder="Your name, traveler" />
-                        </div>
-                        <div className="grid grid-cols-2 gap-6">
-                            <div>
-                                <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]">Guests</label>
-                                <input type="number" min="1" required value={formData.guests} onChange={e => setFormData({ ...formData, guests: e.target.value })}
-                                    className="w-full p-3 bg-transparent border-b-2 focus:outline-none transition-colors border-zinc-800 focus:border-[#F4D03F] text-white" />
+                <AnimatePresence mode="wait">
+                    {step === "DATE" && (
+                        <motion.div key="date" {...fadeSlide}>
+                            <p className="text-center text-[#F5E6CC]/60 text-sm mb-6 tracking-wider uppercase" style={{ fontFamily: "var(--font-cinzel), serif" }}>Choose a date</p>
+                            <div className="flex items-center justify-center gap-4 mb-8">
+                                <span className="text-[#F4D03F]/70 text-xs uppercase tracking-widest" style={{ fontFamily: "var(--font-cinzel), serif" }}>Guests</span>
+                                <div className="flex items-center gap-2">
+                                    <button onClick={() => setGuests(Math.max(1, guests - 1))} className="w-8 h-8 rounded-full border border-[#F4D03F]/20 text-[#F4D03F]/60 hover:border-[#F4D03F]/50 hover:text-[#F4D03F] transition-all text-sm">−</button>
+                                    <span className="w-8 text-center text-[#F4D03F] font-bold text-lg">{guests}</span>
+                                    <button onClick={() => setGuests(Math.min(20, guests + 1))} className="w-8 h-8 rounded-full border border-[#F4D03F]/20 text-[#F4D03F]/60 hover:border-[#F4D03F]/50 hover:text-[#F4D03F] transition-all text-sm">+</button>
+                                </div>
                             </div>
-                            <div>
-                                <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]">Time</label>
-                                <input type="time" required value={formData.time} onChange={e => setFormData({ ...formData, time: e.target.value })}
-                                    className="w-full p-3 bg-transparent border-b-2 focus:outline-none transition-colors border-zinc-800 focus:border-[#F4D03F] text-white" />
+                            <div className="grid grid-cols-7 gap-2 mb-6">
+                                {dates.map(d => (
+                                    <button key={d.date} onClick={() => { setSelectedDate(d.date); setStep("TIME"); }}
+                                        className={`py-3 px-1 rounded-lg border text-center transition-all duration-200 hover:scale-105 ${selectedDate === d.date ? "border-[#F4D03F] bg-[#F4D03F]/10 text-[#F4D03F]" : "border-[#F5E6CC]/10 text-[#F5E6CC]/60 hover:border-[#F4D03F]/30 hover:text-[#F5E6CC]/90"
+                                            }`}>
+                                        <div className="text-[10px] uppercase tracking-wider opacity-60">{d.dayName}</div>
+                                        <div className="text-xs font-semibold mt-1">{d.label}</div>
+                                    </button>
+                                ))}
                             </div>
-                        </div>
-                        <div>
-                            <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]">Email</label>
-                            <input type="email" required value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })}
-                                className="w-full p-3 bg-transparent border-b-2 focus:outline-none transition-colors border-zinc-800 focus:border-[#F4D03F] text-white" />
-                        </div>
-                        <button type="submit" className="w-full py-4 mt-8 font-bold tracking-widest transition-all duration-300 transform hover:scale-[1.02] bg-[#E91E63] text-white hover:bg-[#F06292] shadow-[0_0_20px_rgba(233,30,99,0.2)]">
-                            PROCEED
-                        </button>
-                    </motion.form>
-                )}
+                        </motion.div>
+                    )}
 
-                {step === 'RIDDLE' && (
-                    <motion.form initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} onSubmit={handleRiddleSubmit}
-                        className={`space-y-8 text-center ${errorShake ? 'animate-shake' : ''}`}>
-                        <div className="text-[#F5E6CC] text-lg italic opacity-80 font-serif">
-                            &ldquo;José Arcadio Buendía touched the ice<br />
-                            and called it the greatest invention on earth.<br />
-                            What did he touch?&rdquo;
-                        </div>
-                        <input type="text" autoFocus value={riddleAnswer} onChange={e => setRiddleAnswer(e.target.value)} placeholder="Answer..."
-                            className="w-full text-center text-2xl p-4 bg-transparent border-b-2 border-[#F4D03F] text-[#F4D03F] focus:outline-none uppercase tracking-widest" />
-                        <button type="submit" className="w-full py-4 font-bold tracking-[0.3em] bg-transparent border-2 border-[#F4D03F] text-[#F4D03F] hover:bg-[#F4D03F] hover:text-[#0B0E1A] transition-all">
-                            SUBMIT
-                        </button>
-                    </motion.form>
-                )}
+                    {step === "TIME" && (
+                        <motion.div key="time" {...fadeSlide}>
+                            <button onClick={() => setStep("DATE")} className="text-[#F4D03F]/50 text-xs uppercase tracking-wider hover:text-[#F4D03F] transition-colors mb-4" style={{ fontFamily: "var(--font-cinzel), serif" }}>← Back</button>
+                            <p className="text-center text-[#F5E6CC]/60 text-sm mb-2 tracking-wider uppercase" style={{ fontFamily: "var(--font-cinzel), serif" }}>Choose a time</p>
+                            <p className="text-center text-[#F5E6CC]/30 text-xs mb-6">{dates.find(d => d.date === selectedDate)?.label} · {guests} {guests === 1 ? "guest" : "guests"}</p>
+                            {loading ? (
+                                <div className="text-center py-12">
+                                    <div className="inline-block w-6 h-6 border-2 border-[#F4D03F]/20 border-t-[#F4D03F] rounded-full animate-spin" />
+                                    <p className="text-[#F5E6CC]/40 text-xs mt-3">Checking availability...</p>
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-4 gap-2 mb-6">
+                                    {slots.map(s => (
+                                        <button key={s.slot} disabled={!s.available} onClick={() => { setSelectedTime(s.slot); setStep("DETAILS"); }}
+                                            className={`py-3 rounded-lg border text-sm font-medium transition-all duration-200 ${!s.available ? "border-[#F5E6CC]/5 text-[#F5E6CC]/15 cursor-not-allowed line-through"
+                                                : s.tablesLeft <= 2 ? "border-[#E74C3C]/30 text-[#E74C3C]/80 hover:border-[#E74C3C]/60 hover:bg-[#E74C3C]/5"
+                                                    : "border-[#2ECC71]/20 text-[#2ECC71]/80 hover:border-[#2ECC71]/50 hover:bg-[#2ECC71]/5"
+                                                }`}>
+                                            {s.slot}
+                                            {s.available && s.tablesLeft <= 2 && <div className="text-[9px] opacity-60 mt-0.5">Few left</div>}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                            {error && <p className="text-[#E74C3C] text-sm text-center">{error}</p>}
+                        </motion.div>
+                    )}
 
-                {step === 'CONFIRMED' && (
-                    <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="py-8">
-                        <div className="relative border p-8 border-[#D4A017]/40 bg-[#0B0E1A]/90 text-left font-serif text-sm text-[#F4D03F] shadow-[inset_0_0_50px_rgba(244,208,63,0.03)]">
-                            <div className="absolute top-2 right-2 border border-[#E91E63] px-3 py-1 transform rotate-6 opacity-60">
-                                <span className="text-sm font-bold text-[#F48FB1] tracking-widest">CONFIRMED</span>
+                    {step === "DETAILS" && (
+                        <motion.div key="details" {...fadeSlide}>
+                            <button onClick={() => setStep("TIME")} className="text-[#F4D03F]/50 text-xs uppercase tracking-wider hover:text-[#F4D03F] transition-colors mb-4" style={{ fontFamily: "var(--font-cinzel), serif" }}>← Back</button>
+                            <p className="text-center text-[#F5E6CC]/60 text-sm mb-2 tracking-wider uppercase" style={{ fontFamily: "var(--font-cinzel), serif" }}>Your details</p>
+                            <p className="text-center text-[#F5E6CC]/30 text-xs mb-8">{dates.find(d => d.date === selectedDate)?.label} · {selectedTime} · {guests} {guests === 1 ? "guest" : "guests"}</p>
+                            <form onSubmit={handleSubmit} className="space-y-5">
+                                <div>
+                                    <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]" style={{ fontFamily: "var(--font-cinzel), serif" }}>Name</label>
+                                    <input type="text" value={name} onChange={e => setName(e.target.value)} required placeholder="Your name"
+                                        className="w-full bg-transparent border-b border-[#F5E6CC]/15 py-3 text-[#F5E6CC] placeholder-[#F5E6CC]/20 focus:outline-none focus:border-[#F4D03F]/50 transition-colors" />
+                                </div>
+                                <div>
+                                    <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]" style={{ fontFamily: "var(--font-cinzel), serif" }}>Email</label>
+                                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} required placeholder="your@email.com"
+                                        className="w-full bg-transparent border-b border-[#F5E6CC]/15 py-3 text-[#F5E6CC] placeholder-[#F5E6CC]/20 focus:outline-none focus:border-[#F4D03F]/50 transition-colors" />
+                                </div>
+                                {error && <p className="text-[#E74C3C] text-sm text-center">{error}</p>}
+                                <button type="submit" disabled={loading}
+                                    className="w-full py-4 rounded-full text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 bg-transparent text-[#F4D03F] border border-[#D4A017] shadow-[0_0_15px_rgba(244,208,63,0.1)] hover:bg-[#F4D03F]/10 hover:shadow-[0_0_25px_rgba(244,208,63,0.2)] disabled:opacity-30"
+                                    style={{ fontFamily: "var(--font-cinzel), serif" }}>
+                                    {loading ? "Booking..." : "CONFIRM BOOKING"}
+                                </button>
+                            </form>
+                        </motion.div>
+                    )}
+
+                    {step === "CONFIRMED" && (
+                        <motion.div key="confirmed" {...fadeSlide} className="text-center">
+                            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
+                                className="w-16 h-16 mx-auto mb-6 rounded-full border-2 border-[#2ECC71] flex items-center justify-center">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2ECC71" strokeWidth="2.5"><path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                            </motion.div>
+                            <h3 className="text-xl font-bold tracking-[0.15em] mb-2 text-[#2ECC71]" style={{ fontFamily: "var(--font-cinzel), serif" }}>BOOKING CONFIRMED</h3>
+                            <div className="bg-[#F5E6CC]/5 rounded-xl p-6 mb-8 space-y-3 text-left border border-[#F5E6CC]/10">
+                                <div className="flex justify-between"><span className="text-[#F5E6CC]/40 text-xs uppercase tracking-wider">Name</span><span className="text-[#F5E6CC] text-sm">{name}</span></div>
+                                <div className="flex justify-between"><span className="text-[#F5E6CC]/40 text-xs uppercase tracking-wider">Date</span><span className="text-[#F5E6CC] text-sm">{dates.find(d => d.date === selectedDate)?.label}</span></div>
+                                <div className="flex justify-between"><span className="text-[#F5E6CC]/40 text-xs uppercase tracking-wider">Time</span><span className="text-[#F5E6CC] text-sm">{selectedTime}</span></div>
+                                <div className="flex justify-between"><span className="text-[#F5E6CC]/40 text-xs uppercase tracking-wider">Guests</span><span className="text-[#F5E6CC] text-sm">{guests}</span></div>
+                                {confirmationId && <div className="pt-3 border-t border-[#F5E6CC]/10"><span className="text-[#F5E6CC]/30 text-[10px] uppercase tracking-wider">Ref: {confirmationId.slice(0, 8)}</span></div>}
                             </div>
-                            <p className="mb-4 text-center text-white/40 tracking-widest text-xs uppercase">— The Pact of Macondo —</p>
-                            <p className="mb-4 text-[#F5E6CC]">
-                                <span className="font-bold text-[#F4D03F] text-lg border-b border-[#D4A017]">{formData.name}</span>, you have been granted passage into Macondo.
-                            </p>
-                            <p className="mb-4 text-[#F5E6CC]/80">
-                                DATE: <span className="text-white">Tonight</span> <br />
-                                TIME: <span className="text-white">{formData.time}</span> <br />
-                                TRAVELERS: <span className="text-white">{formData.guests}</span>
-                            </p>
-                            <p className="mb-8 italic opacity-50 text-sm text-[#F48FB1]">
-                                &ldquo;The world was so recent that many things lacked names, and in order to indicate them it was necessary to point.&rdquo;
-                            </p>
-                            <div className="w-full h-16 border-b border-dashed border-[#D4A017]/30 flex items-end justify-center pb-2 relative">
-                                <span className="font-serif text-3xl text-[#F4D03F] opacity-80 rotate-[-3deg] absolute bottom-2">{formData.name}</span>
-                            </div>
-                        </div>
-                        <button onClick={() => setStep('DETAILS')} className="mt-8 text-xs underline opacity-50 hover:opacity-100 text-[#F48FB1]">Make another reservation</button>
-                    </motion.div>
-                )}
-            </motion.div>
-        </div>
+                            <p className="text-[#F5E6CC]/40 text-xs mb-6">Confirmation sent to <span className="text-[#F4D03F]/70">{email}</span></p>
+                            <button onClick={resetForm} className="text-[#F4D03F]/50 text-xs uppercase tracking-wider hover:text-[#F4D03F] transition-colors" style={{ fontFamily: "var(--font-cinzel), serif" }}>Book another table</button>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+        </section>
     );
 }
 
