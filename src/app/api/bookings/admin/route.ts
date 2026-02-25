@@ -47,8 +47,8 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: "Date required" }, { status: 400 });
         }
 
-        let reservations;
-        let blockedSlots;
+        let reservations: any[] = [];
+        let blockedSlots: any[] = [];
 
         if (date === "all") {
             reservations = await getUpcomingReservations();
