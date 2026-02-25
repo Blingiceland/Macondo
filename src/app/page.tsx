@@ -50,22 +50,20 @@ export default function Home() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_#E91E6305_0%,_transparent_50%)]" />
         </div>
 
-        {/* Main Content */}
-        <div className="z-10 text-center max-w-4xl px-6">
+        {/* Logo — absolutely centered to match intro position */}
+        <motion.div
+          className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={introComplete ? { opacity: 1 } : {}}
+          transition={{ duration: 1, delay: 0.3 }}
+        >
+          <NeonSign />
+        </motion.div>
 
-          {/* Logo */}
+        {/* Quote + CTA — positioned at bottom of hero */}
+        <div className="absolute bottom-24 left-0 right-0 z-10 text-center px-6">
           <motion.div
-            className="min-h-32 mb-16 flex items-center justify-center"
-            initial={{ opacity: 0 }}
-            animate={introComplete ? { opacity: 1 } : {}}
-            transition={{ duration: 1, delay: 0.3 }}
-          >
-            <NeonSign />
-          </motion.div>
-
-          {/* Quote */}
-          <motion.div
-            className="h-24 mb-12"
+            className="mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={introComplete ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.8 }}
@@ -78,7 +76,6 @@ export default function Home() {
             </p>
           </motion.div>
 
-          {/* CTA Button */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={introComplete ? { opacity: 1, y: 0 } : {}}
