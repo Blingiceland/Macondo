@@ -160,12 +160,16 @@ export async function updateTable(tableId: string, data: Partial<Table>): Promis
 export async function getReservationsForDate(date: string): Promise<Reservation[]> {
     const q = query(
         collection(getDb(), "reservations"),
-        where("date", "==", date),
-        where("status", "==", "confirmed"),
-        orderBy("timeSlot", "asc")
+        where("date", "==", date)
     );
     const snapshot = await getDocs(q);
-    return snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Reservation));
+
+    // Filter and sort in JS to avoid requiring a Firestore composite index
+    const all = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Reservation));
+
+    return all
+        .filter(r => r.status === "confirmed")
+        .sort((a, b) => a.timeSlot.localeCompare(b.timeSlot));
 }
 
 /** Get blocked slots for a specific date */
