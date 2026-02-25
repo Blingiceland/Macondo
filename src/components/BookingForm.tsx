@@ -19,12 +19,12 @@ interface SlotInfo {
    HELPERS
    ================================================================ */
 
-function getNext14Days(): { date: string; label: string; dayName: string }[] {
+function getNext30Days(): { date: string; label: string; dayName: string }[] {
     const days: { date: string; label: string; dayName: string }[] = [];
     const dayNames = ["Sun", "Mán", "Þri", "Mið", "Fim", "Fös", "Lau"];
     const monthNames = ["jan", "feb", "mar", "apr", "maí", "jún", "júl", "ágú", "sep", "okt", "nóv", "des"];
 
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < 30; i++) {
         const d = new Date();
         d.setDate(d.getDate() + i);
         const yyyy = d.getFullYear();
@@ -55,7 +55,7 @@ export default function BookingForm() {
     const [error, setError] = useState("");
     const [confirmationId, setConfirmationId] = useState("");
 
-    const dates = getNext14Days();
+    const dates = getNext30Days();
 
     // Fetch availability when date or guest count changes
     const fetchSlots = useCallback(async () => {
@@ -185,8 +185,8 @@ export default function BookingForm() {
                                             setStep("TIME");
                                         }}
                                         className={`py-3 px-1 rounded-lg border text-center transition-all duration-200 hover:scale-105 ${selectedDate === d.date
-                                                ? "border-[#F4D03F] bg-[#F4D03F]/10 text-[#F4D03F]"
-                                                : "border-[#F5E6CC]/10 text-[#F5E6CC]/60 hover:border-[#F4D03F]/30 hover:text-[#F5E6CC]/90"
+                                            ? "border-[#F4D03F] bg-[#F4D03F]/10 text-[#F4D03F]"
+                                            : "border-[#F5E6CC]/10 text-[#F5E6CC]/60 hover:border-[#F4D03F]/30 hover:text-[#F5E6CC]/90"
                                             }`}
                                     >
                                         <div className="text-[10px] uppercase tracking-wider opacity-60">{d.dayName}</div>
@@ -232,10 +232,10 @@ export default function BookingForm() {
                                                 setStep("DETAILS");
                                             }}
                                             className={`py-3 rounded-lg border text-sm font-medium transition-all duration-200 ${!s.available
-                                                    ? "border-[#F5E6CC]/5 text-[#F5E6CC]/15 cursor-not-allowed line-through"
-                                                    : s.tablesLeft <= 2
-                                                        ? "border-[#E74C3C]/30 text-[#E74C3C]/80 hover:border-[#E74C3C]/60 hover:bg-[#E74C3C]/5"
-                                                        : "border-[#2ECC71]/20 text-[#2ECC71]/80 hover:border-[#2ECC71]/50 hover:bg-[#2ECC71]/5"
+                                                ? "border-[#F5E6CC]/5 text-[#F5E6CC]/15 cursor-not-allowed line-through"
+                                                : s.tablesLeft <= 2
+                                                    ? "border-[#E74C3C]/30 text-[#E74C3C]/80 hover:border-[#E74C3C]/60 hover:bg-[#E74C3C]/5"
+                                                    : "border-[#2ECC71]/20 text-[#2ECC71]/80 hover:border-[#2ECC71]/50 hover:bg-[#2ECC71]/5"
                                                 }`}
                                         >
                                             {s.slot}

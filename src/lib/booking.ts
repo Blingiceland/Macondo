@@ -172,6 +172,27 @@ export async function getReservationsForDate(date: string): Promise<Reservation[
         .sort((a, b) => a.timeSlot.localeCompare(b.timeSlot));
 }
 
+/** Get all upcoming reservations from today onwards */
+export async function getUpcomingReservations(): Promise<Reservation[]> {
+    const today = new Date();
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
+    const q = query(
+        collection(getDb(), "reservations"),
+        where("date", ">=", todayStr)
+    );
+    const snapshot = await getDocs(q);
+
+    const all = snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Reservation));
+
+    return all
+        .filter(r => r.status === "confirmed")
+        .sort((a, b) => {
+            if (a.date !== b.date) return a.date.localeCompare(b.date);
+            return a.timeSlot.localeCompare(b.timeSlot);
+        });
+}
+
 /** Get blocked slots for a specific date */
 export async function getBlockedSlotsForDate(date: string): Promise<BlockedSlot[]> {
     const q = query(

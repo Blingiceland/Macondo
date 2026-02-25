@@ -8,6 +8,7 @@ import {
     getTables,
     updateTable,
     initializeTables,
+    getUpcomingReservations,
 } from "@/lib/booking";
 
 // Simple admin auth check
@@ -46,10 +47,18 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: "Date required" }, { status: 400 });
         }
 
-        const [reservations, blockedSlots] = await Promise.all([
-            getReservationsForDate(date),
-            getBlockedSlotsForDate(date),
-        ]);
+        let reservations;
+        let blockedSlots;
+
+        if (date === "all") {
+            reservations = await getUpcomingReservations();
+            blockedSlots = []; // Optionally fetch all future blocked slots here too
+        } else {
+            [reservations, blockedSlots] = await Promise.all([
+                getReservationsForDate(date),
+                getBlockedSlotsForDate(date),
+            ]);
+        }
 
         return NextResponse.json({ date, reservations, blockedSlots });
     } catch (error) {

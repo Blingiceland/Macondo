@@ -43,10 +43,8 @@ interface TableConfig {
 export default function AdminDashboard() {
     const router = useRouter();
     const [token, setToken] = useState("");
-    const [selectedDate, setSelectedDate] = useState(() => {
-        const d = new Date();
-        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-    });
+    const [selectedDate, setSelectedDate] = useState("all");
+
     const [reservations, setReservations] = useState<Reservation[]>([]);
     const [blockedSlots, setBlockedSlots] = useState<BlockedSlot[]>([]);
     const [tables, setTables] = useState<TableConfig[]>([]);
@@ -116,11 +114,19 @@ export default function AdminDashboard() {
     // Block slot
     const handleBlock = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // If "all" is selected on the main dashboard, default to today for blocking
+        let targetBlockDate = blockDate || selectedDate;
+        if (targetBlockDate === "all") {
+            const d = new Date();
+            targetBlockDate = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+        }
+
         await authFetch("/api/bookings/admin", {
             method: "POST",
             body: JSON.stringify({
                 action: "block",
-                date: blockDate || selectedDate,
+                date: targetBlockDate,
                 timeSlot: blockTime,
                 tableNumber: blockTable,
                 reason: blockReason,
@@ -190,12 +196,30 @@ export default function AdminDashboard() {
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
                     <div className="flex items-center gap-3">
                         <label className="text-xs uppercase tracking-wider text-[#F4D03F]/60">Dagsetning</label>
-                        <input
-                            type="date"
-                            value={selectedDate}
-                            onChange={(e) => setSelectedDate(e.target.value)}
+                        <select
+                            value={selectedDate === "all" ? "all" : "custom"}
+                            onChange={(e) => {
+                                if (e.target.value === "all") {
+                                    setSelectedDate("all");
+                                } else {
+                                    const d = new Date();
+                                    setSelectedDate(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`);
+                                }
+                            }}
                             className="bg-[#0B0E1A] border border-[#F5E6CC]/15 rounded-lg px-4 py-2 text-sm text-[#F5E6CC] focus:outline-none focus:border-[#F4D03F]/40"
-                        />
+                        >
+                            <option value="all">Allar framtíðarbókanir</option>
+                            <option value="custom">Velja dag...</option>
+                        </select>
+
+                        {selectedDate !== "all" && (
+                            <input
+                                type="date"
+                                value={selectedDate}
+                                onChange={(e) => setSelectedDate(e.target.value)}
+                                className="bg-[#0B0E1A] border border-[#F5E6CC]/15 rounded-lg px-4 py-2 text-sm text-[#F5E6CC] focus:outline-none focus:border-[#F4D03F]/40"
+                            />
+                        )}
                     </div>
 
                     <div className="flex gap-2">
@@ -204,8 +228,8 @@ export default function AdminDashboard() {
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
                                 className={`px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition-all ${activeTab === tab
-                                        ? "bg-[#F4D03F]/10 text-[#F4D03F] border border-[#F4D03F]/30"
-                                        : "text-[#F5E6CC]/30 border border-transparent hover:text-[#F5E6CC]/60"
+                                    ? "bg-[#F4D03F]/10 text-[#F4D03F] border border-[#F4D03F]/30"
+                                    : "text-[#F5E6CC]/30 border border-transparent hover:text-[#F5E6CC]/60"
                                     }`}
                             >
                                 {tab === "bookings" ? "Bókanir" : tab === "block" ? "Loka" : "Borð"}
@@ -225,7 +249,7 @@ export default function AdminDashboard() {
                             <div>
                                 <div className="flex items-center justify-between mb-4">
                                     <h2 className="text-sm uppercase tracking-wider text-[#F4D03F]/70">
-                                        Bókanir — {selectedDate}
+                                        {selectedDate === "all" ? "Afgreiðslulausar bókanir" : `Bókanir — ${selectedDate}`}
                                     </h2>
                                     <span className="text-xs text-[#F5E6CC]/30">{reservations.length} bókanir</span>
                                 </div>
@@ -240,7 +264,10 @@ export default function AdminDashboard() {
                                         {reservations.map((r) => (
                                             <div key={r.id} className="border border-[#F5E6CC]/10 rounded-xl p-4 flex items-center justify-between hover:border-[#F5E6CC]/20 transition-colors">
                                                 <div className="flex items-center gap-6">
-                                                    <div className="text-center min-w-[60px]">
+                                                    <div className="text-center min-w-[80px]">
+                                                        {selectedDate === "all" && (
+                                                            <div className="text-[10px] uppercase font-bold text-[#F4D03F]/70 mb-1">{r.date.substring(5)}</div>
+                                                        )}
                                                         <div className="text-lg font-bold text-[#2ECC71]">{r.timeSlot}</div>
                                                         <div className="text-[10px] text-[#F5E6CC]/30">{r.duration} mín</div>
                                                     </div>
@@ -386,8 +413,8 @@ export default function AdminDashboard() {
                                         <div
                                             key={t.id}
                                             className={`border rounded-xl p-4 text-center transition-all ${t.active
-                                                    ? "border-[#2ECC71]/20 hover:border-[#2ECC71]/40"
-                                                    : "border-[#E74C3C]/20 opacity-40"
+                                                ? "border-[#2ECC71]/20 hover:border-[#2ECC71]/40"
+                                                : "border-[#E74C3C]/20 opacity-40"
                                                 }`}
                                         >
                                             <div className="text-2xl font-bold text-[#F4D03F] mb-1">{t.number}</div>
