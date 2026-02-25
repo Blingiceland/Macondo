@@ -11,7 +11,7 @@ import FireflyCursor from "@/components/effects/FireflyCursor";
 import NeonSign from "@/components/effects/NeonSign";
 import HeroIntro from "@/components/effects/HeroIntro";
 import ParallaxBackground from "@/components/effects/ParallaxBackground";
-import AmbientAudio from "@/components/effects/AmbientAudio";
+
 
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false);
@@ -39,7 +39,7 @@ export default function Home() {
       {introComplete && <Butterflies />}
       <FireflyCursor />
       <StickyNav />
-      <AmbientAudio />
+
 
       {/* HERO SECTION */}
       <main id="hero" className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
@@ -74,7 +74,7 @@ export default function Home() {
               className="text-sm md:text-base font-light italic leading-relaxed opacity-50"
               style={{ fontFamily: 'var(--font-cinzel), serif', color: '#F48FB1' }}
             >
-              &ldquo;The world was so recent that many things lacked names.&rdquo;
+              &ldquo;Heimurinn var svo nýr að margt vantaði enn nöfn.&rdquo;
             </p>
           </motion.div>
 
@@ -91,7 +91,7 @@ export default function Home() {
               className="px-12 py-4 rounded-full text-lg font-bold tracking-[0.2em] transition-all duration-300 bg-transparent text-[#F4D03F] border border-[#D4A017] shadow-[0_0_20px_rgba(244,208,63,0.15)] hover:bg-[#F4D03F]/10 hover:shadow-[0_0_30px_rgba(244,208,63,0.25)] hover:border-[#F4D03F]"
               style={{ fontFamily: 'var(--font-cinzel), serif' }}
             >
-              ENTER MACONDO
+              OPNA MACONDO
             </motion.button>
           </motion.div>
         </div>
@@ -139,8 +139,8 @@ export default function Home() {
             className="text-lg md:text-xl font-light leading-relaxed opacity-60"
             style={{ fontFamily: 'var(--font-cinzel), serif', color: '#F5E6CC' }}
           >
-            Every drink in Macondo tells a story —<br />
-            of gold and solitude, rain and butterflies.
+            Sérhver dropi í Macondo segir sögu —<br />
+            um gull og einsemd, regn og fiðrildi.
           </p>
         </motion.div>
 

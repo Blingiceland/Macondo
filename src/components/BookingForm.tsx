@@ -37,7 +37,7 @@ export default function BookingForm() {
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#F4D03F] to-transparent opacity-40" />
 
                 <h2 className="text-3xl mb-8 font-bold font-sans uppercase tracking-[0.2em] text-[#F5E6CC]">
-                    {step === 'CONFIRMADO' ? "BIENVENIDO A MACONDO" : "ENTER MACONDO"}
+                    {step === 'CONFIRMADO' ? "VELKOMIN Í MACONDO" : "BÓKA BORÐ"}
                 </h2>
 
                 {/* STEP 1: DETAILS */}
@@ -47,18 +47,18 @@ export default function BookingForm() {
                         onSubmit={handleDetailsSubmit} className="space-y-6 text-left"
                     >
                         <div>
-                            <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]">Name</label>
+                            <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]">Nafn</label>
                             <input
                                 type="text" required
                                 value={formData.name}
                                 onChange={e => setFormData({ ...formData, name: e.target.value })}
                                 className="w-full p-3 bg-transparent border-b-2 focus:outline-none transition-colors border-zinc-800 focus:border-[#F4D03F] text-white"
-                                placeholder="Your name, traveler"
+                                placeholder="Nafnið þitt, ferðalangur"
                             />
                         </div>
                         <div className="grid grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]">Guests</label>
+                                <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]">Gestir</label>
                                 <input
                                     type="number" min="1" required
                                     value={formData.guests}
@@ -67,7 +67,7 @@ export default function BookingForm() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]">Time</label>
+                                <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]">Tími</label>
                                 <input
                                     type="time" required
                                     value={formData.time}
@@ -77,7 +77,7 @@ export default function BookingForm() {
                             </div>
                         </div>
                         <div>
-                            <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]">Email</label>
+                            <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]">Netfang</label>
                             <input
                                 type="email" required
                                 value={formData.email}
@@ -89,7 +89,7 @@ export default function BookingForm() {
                             type="submit"
                             className="w-full py-4 mt-8 font-bold tracking-widest transition-all duration-300 transform hover:scale-[1.02] bg-[#E91E63] text-white hover:bg-[#F06292] shadow-[0_0_20px_rgba(233,30,99,0.2)]"
                         >
-                            PROCEED
+                            ÁFRAM
                         </button>
                     </motion.form>
                 )}
@@ -102,22 +102,22 @@ export default function BookingForm() {
                         className={`space-y-8 text-center ${errorShake ? 'animate-shake' : ''}`}
                     >
                         <div className="text-[#F5E6CC] text-lg italic opacity-80 font-serif">
-                            &ldquo;José Arcadio Buendía touched the ice<br />
-                            and called it the greatest invention on earth.<br />
-                            What did he touch?&rdquo;
+                            &ldquo;José Arcadio Buendía snerti ísinn<br />
+                            og kallaði hann mestu uppfinningu á jörðinni.<br />
+                            Hvað snerti hann?&rdquo;
                         </div>
                         <input
                             type="text" autoFocus
                             value={riddleAnswer}
                             onChange={e => setRiddleAnswer(e.target.value)}
-                            placeholder="Answer..."
+                            placeholder="Svar..."
                             className="w-full text-center text-2xl p-4 bg-transparent border-b-2 border-[#F4D03F] text-[#F4D03F] focus:outline-none uppercase tracking-widest"
                         />
                         <button
                             type="submit"
                             className="w-full py-4 font-bold tracking-[0.3em] bg-transparent border-2 border-[#F4D03F] text-[#F4D03F] hover:bg-[#F4D03F] hover:text-[#0B0E1A] transition-all"
                         >
-                            SUBMIT
+                            SVARA
                         </button>
                     </motion.form>
                 )}
@@ -127,26 +127,26 @@ export default function BookingForm() {
                     <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="py-8">
                         <div className="relative border p-8 border-[#D4A017]/40 bg-[#0B0E1A]/90 text-left font-serif text-sm text-[#F4D03F] shadow-[inset_0_0_50px_rgba(244,208,63,0.03)]">
                             <div className="absolute top-2 right-2 border border-[#E91E63] px-3 py-1 transform rotate-6 opacity-60">
-                                <span className="text-sm font-bold text-[#F48FB1] tracking-widest">CONFIRMED</span>
+                                <span className="text-sm font-bold text-[#F48FB1] tracking-widest">STAÐFEST</span>
                             </div>
 
-                            <p className="mb-4 text-center text-white/40 tracking-widest text-xs uppercase">— El Pacto de Macondo —</p>
+                            <p className="mb-4 text-center text-white/40 tracking-widest text-xs uppercase">— Sáttmáli Macondo —</p>
                             <p className="mb-4 text-[#F5E6CC]">
-                                <span className="font-bold text-[#F4D03F] text-lg border-b border-[#D4A017]">{formData.name}</span>, you have been granted passage into Macondo.
+                                <span className="font-bold text-[#F4D03F] text-lg border-b border-[#D4A017]">{formData.name}</span>, þér hefur verið veittur aðgangur að Macondo.
                             </p>
                             <p className="mb-4 text-[#F5E6CC]/80">
-                                DATE: <span className="text-white">Tonight</span> <br />
-                                TIME: <span className="text-white">{formData.time}</span> <br />
-                                TRAVELERS: <span className="text-white">{formData.guests}</span>
+                                DAGSETNING: <span className="text-white">Í kvöld</span> <br />
+                                TÍMI: <span className="text-white">{formData.time}</span> <br />
+                                GESTIR: <span className="text-white">{formData.guests}</span>
                             </p>
                             <p className="mb-8 italic opacity-50 text-sm text-[#F48FB1]">
-                                &ldquo;The world was so recent that many things lacked names, and in order to indicate them it was necessary to point.&rdquo;
+                                &ldquo;Heimurinn var svo nýr að margt vantaði enn nöfn, og til þess að benda á hlutina var nauðsynlegt að benda.&rdquo;
                             </p>
                             <div className="w-full h-16 border-b border-dashed border-[#D4A017]/30 flex items-end justify-center pb-2 relative">
                                 <span className="font-serif text-3xl text-[#F4D03F] opacity-80 rotate-[-3deg] absolute bottom-2">{formData.name}</span>
                             </div>
                         </div>
-                        <button onClick={() => setStep('DETAILS')} className="mt-8 text-xs underline opacity-50 hover:opacity-100 text-[#F48FB1]">Make another reservation</button>
+                        <button onClick={() => setStep('DETAILS')} className="mt-8 text-xs underline opacity-50 hover:opacity-100 text-[#F48FB1]">Bóka aftur</button>
                     </motion.div>
                 )}
             </motion.div>
