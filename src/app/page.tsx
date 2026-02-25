@@ -88,7 +88,7 @@ export default function Home() {
               className="px-12 py-4 rounded-full text-lg font-bold tracking-[0.2em] transition-all duration-300 bg-transparent text-[#F4D03F] border border-[#D4A017] shadow-[0_0_20px_rgba(244,208,63,0.15)] hover:bg-[#F4D03F]/10 hover:shadow-[0_0_30px_rgba(244,208,63,0.25)] hover:border-[#F4D03F]"
               style={{ fontFamily: 'var(--font-cinzel), serif' }}
             >
-              OPNA MACONDO
+              BÓKA BORÐ
             </motion.button>
           </motion.div>
         </div>
