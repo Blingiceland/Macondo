@@ -14,7 +14,7 @@ import ParallaxBackground from "@/components/effects/ParallaxBackground";
 
 
 export default function Home() {
-  const [introComplete, setIntroComplete] = useState(false);
+  const [introComplete, setIntroComplete] = useState(true);
 
   const handleIntroComplete = useCallback(() => {
     setIntroComplete(true);
@@ -29,8 +29,7 @@ export default function Home() {
 
   return (
     <>
-      {/* Cinematic Intro */}
-      <HeroIntro onComplete={handleIntroComplete} />
+      {/* Cinematic Intro removed per request to load immediately */}
 
       {/* Parallax Background */}
       <ParallaxBackground />
@@ -41,13 +40,19 @@ export default function Home() {
       <StickyNav />
 
 
+      {/* MAIN CONTENT */}
+      <main>
+
       {/* HERO SECTION */}
-      <main id="hero" className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+      <section id="hero" aria-label="Forsíða" className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+        {/* Visually hidden h1 for SEO/accessibility */}
+        <h1 className="sr-only">Macondo — Tequila Bar Reykjavík</h1>
+
         {/* Ambient overlays */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#1A527615_0%,_transparent_70%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_#F4D03F06_0%,_transparent_40%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_#E91E6305_0%,_transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#3D181015_0%,_transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_#F5A80006_0%,_transparent_40%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_#C8891A05_0%,_transparent_50%)]" />
         </div>
 
         {/* Logo — absolutely centered to match intro position */}
@@ -70,7 +75,7 @@ export default function Home() {
           >
             <p
               className="text-sm md:text-base font-light italic leading-relaxed opacity-50"
-              style={{ fontFamily: 'var(--font-cinzel), serif', color: '#F48FB1' }}
+              style={{ fontFamily: 'var(--font-cinzel), serif', color: '#C8891A' }}
             >
               &ldquo;Heimurinn var svo nýr að margt vantaði enn nöfn.&rdquo;
             </p>
@@ -85,7 +90,7 @@ export default function Home() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={scrollToReservation}
-              className="px-12 py-4 rounded-full text-lg font-bold tracking-[0.2em] transition-all duration-300 bg-transparent text-[#F4D03F] border border-[#D4A017] shadow-[0_0_20px_rgba(244,208,63,0.15)] hover:bg-[#F4D03F]/10 hover:shadow-[0_0_30px_rgba(244,208,63,0.25)] hover:border-[#F4D03F]"
+              className="px-12 py-4 rounded-full text-lg font-bold tracking-[0.2em] transition-all duration-300 bg-transparent text-[#F5A800] border border-[#E8C87A] shadow-[0_0_20px_rgba(245,168,0,0.15)] hover:bg-[#F5A800]/10 hover:shadow-[0_0_30px_rgba(245,168,0,0.25)] hover:border-[#F5A800]"
               style={{ fontFamily: 'var(--font-cinzel), serif' }}
             >
               BÓKA BORÐ
@@ -100,31 +105,30 @@ export default function Home() {
           animate={introComplete ? { opacity: 0.3, y: [0, 8, 0] } : {}}
           transition={{ duration: 2, repeat: Infinity, delay: 2 }}
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 5v14M5 12l7 7 7-7" stroke="#F48FB1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 5v14M5 12l7 7 7-7" stroke="#C8891A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </motion.div>
-      </main>
+      </section>
 
-      {/* JUNGLE DIVIDER — organic vine shape */}
-      <div className="relative w-full h-32 overflow-hidden z-10">
+      {/* JUNGLE DIVIDER */}
+      <div className="relative w-full h-32 overflow-hidden z-10" aria-hidden="true">
         <svg viewBox="0 0 1440 120" className="absolute bottom-0 w-full h-full" preserveAspectRatio="none">
           <path
             d="M0,60 C120,100 240,20 360,60 C480,100 600,30 720,55 C840,80 960,20 1080,50 C1200,80 1320,30 1440,60 L1440,120 L0,120 Z"
-            fill="#0D2818"
+            fill="#1A0A08"
             fillOpacity="0.3"
           />
           <path
             d="M0,80 C160,50 320,90 480,70 C640,50 800,95 960,75 C1120,55 1280,85 1440,65 L1440,120 L0,120 Z"
-            fill="#0B0E1A"
+            fill="#1A0A08"
             fillOpacity="0.5"
           />
         </svg>
       </div>
 
-      {/* COCKTAILS & BOOKING */}
-      <div className="relative z-10 w-full flex flex-col items-center">
-        {/* Section intro text */}
+      {/* COCKTAILS SECTION */}
+      <section id="cocktails" aria-label="Kokteilar" className="relative z-10 w-full flex flex-col items-center">
         <motion.div
           className="text-center py-16 px-6 max-w-2xl mx-auto"
           initial={{ opacity: 0, y: 30 }}
@@ -134,7 +138,7 @@ export default function Home() {
         >
           <p
             className="text-lg md:text-xl font-light leading-relaxed opacity-60"
-            style={{ fontFamily: 'var(--font-cinzel), serif', color: '#F5E6CC' }}
+            style={{ fontFamily: 'var(--font-cinzel), serif', color: '#F5E8D0' }}
           >
             Sérhver dropi í Macondo segir sögu —<br />
             um gull og einsemd, regn og fiðrildi.
@@ -144,24 +148,24 @@ export default function Home() {
         <div className="w-full">
           <CocktailMenu />
         </div>
+      </section>
 
-        {/* Another divider before booking */}
-        <div className="relative w-full h-24 overflow-hidden my-8">
-          <svg viewBox="0 0 1440 80" className="absolute top-0 w-full h-full" preserveAspectRatio="none">
-            <path
-              d="M0,40 C240,10 480,60 720,30 C960,0 1200,50 1440,20 L1440,0 L0,0 Z"
-              fill="#0D2818"
-              fillOpacity="0.2"
-            />
-          </svg>
-        </div>
-
-        <div id="reservation-form" className="w-full">
-          <BookingForm />
-        </div>
-
-        <Footer />
+      {/* DIVIDER */}
+      <div className="relative w-full h-24 overflow-hidden my-8" aria-hidden="true">
+        <svg viewBox="0 0 1440 80" className="absolute top-0 w-full h-full" preserveAspectRatio="none">
+          <path
+            d="M0,40 C240,10 480,60 720,30 C960,0 1200,50 1440,20 L1440,0 L0,0 Z"
+            fill="#1A0A08"
+            fillOpacity="0.2"
+          />
+        </svg>
       </div>
+
+      <BookingForm />
+
+      <Footer />
+
+      </main>
     </>
   );
 }
