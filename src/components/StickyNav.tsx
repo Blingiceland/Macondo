@@ -89,10 +89,10 @@ export default function StickyNav() {
                     <Image
                         src="/macondo-logo.png"
                         alt="Macondo"
-                        width={90}
-                        height={54}
-                        className="h-11 w-auto opacity-90 hover:opacity-100 transition-opacity"
-                        style={{ filter: "drop-shadow(0 0 6px #C13A1A60)" }}
+                        width={180}
+                        height={108}
+                        className="h-16 md:h-20 w-auto opacity-90 hover:opacity-100 transition-opacity"
+                        style={{ filter: "drop-shadow(0 0 8px #C13A1A80)" }}
                     />
                 </button>
 
