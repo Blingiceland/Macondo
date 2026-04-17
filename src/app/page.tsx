@@ -206,6 +206,51 @@ export default function Home() {
 
       <BookingForm />
 
+      {/* KARAOKE SECTION */}
+      <section id="karaoke" aria-label="Karókí" className="relative z-10 w-full flex flex-col items-center py-24">
+        <motion.div
+          className="container mx-auto px-6 max-w-5xl"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="relative overflow-hidden rounded-2xl border border-[#F806CC]/20 bg-gradient-to-br from-[#1A0A08] via-[#200a1a] to-[#1A0A08] p-10 md:p-16 shadow-[0_0_60px_rgba(248,6,204,0.08)] flex flex-col md:flex-row items-center gap-10">
+            {/* Glow orb */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#F806CC]/10 rounded-full blur-[100px] pointer-events-none" />
+
+            <div className="flex-1 text-center md:text-left relative z-10">
+              <p className="text-xs uppercase tracking-[0.3em] text-[#F806CC]/60 mb-3"
+                style={{ fontFamily: 'var(--font-cinzel), serif' }}>
+                Uppi á hæðinni
+              </p>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-[0.15em] mb-4 uppercase"
+                style={{ fontFamily: 'var(--font-cinzel), serif', color: '#ffffff' }}>
+                Karókí
+              </h2>
+              <div className="w-16 h-[1px] mx-auto md:mx-0 bg-gradient-to-r from-[#F806CC]/60 to-transparent mb-6" />
+              <p className="text-[#F5E8D0]/60 text-sm leading-relaxed max-w-md">
+                Leigðu einkaherbergi á Pablo Discobar uppi á hæðinni — tvö herbergi, hljóðfangaloft, hress ljósakerfi og drykkurinn óskarsður.
+              </p>
+            </div>
+
+            <div className="flex-shrink-0 relative z-10">
+              <a
+                href="https://pablodiscobar.is/karaoke"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-sm uppercase tracking-[0.2em] transition-all duration-300 border-2 border-[#F806CC]/60 text-[#F806CC] hover:bg-[#F806CC] hover:text-white hover:shadow-[0_0_40px_rgba(248,6,204,0.4)] hover:border-[#F806CC]"
+                style={{ fontFamily: 'var(--font-cinzel), serif' }}
+              >
+                <span>Bóka Karókí</span>
+                <span className="text-lg group-hover:translate-x-1 transition-transform">→</span>
+              </a>
+              <p className="text-[#F5E8D0]/20 text-[10px] text-center mt-3 uppercase tracking-widest">pablodiscobar.is</p>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
       <Footer />
 
       </main>
