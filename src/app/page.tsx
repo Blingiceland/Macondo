@@ -156,6 +156,53 @@ export default function Home() {
         </svg>
       </div>
 
+      {/* MOCK GALLERY SECTION */}
+      <section id="gallery" aria-label="Myndasafn" className="relative z-10 w-full flex flex-col items-center pb-24">
+        <div className="text-center py-10 px-6 max-w-2xl mx-auto">
+          <h2
+                className="text-3xl md:text-4xl font-bold tracking-[0.15em] mb-3 uppercase"
+                style={{ fontFamily: "var(--font-cinzel), serif", color: "#C13A1A" }}
+            >
+                Macondo Stemning
+            </h2>
+            <div className="w-24 h-[1px] mx-auto bg-gradient-to-r from-transparent via-[#C13A1A]/40 to-transparent mb-6" />
+        </div>
+
+        <div className="container mx-auto px-6 max-w-5xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <motion.div 
+                    className="relative aspect-[4/5] rounded-xl overflow-hidden border border-[#F5E8D0]/10 shadow-[0_0_30px_rgba(193,58,26,0.15)] group"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                    <Image src="/images/vibe1.png" alt="Lounge Vibe" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                </motion.div>
+                
+                <motion.div 
+                    className="relative aspect-[4/5] rounded-xl overflow-hidden border border-[#F5E8D0]/10 shadow-[0_0_30px_rgba(193,58,26,0.15)] group md:mt-8"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                >
+                    <Image src="/images/cocktail1.png" alt="Cocktail" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                </motion.div>
+
+                <motion.div 
+                    className="relative aspect-[4/5] rounded-xl overflow-hidden border border-[#F5E8D0]/10 shadow-[0_0_30px_rgba(193,58,26,0.15)] group md:-mt-8"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                >
+                    <Image src="/images/neon1.png" alt="Neon Details" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                </motion.div>
+            </div>
+        </div>
+      </section>
+
       <BookingForm />
 
       <Footer />
