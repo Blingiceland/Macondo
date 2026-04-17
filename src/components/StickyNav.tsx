@@ -11,6 +11,7 @@ const NAV_ITEMS = [
     { label: "Kokteilar", target: "cocktails", type: "scroll" as const },
     { label: "Skot", target: "shots", type: "scroll" as const },
     { label: "Bóka borð", target: "reservation-form", type: "scroll" as const },
+    { label: "Karókí", target: "karaoke", type: "scroll" as const },
 ];
 
 export default function StickyNav() {
