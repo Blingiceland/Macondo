@@ -9,6 +9,7 @@ import {
     updateTable,
     initializeTables,
     getUpcomingReservations,
+    createReservation,
 } from "@/lib/booking";
 
 // Simple admin auth check
@@ -47,8 +48,8 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: "Date required" }, { status: 400 });
         }
 
-        let reservations: any[] = [];
-        let blockedSlots: any[] = [];
+        let reservations = [] as Awaited<ReturnType<typeof getUpcomingReservations>>;
+        let blockedSlots = [] as Awaited<ReturnType<typeof getBlockedSlotsForDate>>;
 
         if (date === "all") {
             reservations = await getUpcomingReservations();
@@ -100,6 +101,21 @@ export async function POST(request: NextRequest) {
                 const { tableId, seats, active, label } = body;
                 await updateTable(tableId, { seats, active, label });
                 return NextResponse.json({ success: true, message: "Borð uppfært" });
+            }
+
+            case "manual": {
+                const { date, timeSlot, name, email, guests, tableNumber, notes } = body;
+                const resId = await createReservation({
+                    date,
+                    timeSlot,
+                    duration: 90,
+                    name,
+                    email,
+                    guests,
+                    tableNumber: tableNumber || 0,
+                    notes: notes || "[Handvirk bókun]",
+                });
+                return NextResponse.json({ success: true, id: resId, message: "Handvirk bókun skráð" });
             }
 
             default:

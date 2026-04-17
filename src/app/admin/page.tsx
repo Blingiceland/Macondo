@@ -49,13 +49,27 @@ export default function AdminDashboard() {
     const [blockedSlots, setBlockedSlots] = useState<BlockedSlot[]>([]);
     const [tables, setTables] = useState<TableConfig[]>([]);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState<"bookings" | "block" | "tables">("bookings");
+    const [activeTab, setActiveTab] = useState<"bookings" | "block" | "tables" | "manual">("bookings");
 
     // Block form state
     const [blockDate, setBlockDate] = useState("");
     const [blockTime, setBlockTime] = useState("all");
     const [blockTable, setBlockTable] = useState(0);
     const [blockReason, setBlockReason] = useState("");
+
+    // Manual form state
+    const [manualForm, setManualForm] = useState({
+        date: "",
+        timeSlot: "20:00",
+        guests: "2",
+        name: "",
+        email: "",
+        tableNumber: 0,
+        notes: "[Bein bókun / Símabókun]",
+    });
+    const [manualLoading, setManualLoading] = useState(false);
+    const [manualSuccess, setManualSuccess] = useState("");
+    const [manualError, setManualError] = useState("");
 
     // Auth helper
     const authFetch = useCallback(async (url: string, options: RequestInit = {}) => {
@@ -145,6 +159,37 @@ export default function AdminDashboard() {
         fetchData();
     };
 
+    // Manual Booking
+    const handleManualSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setManualLoading(true);
+        setManualSuccess("");
+        setManualError("");
+
+        try {
+            const res = await authFetch("/api/bookings/admin", {
+                method: "POST",
+                body: JSON.stringify({
+                    action: "manual",
+                    ...manualForm,
+                    guests: parseInt(manualForm.guests) || 2,
+                    tableNumber: parseInt(manualForm.tableNumber as any) || 0,
+                }),
+            });
+            const data = await res.json();
+            if (data.success) {
+                setManualSuccess(`✓ Bókun vistuð! (${manualForm.name} — ${manualForm.date} @ ${manualForm.timeSlot})`);
+                setManualForm(f => ({ ...f, name: "", email: "", guests: "2", tableNumber: 0 }));
+                fetchData();
+            } else {
+                setManualError(data.error || "Villa kom upp við að vista");
+            }
+        } catch {
+            setManualError("Villa kom upp");
+        }
+        setManualLoading(false);
+    };
+
     // Initialize tables
     const handleInitTables = async () => {
         await authFetch("/api/bookings/admin?action=init");
@@ -222,8 +267,8 @@ export default function AdminDashboard() {
                         )}
                     </div>
 
-                    <div className="flex gap-2">
-                        {(["bookings", "block", "tables"] as const).map(tab => (
+                    <div className="flex gap-2 flex-wrap">
+                        {(["bookings", "block", "tables", "manual"] as const).map(tab => (
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
@@ -232,7 +277,7 @@ export default function AdminDashboard() {
                                     : "text-[#F5E8D0]/30 border border-transparent hover:text-[#F5E8D0]/60"
                                     }`}
                             >
-                                {tab === "bookings" ? "Bókanir" : tab === "block" ? "Loka" : "Borð"}
+                                {tab === "bookings" ? "Bókanir" : tab === "block" ? "Loka" : tab === "tables" ? "Borð" : "Ný Bókun"}
                             </button>
                         ))}
                     </div>
@@ -432,6 +477,120 @@ export default function AdminDashboard() {
                                         Til að breyta fjölda sæta eða gera borð óvirkt, hafðu samband við kerfisstjóra.
                                     </p>
                                 )}
+                            </div>
+                        )}
+
+                        {/* ============ MANUAL BOOKING TAB ============ */}
+                        {activeTab === "manual" && (
+                            <div className="max-w-xl">
+                                <div className="mb-6">
+                                    <h2 className="text-sm uppercase tracking-wider text-[#F5A800]/70 mb-2">
+                                        Handvirk skráning
+                                    </h2>
+                                    <p className="text-xs text-[#F5E8D0]/40">
+                                        Fyrir bókanir sem koma gegnum síma eða skilaboð.
+                                    </p>
+                                </div>
+
+                                <form onSubmit={handleManualSubmit} className="space-y-5 bg-[#1A0A08] border border-[#F5E8D0]/10 rounded-xl p-6">
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Dagsetning</label>
+                                            <input
+                                                required
+                                                type="date"
+                                                value={manualForm.date}
+                                                onChange={(e) => setManualForm(f => ({ ...f, date: e.target.value }))}
+                                                className="w-full bg-[#1A0A08] border border-[#F5E8D0]/15 rounded-lg px-4 py-2 text-sm text-[#F5E8D0] focus:outline-none focus:border-[#F5A800]/40"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Tími</label>
+                                            <select
+                                                value={manualForm.timeSlot}
+                                                onChange={(e) => setManualForm(f => ({ ...f, timeSlot: e.target.value }))}
+                                                className="w-full bg-[#1A0A08] border border-[#F5E8D0]/15 rounded-lg px-4 py-2 text-sm text-[#F5E8D0] focus:outline-none focus:border-[#F5A800]/40"
+                                            >
+                                                {timeOptions.filter(t => t !== "all").map(t => (
+                                                    <option key={t} value={t}>{t}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Fjöldi</label>
+                                            <input
+                                                required
+                                                type="number"
+                                                min="1"
+                                                max="20"
+                                                value={manualForm.guests}
+                                                onChange={(e) => setManualForm(f => ({ ...f, guests: e.target.value }))}
+                                                className="w-full bg-[#1A0A08] border border-[#F5E8D0]/15 rounded-lg px-4 py-2 text-sm text-[#F5E8D0] focus:outline-none focus:border-[#F5A800]/40"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Borð (Valfrjálst)</label>
+                                            <select
+                                                value={manualForm.tableNumber}
+                                                onChange={(e) => setManualForm(f => ({ ...f, tableNumber: parseInt(e.target.value) }))}
+                                                className="w-full bg-[#1A0A08] border border-[#F5E8D0]/15 rounded-lg px-4 py-2 text-sm text-[#F5E8D0] focus:outline-none focus:border-[#F5A800]/40"
+                                            >
+                                                <option value={0}>Sjálfvirkt val</option>
+                                                {tables.map(t => (
+                                                    <option key={t.id} value={t.number}>Borð {t.number}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Nafn</label>
+                                        <input
+                                            required
+                                            type="text"
+                                            value={manualForm.name}
+                                            onChange={(e) => setManualForm(f => ({ ...f, name: e.target.value }))}
+                                            placeholder="Jón Jónsson"
+                                            className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-2 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Netfang / Sími</label>
+                                        <input
+                                            required
+                                            type="text"
+                                            value={manualForm.email}
+                                            onChange={(e) => setManualForm(f => ({ ...f, email: e.target.value }))}
+                                            placeholder="8001234 eða jon@gmail.com"
+                                            className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-2 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Athugasemd</label>
+                                        <input
+                                            type="text"
+                                            value={manualForm.notes}
+                                            onChange={(e) => setManualForm(f => ({ ...f, notes: e.target.value }))}
+                                            className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-2 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors"
+                                        />
+                                    </div>
+
+                                    {manualSuccess && <p className="text-[#2ECC71] text-xs font-bold">{manualSuccess}</p>}
+                                    {manualError && <p className="text-[#E74C3C] text-xs font-bold">{manualError}</p>}
+
+                                    <button
+                                        type="submit"
+                                        disabled={manualLoading}
+                                        className="w-full py-3 mt-4 rounded-full text-sm font-bold tracking-[0.2em] uppercase bg-[#C13A1A] text-white hover:bg-[#A12A10] transition-all disabled:opacity-50"
+                                    >
+                                        {manualLoading ? "Vistar..." : "Bóka Borð"}
+                                    </button>
+                                </form>
                             </div>
                         )}
                     </>

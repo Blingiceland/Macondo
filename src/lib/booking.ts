@@ -59,7 +59,7 @@ export interface BlockedSlot {
 
 export const DEFAULT_TABLES = 10;
 export const DEFAULT_SEATS = 4;
-export const DEFAULT_DURATION = 120; // minutes
+export const DEFAULT_DURATION = 90; // minutes
 export const SLOT_INCREMENT = 30;    // minutes
 
 // Opening hours by day of week (0 = Sunday)
