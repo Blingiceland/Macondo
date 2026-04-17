@@ -49,7 +49,7 @@ export default function Butterflies() {
                     <div
                         style={{
                             transform: `rotate(${b.rotation}deg)`,
-                            filter: "drop-shadow(0 0 6px rgba(244, 208, 63, 0.5))",
+                            filter: "drop-shadow(0 0 6px rgba(245, 168, 0, 0.5))",
                         }}
                     >
                         <svg
@@ -65,7 +65,7 @@ export default function Butterflies() {
                                 <path
                                     d="M60 48 C50 30, 25 10, 8 18 C-5 24, 2 42, 15 48 C22 52, 40 50, 60 48Z"
                                     fill="url(#wingGoldLeft)"
-                                    stroke="#D4A017"
+                                    stroke="#E8C87A"
                                     strokeWidth="0.5"
                                     opacity="0.9"
                                 />
@@ -73,13 +73,13 @@ export default function Butterflies() {
                                 <path
                                     d="M60 48 C48 52, 28 60, 16 72 C8 82, 18 88, 30 82 C38 76, 50 62, 60 48Z"
                                     fill="url(#wingAmberLeft)"
-                                    stroke="#C49000"
+                                    stroke="#E8C87A"
                                     strokeWidth="0.5"
                                     opacity="0.85"
                                 />
                                 {/* Wing vein details — left */}
-                                <path d="M60 48 C48 38, 30 22, 14 26" stroke="#D4A017" strokeWidth="0.4" opacity="0.3" fill="none" />
-                                <path d="M60 48 C52 42, 35 30, 20 35" stroke="#D4A017" strokeWidth="0.3" opacity="0.2" fill="none" />
+                                <path d="M60 48 C48 38, 30 22, 14 26" stroke="#E8C87A" strokeWidth="0.4" opacity="0.3" fill="none" />
+                                <path d="M60 48 C52 42, 35 30, 20 35" stroke="#E8C87A" strokeWidth="0.3" opacity="0.2" fill="none" />
                                 {/* Wing spots — left */}
                                 <circle cx="30" cy="32" r="3" fill="#FFF8DC" opacity="0.3" />
                                 <circle cx="22" cy="42" r="2" fill="#FFF8DC" opacity="0.25" />
@@ -92,7 +92,7 @@ export default function Butterflies() {
                                 <path
                                     d="M60 48 C70 30, 95 10, 112 18 C125 24, 118 42, 105 48 C98 52, 80 50, 60 48Z"
                                     fill="url(#wingGoldRight)"
-                                    stroke="#D4A017"
+                                    stroke="#E8C87A"
                                     strokeWidth="0.5"
                                     opacity="0.9"
                                 />
@@ -100,13 +100,13 @@ export default function Butterflies() {
                                 <path
                                     d="M60 48 C72 52, 92 60, 104 72 C112 82, 102 88, 90 82 C82 76, 70 62, 60 48Z"
                                     fill="url(#wingAmberRight)"
-                                    stroke="#C49000"
+                                    stroke="#E8C87A"
                                     strokeWidth="0.5"
                                     opacity="0.85"
                                 />
                                 {/* Wing vein details — right */}
-                                <path d="M60 48 C72 38, 90 22, 106 26" stroke="#D4A017" strokeWidth="0.4" opacity="0.3" fill="none" />
-                                <path d="M60 48 C68 42, 85 30, 100 35" stroke="#D4A017" strokeWidth="0.3" opacity="0.2" fill="none" />
+                                <path d="M60 48 C72 38, 90 22, 106 26" stroke="#E8C87A" strokeWidth="0.4" opacity="0.3" fill="none" />
+                                <path d="M60 48 C68 42, 85 30, 100 35" stroke="#E8C87A" strokeWidth="0.3" opacity="0.2" fill="none" />
                                 {/* Wing spots — right */}
                                 <circle cx="90" cy="32" r="3" fill="#FFF8DC" opacity="0.3" />
                                 <circle cx="98" cy="42" r="2" fill="#FFF8DC" opacity="0.25" />
@@ -123,28 +123,28 @@ export default function Butterflies() {
                             {/* Antennae — elegant curves */}
                             <path d="M58 33 C54 22, 46 16, 42 12" stroke="#8B6914" strokeWidth="1" strokeLinecap="round" fill="none" />
                             <path d="M62 33 C66 22, 74 16, 78 12" stroke="#8B6914" strokeWidth="1" strokeLinecap="round" fill="none" />
-                            <circle cx="42" cy="12" r="1.5" fill="#F4D03F" />
-                            <circle cx="78" cy="12" r="1.5" fill="#F4D03F" />
+                            <circle cx="42" cy="12" r="1.5" fill="#F5A800" />
+                            <circle cx="78" cy="12" r="1.5" fill="#F5A800" />
 
                             {/* Gradient definitions */}
                             <defs>
                                 <radialGradient id="wingGoldLeft" cx="30%" cy="40%">
-                                    <stop offset="0%" stopColor="#FFE066" />
-                                    <stop offset="50%" stopColor="#F4D03F" />
-                                    <stop offset="100%" stopColor="#D4A017" />
+                                    <stop offset="0%" stopColor="#FFD166" />
+                                    <stop offset="50%" stopColor="#F5A800" />
+                                    <stop offset="100%" stopColor="#E8C87A" />
                                 </radialGradient>
                                 <radialGradient id="wingGoldRight" cx="70%" cy="40%">
-                                    <stop offset="0%" stopColor="#FFE066" />
-                                    <stop offset="50%" stopColor="#F4D03F" />
-                                    <stop offset="100%" stopColor="#D4A017" />
+                                    <stop offset="0%" stopColor="#FFD166" />
+                                    <stop offset="50%" stopColor="#F5A800" />
+                                    <stop offset="100%" stopColor="#E8C87A" />
                                 </radialGradient>
                                 <radialGradient id="wingAmberLeft" cx="35%" cy="60%">
-                                    <stop offset="0%" stopColor="#F4D03F" />
-                                    <stop offset="100%" stopColor="#C49000" />
+                                    <stop offset="0%" stopColor="#F5A800" />
+                                    <stop offset="100%" stopColor="#E8A000" />
                                 </radialGradient>
                                 <radialGradient id="wingAmberRight" cx="65%" cy="60%">
-                                    <stop offset="0%" stopColor="#F4D03F" />
-                                    <stop offset="100%" stopColor="#C49000" />
+                                    <stop offset="0%" stopColor="#F5A800" />
+                                    <stop offset="100%" stopColor="#E8A000" />
                                 </radialGradient>
                             </defs>
                         </svg>

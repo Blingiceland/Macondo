@@ -9,16 +9,11 @@ import StickyNav from "@/components/StickyNav";
 import Butterflies from "@/components/effects/Butterflies";
 import FireflyCursor from "@/components/effects/FireflyCursor";
 import NeonSign from "@/components/effects/NeonSign";
-import HeroIntro from "@/components/effects/HeroIntro";
 import ParallaxBackground from "@/components/effects/ParallaxBackground";
 
 
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(true);
-
-  const handleIntroComplete = useCallback(() => {
-    setIntroComplete(true);
-  }, []);
 
   const scrollToReservation = () => {
     const section = document.getElementById('reservation-form');

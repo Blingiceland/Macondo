@@ -102,10 +102,10 @@ const WINES: WineItem[] = [
 
 function SectionHeader({ title, subtitle, color = "green" }: { title: string; subtitle?: string; color?: "green" | "yellow" | "pink" | "blue" }) {
     const colors = {
-        green: { text: "text-[#2ECC71]", glow: "drop-shadow-[0_0_12px_rgba(46,204,113,0.6)]", line: "from-transparent via-[#2ECC71]/40 to-transparent" },
-        yellow: { text: "text-[#F4D03F]", glow: "drop-shadow-[0_0_12px_rgba(244,208,63,0.6)]", line: "from-transparent via-[#F4D03F]/40 to-transparent" },
-        pink: { text: "text-[#E91E63]", glow: "drop-shadow-[0_0_12px_rgba(233,30,99,0.6)]", line: "from-transparent via-[#E91E63]/40 to-transparent" },
-        blue: { text: "text-[#2E86C1]", glow: "drop-shadow-[0_0_12px_rgba(46,134,193,0.6)]", line: "from-transparent via-[#2E86C1]/40 to-transparent" },
+        green: { text: "text-[#C13A1A]", glow: "drop-shadow-[0_0_12px_rgba(193,58,26,0.6)]", line: "from-transparent via-[#C13A1A]/40 to-transparent" },
+        yellow: { text: "text-[#F5A800]", glow: "drop-shadow-[0_0_12px_rgba(245,168,0,0.6)]", line: "from-transparent via-[#F5A800]/40 to-transparent" },
+        pink: { text: "text-[#C8891A]", glow: "drop-shadow-[0_0_12px_rgba(200,137,26,0.6)]", line: "from-transparent via-[#C8891A]/40 to-transparent" },
+        blue: { text: "text-[#C13A1A]", glow: "drop-shadow-[0_0_12px_rgba(193,58,26,0.6)]", line: "from-transparent via-[#C13A1A]/40 to-transparent" },
     }[color];
 
     return (
@@ -118,7 +118,7 @@ function SectionHeader({ title, subtitle, color = "green" }: { title: string; su
                 {title}
             </h2>
             {subtitle && (
-                <p className="mt-2 text-sm tracking-widest uppercase opacity-40 text-[#F5E6CC]" style={{ fontFamily: "var(--font-cinzel), serif" }}>
+                <p className="mt-2 text-sm tracking-widest uppercase opacity-40 text-[#F5E8D0]" style={{ fontFamily: "var(--font-cinzel), serif" }}>
                     {subtitle}
                 </p>
             )}
@@ -131,10 +131,10 @@ function PriceRow({ name, price, desc }: { name: string; price?: string; desc?: 
     return (
         <div className="py-3 border-b border-white/5 last:border-b-0">
             <div className="flex justify-between items-baseline gap-4">
-                <span className="text-[#F5E6CC] font-medium tracking-wide text-sm md:text-base">{name}</span>
-                {price && <span className="text-[#D4A017] font-mono text-xs whitespace-nowrap">{price}</span>}
+                <span className="text-[#F5E8D0] font-medium tracking-wide text-sm md:text-base">{name}</span>
+                {price && <span className="text-[#E8C87A] font-mono text-xs whitespace-nowrap">{price}</span>}
             </div>
-            {desc && <p className="mt-1 text-xs text-[#F5E6CC]/40 italic">{desc}</p>}
+            {desc && <p className="mt-1 text-xs text-[#F5E8D0]/40 italic">{desc}</p>}
         </div>
     );
 }
@@ -145,12 +145,12 @@ function PriceRow({ name, price, desc }: { name: string; price?: string; desc?: 
 
 export default function DrinksMenu() {
     return (
-        <div className="min-h-screen bg-[#0B0E1A] text-[#F5E6CC]">
+        <div className="min-h-screen bg-[#1A0A08] text-[#F5E8D0]">
             {/* Back link */}
             <div className="fixed top-4 left-4 z-50">
                 <Link
                     href="/"
-                    className="flex items-center gap-2 text-xs uppercase tracking-widest opacity-40 hover:opacity-80 transition-opacity text-[#2ECC71]"
+                    className="flex items-center gap-2 text-xs uppercase tracking-widest opacity-40 hover:opacity-80 transition-opacity text-[#C13A1A]"
                     style={{ fontFamily: "var(--font-cinzel), serif" }}
                 >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -166,7 +166,7 @@ export default function DrinksMenu() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-4xl md:text-5xl font-bold tracking-[0.15em] mb-3"
-                    style={{ fontFamily: "var(--font-macondo-gf), cursive", color: "#1E9E6E", textShadow: "0 0 20px rgba(30,158,110,0.3)" }}
+                    style={{ fontFamily: "var(--font-macondo-gf), cursive", color: "#C13A1A", textShadow: "0 0 20px rgba(193,58,26,0.3)" }}
                 >
                     DRINKS MENU
                 </motion.h1>
@@ -175,7 +175,7 @@ export default function DrinksMenu() {
                     animate={{ opacity: 0.4 }}
                     transition={{ delay: 0.3 }}
                     className="text-sm italic tracking-wider"
-                    style={{ fontFamily: "var(--font-cinzel), serif", color: "#F48FB1" }}
+                    style={{ fontFamily: "var(--font-cinzel), serif", color: "#C8891A" }}
                 >
                     &ldquo;It was the time of the butterflies. Everything tasted of gold.&rdquo;
                 </motion.p>
@@ -186,7 +186,7 @@ export default function DrinksMenu() {
                 {/* HAPPY HOUR */}
                 <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                     <SectionHeader title="Happy Hour" subtitle={HAPPY_HOUR.hours} color="yellow" />
-                    <div className="bg-[#F4D03F]/5 border border-[#F4D03F]/15 rounded-lg p-6">
+                    <div className="bg-[#F5A800]/5 border border-[#F5A800]/15 rounded-lg p-6">
                         {HAPPY_HOUR.items.map((item, i) => (
                             <PriceRow key={i} name={item.name} price={item.price} />
                         ))}
@@ -196,7 +196,7 @@ export default function DrinksMenu() {
                 {/* SPRITZ HOUR */}
                 <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                     <SectionHeader title="Spritz Hour" subtitle={SPRITZ_HOUR.hours} color="pink" />
-                    <div className="bg-[#E91E63]/5 border border-[#E91E63]/15 rounded-lg p-6">
+                    <div className="bg-[#C8891A]/5 border border-[#C8891A]/15 rounded-lg p-6">
                         {SPRITZ_HOUR.items.map((item, i) => (
                             <PriceRow key={i} name={item.name} price={item.price} />
                         ))}
@@ -206,7 +206,7 @@ export default function DrinksMenu() {
                 {/* COCKTAILS */}
                 <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                     <SectionHeader title="Cocktails" color="green" />
-                    <div className="bg-[#1E8449]/5 border border-[#1E8449]/15 rounded-lg p-6">
+                    <div className="bg-[#C13A1A]/5 border border-[#C13A1A]/15 rounded-lg p-6">
                         {COCKTAILS.map((item, i) => (
                             <PriceRow key={i} name={item.name} desc={item.desc} />
                         ))}
@@ -216,7 +216,7 @@ export default function DrinksMenu() {
                 {/* MULES */}
                 <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                     <SectionHeader title="Mules" subtitle="+ 3 Cents Ginger Beer, lime" color="blue" />
-                    <div className="bg-[#1A5276]/5 border border-[#1A5276]/15 rounded-lg p-6">
+                    <div className="bg-[#3D1810]/5 border border-[#3D1810]/15 rounded-lg p-6">
                         {MULES.map((item, i) => (
                             <PriceRow key={i} name={item.spirit} />
                         ))}
@@ -225,12 +225,12 @@ export default function DrinksMenu() {
 
                 {/* COCKTAIL JUGS */}
                 <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                    <div className="text-center py-8 bg-[#F4D03F]/5 border border-[#F4D03F]/10 rounded-lg">
-                        <h3 className="text-lg tracking-[0.2em] uppercase text-[#F4D03F] mb-1" style={{ fontFamily: "var(--font-macondo-gf), cursive" }}>
+                    <div className="text-center py-8 bg-[#F5A800]/5 border border-[#F5A800]/10 rounded-lg">
+                        <h3 className="text-lg tracking-[0.2em] uppercase text-[#F5A800] mb-1" style={{ fontFamily: "var(--font-macondo-gf), cursive" }}>
                             Cocktail Jugs
                         </h3>
                         <p className="text-xs opacity-40">2L Pitchers — Perfect for groups!</p>
-                        <p className="mt-3 text-xl font-bold text-[#D4A017] font-mono">14.990 kr</p>
+                        <p className="mt-3 text-xl font-bold text-[#E8C87A] font-mono">14.990 kr</p>
                     </div>
                 </motion.section>
 
@@ -238,14 +238,14 @@ export default function DrinksMenu() {
                 <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                     <SectionHeader title="Bjór" color="yellow" />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="bg-[#F4D03F]/5 border border-[#F4D03F]/10 rounded-lg p-6">
-                            <h4 className="text-xs uppercase tracking-[0.3em] text-[#F4D03F]/60 mb-4">Á krana · 0.4L</h4>
+                        <div className="bg-[#F5A800]/5 border border-[#F5A800]/10 rounded-lg p-6">
+                            <h4 className="text-xs uppercase tracking-[0.3em] text-[#F5A800]/60 mb-4">Á krana · 0.4L</h4>
                             {BEERS.filter(b => b.type === "draft").map((item, i) => (
                                 <PriceRow key={i} name={item.name} price={item.price} />
                             ))}
                         </div>
-                        <div className="bg-[#F4D03F]/5 border border-[#F4D03F]/10 rounded-lg p-6">
-                            <h4 className="text-xs uppercase tracking-[0.3em] text-[#F4D03F]/60 mb-4">Flöskur / Dósir</h4>
+                        <div className="bg-[#F5A800]/5 border border-[#F5A800]/10 rounded-lg p-6">
+                            <h4 className="text-xs uppercase tracking-[0.3em] text-[#F5A800]/60 mb-4">Flöskur / Dósir</h4>
                             {BEERS.filter(b => b.type === "bottle").map((item, i) => (
                                 <PriceRow key={i} name={item.name} price={item.price} />
                             ))}
@@ -256,7 +256,7 @@ export default function DrinksMenu() {
                 {/* SHOTS */}
                 <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                     <SectionHeader title="Shots" color="pink" />
-                    <div className="bg-[#E91E63]/5 border border-[#E91E63]/15 rounded-lg p-6">
+                    <div className="bg-[#C8891A]/5 border border-[#C8891A]/15 rounded-lg p-6">
                         {SHOTS.map((item, i) => (
                             <PriceRow key={i} name={item.name} price={item.price} />
                         ))}
@@ -266,20 +266,20 @@ export default function DrinksMenu() {
                 {/* WINE */}
                 <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                     <SectionHeader title="Vín" color="green" />
-                    <div className="bg-[#1E8449]/5 border border-[#1E8449]/15 rounded-lg p-6 space-y-4">
+                    <div className="bg-[#C13A1A]/5 border border-[#C13A1A]/15 rounded-lg p-6 space-y-4">
                         {WINES.map((wine, i) => (
                             <div key={i} className="py-3 border-b border-white/5 last:border-b-0">
-                                <div className="text-[#F5E6CC] font-medium tracking-wide text-sm md:text-base">{wine.name}</div>
-                                <div className="flex gap-6 mt-1.5 text-xs text-[#D4A017] font-mono">
+                                <div className="text-[#F5E8D0] font-medium tracking-wide text-sm md:text-base">{wine.name}</div>
+                                <div className="flex gap-6 mt-1.5 text-xs text-[#E8C87A] font-mono">
                                     <span>Glas: {wine.glass}</span>
                                     <span>Flaska: {wine.bottle}</span>
                                 </div>
                             </div>
                         ))}
                         {/* Bollinger special */}
-                        <div className="pt-4 border-t border-[#F4D03F]/10 text-center">
-                            <span className="text-[#F4D03F] font-medium tracking-wider">Bollinger 750ml</span>
-                            <span className="block text-xl font-bold text-[#D4A017] font-mono mt-1">40.000 kr</span>
+                        <div className="pt-4 border-t border-[#F5A800]/10 text-center">
+                            <span className="text-[#F5A800] font-medium tracking-wider">Bollinger 750ml</span>
+                            <span className="block text-xl font-bold text-[#E8C87A] font-mono mt-1">40.000 kr</span>
                         </div>
                     </div>
                 </motion.section>

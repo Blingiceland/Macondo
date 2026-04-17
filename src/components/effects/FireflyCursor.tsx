@@ -45,8 +45,8 @@ export default function FireflyCursor() {
                     style={{
                         left: p.x - 4,
                         top: p.y - 4,
-                        backgroundColor: "#F4D03F",
-                        boxShadow: "0 0 8px #F4D03F, 0 0 16px #D4A017, 0 0 24px #D4A01780",
+                        backgroundColor: "#F5A800",
+                        boxShadow: "0 0 8px #F5A800, 0 0 16px #E8C87A, 0 0 24px #E8C87A80",
                     }}
                 />
             ))}

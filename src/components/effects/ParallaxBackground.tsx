@@ -59,17 +59,17 @@ export default function ParallaxBackground() {
                     <div className="absolute w-[1px] h-[1px] bg-white rounded-full shadow-[0_0_2px_white]" style={{ top: '40%', left: '38%' }} />
 
                     {/* Brighter accent stars */}
-                    <div className="absolute w-[2px] h-[2px] bg-white rounded-full shadow-[0_0_4px_#F4D03F,0_0_8px_#F4D03F]" style={{ top: '10%', left: '30%' }} />
-                    <div className="absolute w-[2px] h-[2px] bg-white rounded-full shadow-[0_0_4px_#2E86C1,0_0_8px_#2E86C1]" style={{ top: '20%', left: '60%' }} />
-                    <div className="absolute w-[2px] h-[2px] bg-white rounded-full shadow-[0_0_4px_#F48FB1,0_0_8px_#F48FB1]" style={{ top: '28%', left: '75%' }} />
-                    <div className="absolute w-[2px] h-[2px] bg-white rounded-full shadow-[0_0_4px_#2ECC71,0_0_8px_#2ECC71]" style={{ top: '8%', left: '50%' }} />
+                    <div className="absolute w-[2px] h-[2px] bg-white rounded-full shadow-[0_0_4px_#F5A800,0_0_8px_#F5A800]" style={{ top: '10%', left: '30%' }} />
+                    <div className="absolute w-[2px] h-[2px] bg-white rounded-full shadow-[0_0_4px_#C13A1A,0_0_8px_#C13A1A]" style={{ top: '20%', left: '60%' }} />
+                    <div className="absolute w-[2px] h-[2px] bg-white rounded-full shadow-[0_0_4px_#C8891A,0_0_8px_#C8891A]" style={{ top: '28%', left: '75%' }} />
+                    <div className="absolute w-[2px] h-[2px] bg-white rounded-full shadow-[0_0_4px_#C13A1A,0_0_8px_#C13A1A]" style={{ top: '8%', left: '50%' }} />
                 </div>
 
                 {/* Subtle milky way */}
                 <div
                     className="absolute inset-0"
                     style={{
-                        background: "radial-gradient(ellipse 80% 15% at 50% 15%, rgba(46,134,193,0.04), transparent)",
+                        background: "radial-gradient(ellipse 80% 15% at 50% 15%, rgba(193,58,26,0.04), transparent)",
                     }}
                 />
             </div>
@@ -83,14 +83,14 @@ export default function ParallaxBackground() {
                 }}
             >
                 {/* Top canopy gradient */}
-                <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-[#0D2818]/90 via-[#1E8449]/20 to-transparent" />
+                <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-[#1A0A08]/90 via-[#C13A1A]/20 to-transparent" />
 
                 {/* Side vines */}
-                <div className="absolute top-0 left-0 w-1/6 h-full bg-gradient-to-r from-[#1E8449]/15 to-transparent" />
-                <div className="absolute top-0 right-0 w-1/6 h-full bg-gradient-to-l from-[#1E8449]/15 to-transparent" />
+                <div className="absolute top-0 left-0 w-1/6 h-full bg-gradient-to-r from-[#C13A1A]/15 to-transparent" />
+                <div className="absolute top-0 right-0 w-1/6 h-full bg-gradient-to-l from-[#C13A1A]/15 to-transparent" />
 
                 {/* Atmospheric haze */}
-                <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#0B0E1A]/50 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#1A0A08]/50 to-transparent" />
             </div>
 
             {/* Layer 3: Golden Glow — warmth of the bar */}
@@ -102,13 +102,13 @@ export default function ParallaxBackground() {
                 }}
             >
                 {/* Warm golden radial from center-bottom */}
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_80%,_#D4A01712_0%,_transparent_70%)]" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_80%,_#E8C87A12_0%,_transparent_70%)]" />
 
                 {/* Subtle pink accent */}
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_70%_60%,_#E91E6306_0%,_transparent_70%)]" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_70%_60%,_#C8891A06_0%,_transparent_70%)]" />
 
                 {/* Bottom warm gradient */}
-                <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#1A120B]/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#1A0A08]/20 to-transparent" />
             </div>
         </div>
     );

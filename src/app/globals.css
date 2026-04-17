@@ -4,25 +4,25 @@
   /* Macondo palette — inspired by García Márquez's Colombia */
 
   /* Radiant Yellow — abundance, sun, the butterflies */
-  --color-macondo-yellow: #F4D03F;
-  --color-macondo-gold: #D4A017;
+  --color-macondo-yellow: #F5A800;
+  --color-macondo-gold: #E8C87A;
 
   /* Caribbean Sea Blues — the ocean, the sky, dreams */
-  --color-macondo-blue: #1A5276;
-  --color-macondo-blue-light: #2E86C1;
+  --color-macondo-blue: #3D1810;
+  --color-macondo-blue-light: #C8891A;
 
   /* Jungle Green — lush, alive, the banana plantations */
-  --color-macondo-green: #1E8449;
-  --color-macondo-green-light: #2ECC71;
+  --color-macondo-green: #C13A1A;
+  --color-macondo-green-light: #C13A1A;
 
   /* Pink Afternoons — warmth, nostalgia, magical realism */
-  --color-macondo-pink: #E91E63;
-  --color-macondo-pink-soft: #F48FB1;
+  --color-macondo-pink: #C8891A;
+  --color-macondo-pink-soft: #C8891A;
 
   /* Earth & Night — deep backgrounds */
-  --color-macondo-night: #0B0E1A;
-  --color-macondo-earth: #1A120B;
-  --color-macondo-cream: #F5E6CC;
+  --color-macondo-night: #1A0A08;
+  --color-macondo-earth: #1A0A08;
+  --color-macondo-cream: #F5E8D0;
 
   /* Semantic tokens */
   --color-primary: var(--color-macondo-night);

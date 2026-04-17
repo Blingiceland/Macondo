@@ -24,17 +24,17 @@ const NeonBorderSegment = ({ side, color }: NeonBorderSegmentProps) => {
     const baseClass = "absolute transition-opacity duration-75";
 
     const glowStyles: Record<string, string> = {
-        yellow: "shadow-[0_0_10px_rgba(244,208,63,0.8),0_0_20px_rgba(244,208,63,0.4)]",
-        pink: "shadow-[0_0_10px_rgba(233,30,99,0.8),0_0_20px_rgba(233,30,99,0.4)]",
-        blue: "shadow-[0_0_10px_rgba(46,134,193,0.8),0_0_20px_rgba(46,134,193,0.4)]",
-        green: "shadow-[0_0_10px_rgba(30,132,73,0.8),0_0_20px_rgba(30,132,73,0.4)]",
+        yellow: "shadow-[0_0_10px_rgba(245,168,0,0.8),0_0_20px_rgba(245,168,0,0.4)]",
+        pink: "shadow-[0_0_10px_rgba(200,137,26,0.8),0_0_20px_rgba(200,137,26,0.4)]",
+        blue: "shadow-[0_0_10px_rgba(61,24,16,0.8),0_0_20px_rgba(61,24,16,0.4)]",
+        green: "shadow-[0_0_10px_rgba(193,58,26,0.8),0_0_20px_rgba(193,58,26,0.4)]",
     };
 
     const borderStyles: Record<string, string> = {
-        yellow: "bg-[#F4D03F]",
-        pink: "bg-[#E91E63]",
-        blue: "bg-[#2E86C1]",
-        green: "bg-[#1E8449]",
+        yellow: "bg-[#F5A800]",
+        pink: "bg-[#C8891A]",
+        blue: "bg-[#3D1810]",
+        green: "bg-[#C13A1A]",
     };
 
     const positions = {
@@ -59,21 +59,21 @@ interface NeonMenuHeaderProps {
 
 export default function NeonMenuHeader({ text, color }: NeonMenuHeaderProps) {
     const textColors: Record<string, string> = {
-        yellow: "text-[#F4D03F]",
-        pink: "text-[#E91E63]",
-        blue: "text-[#2E86C1]",
-        green: "text-[#2ECC71]",
+        yellow: "text-[#F5A800]",
+        pink: "text-[#C8891A]",
+        blue: "text-[#3D1810]",
+        green: "text-[#C13A1A]",
     };
 
     const glowEffects: Record<string, string> = {
-        yellow: "drop-shadow-[0_0_15px_rgba(244,208,63,0.9)] drop-shadow-[0_0_30px_rgba(244,208,63,0.5)]",
-        pink: "drop-shadow-[0_0_15px_rgba(233,30,99,0.9)] drop-shadow-[0_0_30px_rgba(233,30,99,0.5)]",
-        blue: "drop-shadow-[0_0_15px_rgba(46,134,193,0.9)] drop-shadow-[0_0_30px_rgba(46,134,193,0.5)]",
-        green: "drop-shadow-[0_0_15px_rgba(30,132,73,0.9)] drop-shadow-[0_0_30px_rgba(30,132,73,0.5)]",
+        yellow: "drop-shadow-[0_0_15px_rgba(245,168,0,0.9)] drop-shadow-[0_0_30px_rgba(245,168,0,0.5)]",
+        pink: "drop-shadow-[0_0_15px_rgba(200,137,26,0.9)] drop-shadow-[0_0_30px_rgba(200,137,26,0.5)]",
+        blue: "drop-shadow-[0_0_15px_rgba(61,24,16,0.9)] drop-shadow-[0_0_30px_rgba(61,24,16,0.5)]",
+        green: "drop-shadow-[0_0_15px_rgba(193,58,26,0.9)] drop-shadow-[0_0_30px_rgba(193,58,26,0.5)]",
     };
 
     return (
-        <div className="relative inline-block px-8 py-6 bg-[#0B0E1A]/50">
+        <div className="relative inline-block px-8 py-6 bg-[#7A3020]/50">
             {/* Neon Border Segments */}
             <NeonBorderSegment side="top" color={color} />
             <NeonBorderSegment side="right" color={color} />

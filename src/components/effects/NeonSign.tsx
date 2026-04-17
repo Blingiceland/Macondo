@@ -1,73 +1,48 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function NeonSign() {
-    const titleText = "MACONDO";
-
-    // Caribbean blue → jungle green gradient per letter
-    const letterColors = [
-        { text: "#1A8FB4", glow: "0 0 10px #1A8FB4, 0 0 25px #1A527690, 0 0 50px #1A527650" },
-        { text: "#1E9E6E", glow: "0 0 10px #1E9E6E, 0 0 25px #1E844990, 0 0 50px #1E844950" },
-        { text: "#2ECC71", glow: "0 0 10px #2ECC71, 0 0 25px #1E844990, 0 0 50px #1E844950" },
-        { text: "#27AE60", glow: "0 0 10px #27AE60, 0 0 25px #1E844990, 0 0 50px #1E844950" },
-        { text: "#2ECC71", glow: "0 0 10px #2ECC71, 0 0 25px #1E844990, 0 0 50px #1E844950" },
-        { text: "#1E9E6E", glow: "0 0 10px #1E9E6E, 0 0 25px #1A527690, 0 0 50px #1A527650" },
-        { text: "#1A8FB4", glow: "0 0 10px #1A8FB4, 0 0 25px #1A527690, 0 0 50px #1A527650" },
-    ];
-
     return (
-        <div className="relative text-center">
-            {/* Ghost Layer — subtle blue shimmer behind */}
+        <div className="relative text-center select-none">
+            {/* Pulsing glow layer behind logo */}
             <motion.div
-                className="absolute inset-0 z-0 select-none pointer-events-none opacity-30 blur-[2px]"
-                animate={{
-                    x: [0, -1, 1, 0],
-                    y: [0, 1, -1, 0],
-                }}
-                transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    repeatType: "mirror",
-                    ease: "easeInOut",
-                }}
+                className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center"
+                animate={{ opacity: [0.3, 0.6, 0.3] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
-                <div
-                    className="text-6xl md:text-8xl lg:text-9xl font-black tracking-[0.15em] mb-6"
-                    style={{ fontFamily: "var(--font-macondo-gf), cursive", color: "#2E86C1", textShadow: "0 0 15px #2E86C1" }}
-                >
-                    {titleText.split("").map((char, i) => (
-                        <span key={`ghost-${i}`} className="inline-block">{char}</span>
-                    ))}
-                </div>
+                <Image
+                    src="/macondo-logo.png"
+                    alt=""
+                    width={600}
+                    height={360}
+                    className="w-80 md:w-[480px] lg:w-[640px] h-auto blur-[18px]"
+                    style={{ filter: "drop-shadow(0 0 40px #C13A1A) drop-shadow(0 0 80px #C13A1A)" }}
+                    aria-hidden
+                    priority
+                />
             </motion.div>
 
-            {/* Main Layer — blue to green gradient letters */}
-            <div
-                className="relative z-10 text-6xl md:text-8xl lg:text-9xl font-black tracking-[0.15em] mb-6"
-                style={{ fontFamily: "var(--font-macondo-gf), cursive" }}
+            {/* Main logo */}
+            <motion.div
+                className="relative z-10"
+                animate={{ filter: [
+                    "drop-shadow(0 0 12px #C13A1A) drop-shadow(0 0 25px #C13A1A80)",
+                    "drop-shadow(0 0 20px #C13A1A) drop-shadow(0 0 40px #C13A1A80)",
+                    "drop-shadow(0 0 12px #C13A1A) drop-shadow(0 0 25px #C13A1A80)",
+                ]}}
+                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
             >
-                {titleText.split("").map((char, i) => (
-                    <span
-                        key={i}
-                        className="inline-block"
-                        style={{
-                            color: letterColors[i].text,
-                            textShadow: letterColors[i].glow,
-                        }}
-                    >
-                        {char}
-                    </span>
-                ))}
-            </div>
-
-            {/* Subtitle — Tequila Bar */}
-            <div
-                className="relative z-10 text-sm md:text-base font-light tracking-[0.5em] uppercase opacity-70"
-                style={{ fontFamily: "var(--font-cinzel), serif", color: "#F48FB1" }}
-            >
-                Tequila Bar
-            </div>
+                <Image
+                    src="/macondo-logo.png"
+                    alt="Macondo Tequila Lounge"
+                    width={600}
+                    height={360}
+                    priority
+                    className="w-80 md:w-[480px] lg:w-[640px] h-auto mx-auto"
+                />
+            </motion.div>
         </div>
     );
 }

@@ -34,28 +34,28 @@ export default function AdminLogin() {
     };
 
     return (
-        <div className="min-h-screen bg-[#0B0E1A] flex items-center justify-center px-6">
+        <div className="min-h-screen bg-[#1A0A08] flex items-center justify-center px-6">
             <div className="max-w-sm w-full">
                 <h1
-                    className="text-2xl font-bold text-center tracking-[0.15em] mb-2 text-[#F4D03F]"
+                    className="text-2xl font-bold text-center tracking-[0.15em] mb-2 text-[#F5A800]"
                     style={{ fontFamily: "var(--font-cinzel), serif" }}
                 >
                     MACONDO
                 </h1>
-                <p className="text-center text-[#F5E6CC]/30 text-xs uppercase tracking-wider mb-8">
+                <p className="text-center text-[#F5E8D0]/30 text-xs uppercase tracking-wider mb-8">
                     Stjórnborð
                 </p>
 
                 <form onSubmit={handleLogin} className="space-y-6">
                     <div>
-                        <label className="block text-xs uppercase tracking-widest mb-2 text-[#F4D03F]/70">
+                        <label className="block text-xs uppercase tracking-widest mb-2 text-[#F5A800]/70">
                             Lykilorð
                         </label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full bg-transparent border-b border-[#F5E6CC]/15 py-3 text-[#F5E6CC] placeholder-[#F5E6CC]/20 focus:outline-none focus:border-[#F4D03F]/50 transition-colors"
+                            className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-3 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors"
                             placeholder="••••••••"
                             required
                         />
@@ -68,7 +68,7 @@ export default function AdminLogin() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-3 rounded-full text-sm font-bold tracking-[0.2em] uppercase bg-transparent text-[#F4D03F] border border-[#D4A017] hover:bg-[#F4D03F]/10 transition-all disabled:opacity-30"
+                        className="w-full py-3 rounded-full text-sm font-bold tracking-[0.2em] uppercase bg-transparent text-[#F5A800] border border-[#E8C87A] hover:bg-[#F5A800]/10 transition-all disabled:opacity-30"
                     >
                         {loading ? "..." : "INNSKRÁ"}
                     </button>

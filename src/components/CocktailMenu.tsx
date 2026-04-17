@@ -118,20 +118,21 @@ export default function CocktailMenu() {
         <div className="py-20 px-6 w-full max-w-6xl mx-auto">
 
             {/* COCKTAILS SECTION */}
-            <motion.div id="cocktails" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="mb-24">
+            <section id="cocktails" aria-label="Kokteilar">
+            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="mb-24">
                 <div className="text-center mb-12">
                     <NeonMenuHeader text="REMEDIOS" color="yellow" />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 list-none p-0">
                     {COCKTAILS.map((drink, index) => (
-                        <motion.div
+                        <motion.li
                             key={`cocktail-${index}`}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
-                            className="group relative overflow-hidden rounded-lg bg-[#0B0E1A]/80 border border-[#F4D03F]/15 hover:border-[#F4D03F]/50 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(244,208,63,0.1)]"
                         >
+                        <article className="group relative overflow-hidden rounded-lg bg-[#7A3020]/80 border border-[#F5A800]/15 hover:border-[#F5A800]/50 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(245,168,0,0.1)] h-full">
                             {drink.image && (
                                 <div className="relative w-full aspect-square overflow-hidden">
                                     <Image
@@ -146,38 +147,41 @@ export default function CocktailMenu() {
 
                             <div className="p-4">
                                 <div className="flex justify-between items-baseline mb-2">
-                                    <h3 className="text-lg font-bold tracking-wider text-[#F4D03F]">
+                                    <h3 className="text-lg font-bold tracking-wider text-[#F5A800]">
                                         {drink.name}
                                     </h3>
-                                    <span className="text-sm opacity-80 whitespace-nowrap ml-2 text-[#D4A017] font-mono">
+                                    <span className="text-sm opacity-80 whitespace-nowrap ml-2 text-[#E8C87A] font-mono">
                                         {drink.price}
                                     </span>
                                 </div>
-                                <div className="h-px w-full my-2 bg-gradient-to-r from-[#F4D03F]/60 to-transparent" />
-                                <p className="text-xs opacity-90 font-light tracking-wide text-[#F5E6CC]">
+                                <div className="h-px w-full my-2 bg-gradient-to-r from-[#F5A800]/60 to-transparent" aria-hidden="true" />
+                                <p className="text-xs opacity-90 font-light tracking-wide text-[#F5E8D0]">
                                     {drink.description}
                                 </p>
                             </div>
-                        </motion.div>
+                        </article>
+                        </motion.li>
                     ))}
-                </div>
+                </ul>
             </motion.div>
+            </section>
 
             {/* SHOTS SECTION */}
-            <motion.div id="shots" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
+            <section id="shots" aria-label="Skot">
+            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
                 <div className="text-center mb-12">
                     <NeonMenuHeader text="LA ALQUIMIA" color="pink" />
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6">
+                <ul className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6 list-none p-0">
                     {SHOTS.map((drink, index) => (
-                        <motion.div
+                        <motion.li
                             key={`shot-${index}`}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
-                            className="group relative overflow-hidden rounded-lg bg-[#0B0E1A]/80 border border-[#E91E63]/15 hover:border-[#E91E63]/50 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(233,30,99,0.1)]"
                         >
+                        <article className="group relative overflow-hidden rounded-lg bg-[#7A3020]/80 border border-[#C8891A]/15 hover:border-[#C8891A]/50 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(200,137,26,0.1)] h-full">
                             {drink.image && (
                                 <div className="relative w-full aspect-square overflow-hidden">
                                     <Image
@@ -192,22 +196,24 @@ export default function CocktailMenu() {
 
                             <div className="p-4">
                                 <div className="flex justify-between items-baseline mb-2">
-                                    <h3 className="text-base font-bold tracking-wider text-[#F48FB1]">
+                                    <h3 className="text-base font-bold tracking-wider text-[#C8891A]">
                                         {drink.name}
                                     </h3>
-                                    <span className="text-xs opacity-80 whitespace-nowrap ml-2 text-[#E91E63] font-mono">
+                                    <span className="text-xs opacity-80 whitespace-nowrap ml-2 text-[#C8891A] font-mono">
                                         {drink.price}
                                     </span>
                                 </div>
-                                <div className="h-px w-full my-2 bg-gradient-to-r from-[#E91E63]/60 to-transparent" />
-                                <p className="text-xs opacity-90 font-light tracking-wide text-[#F5E6CC]">
+                                <div className="h-px w-full my-2 bg-gradient-to-r from-[#C8891A]/60 to-transparent" aria-hidden="true" />
+                                <p className="text-xs opacity-90 font-light tracking-wide text-[#F5E8D0]">
                                     {drink.description}
                                 </p>
                             </div>
-                        </motion.div>
+                        </article>
+                        </motion.li>
                     ))}
-                </div>
+                </ul>
             </motion.div>
+            </section>
 
         </div>
     );

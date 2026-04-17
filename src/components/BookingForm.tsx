@@ -140,37 +140,37 @@ export default function BookingForm() {
                 <div className="text-center mb-12">
                     <h2
                         className="text-3xl md:text-4xl font-bold tracking-[0.15em] mb-3"
-                        style={{ fontFamily: "var(--font-cinzel), serif", color: "#F4D03F" }}
+                        style={{ fontFamily: "var(--font-cinzel), serif", color: "#F5A800" }}
                     >
                         BÓKA BORÐ
                     </h2>
-                    <div className="w-24 h-[1px] mx-auto bg-gradient-to-r from-transparent via-[#F4D03F]/40 to-transparent" />
+                    <div className="w-24 h-[1px] mx-auto bg-gradient-to-r from-transparent via-[#F5A800]/40 to-transparent" />
                 </div>
 
                 <AnimatePresence mode="wait">
                     {/* =============== STEP 1: DATE =============== */}
                     {step === "DATE" && (
                         <motion.div key="date" {...fadeSlide}>
-                            <p className="text-center text-[#F5E6CC]/60 text-sm mb-6 tracking-wider uppercase"
+                            <p className="text-center text-[#F5E8D0]/60 text-sm mb-6 tracking-wider uppercase"
                                 style={{ fontFamily: "var(--font-cinzel), serif" }}>
                                 Veldu dag
                             </p>
 
                             {/* Guest count */}
                             <div className="flex items-center justify-center gap-4 mb-8">
-                                <span className="text-[#F4D03F]/70 text-xs uppercase tracking-widest"
+                                <span className="text-[#F5A800]/70 text-xs uppercase tracking-widest"
                                     style={{ fontFamily: "var(--font-cinzel), serif" }}>
                                     Gestir
                                 </span>
                                 <div className="flex items-center gap-2">
                                     <button
                                         onClick={() => setGuests(Math.max(1, guests - 1))}
-                                        className="w-8 h-8 rounded-full border border-[#F4D03F]/20 text-[#F4D03F]/60 hover:border-[#F4D03F]/50 hover:text-[#F4D03F] transition-all text-sm"
+                                        className="w-8 h-8 rounded-full border border-[#F5A800]/20 text-[#F5A800]/60 hover:border-[#F5A800]/50 hover:text-[#F5A800] transition-all text-sm"
                                     >−</button>
-                                    <span className="w-8 text-center text-[#F4D03F] font-bold text-lg">{guests}</span>
+                                    <span className="w-8 text-center text-[#F5A800] font-bold text-lg">{guests}</span>
                                     <button
                                         onClick={() => setGuests(Math.min(20, guests + 1))}
-                                        className="w-8 h-8 rounded-full border border-[#F4D03F]/20 text-[#F4D03F]/60 hover:border-[#F4D03F]/50 hover:text-[#F4D03F] transition-all text-sm"
+                                        className="w-8 h-8 rounded-full border border-[#F5A800]/20 text-[#F5A800]/60 hover:border-[#F5A800]/50 hover:text-[#F5A800] transition-all text-sm"
                                     >+</button>
                                 </div>
                             </div>
@@ -185,8 +185,8 @@ export default function BookingForm() {
                                             setStep("TIME");
                                         }}
                                         className={`py-3 px-1 rounded-lg border text-center transition-all duration-200 hover:scale-105 ${selectedDate === d.date
-                                            ? "border-[#F4D03F] bg-[#F4D03F]/10 text-[#F4D03F]"
-                                            : "border-[#F5E6CC]/10 text-[#F5E6CC]/60 hover:border-[#F4D03F]/30 hover:text-[#F5E6CC]/90"
+                                            ? "border-[#F5A800] bg-[#F5A800]/10 text-[#F5A800]"
+                                            : "border-[#F5E8D0]/10 text-[#F5E8D0]/60 hover:border-[#F5A800]/30 hover:text-[#F5E8D0]/90"
                                             }`}
                                     >
                                         <div className="text-[10px] uppercase tracking-wider opacity-60">{d.dayName}</div>
@@ -202,24 +202,24 @@ export default function BookingForm() {
                         <motion.div key="time" {...fadeSlide}>
                             <button
                                 onClick={() => setStep("DATE")}
-                                className="text-[#F4D03F]/50 text-xs uppercase tracking-wider hover:text-[#F4D03F] transition-colors mb-4"
+                                className="text-[#F5A800]/50 text-xs uppercase tracking-wider hover:text-[#F5A800] transition-colors mb-4"
                                 style={{ fontFamily: "var(--font-cinzel), serif" }}
                             >
                                 ← Til baka
                             </button>
 
-                            <p className="text-center text-[#F5E6CC]/60 text-sm mb-2 tracking-wider uppercase"
+                            <p className="text-center text-[#F5E8D0]/60 text-sm mb-2 tracking-wider uppercase"
                                 style={{ fontFamily: "var(--font-cinzel), serif" }}>
                                 Veldu tíma
                             </p>
-                            <p className="text-center text-[#F5E6CC]/30 text-xs mb-6">
+                            <p className="text-center text-[#F5E8D0]/30 text-xs mb-6">
                                 {dates.find(d => d.date === selectedDate)?.label} · {guests} {guests === 1 ? "gestur" : "gestir"}
                             </p>
 
                             {loading ? (
                                 <div className="text-center py-12">
-                                    <div className="inline-block w-6 h-6 border-2 border-[#F4D03F]/20 border-t-[#F4D03F] rounded-full animate-spin" />
-                                    <p className="text-[#F5E6CC]/40 text-xs mt-3">Sæki lausar tímasetningar...</p>
+                                    <div className="inline-block w-6 h-6 border-2 border-[#F5A800]/20 border-t-[#F5A800] rounded-full animate-spin" />
+                                    <p className="text-[#F5E8D0]/40 text-xs mt-3">Sæki lausar tímasetningar...</p>
                                 </div>
                             ) : (
                                 <div className="grid grid-cols-4 gap-2 mb-6">
@@ -232,10 +232,10 @@ export default function BookingForm() {
                                                 setStep("DETAILS");
                                             }}
                                             className={`py-3 rounded-lg border text-sm font-medium transition-all duration-200 ${!s.available
-                                                ? "border-[#F5E6CC]/5 text-[#F5E6CC]/15 cursor-not-allowed line-through"
+                                                ? "border-[#F5E8D0]/5 text-[#F5E8D0]/15 cursor-not-allowed line-through"
                                                 : s.tablesLeft <= 2
                                                     ? "border-[#E74C3C]/30 text-[#E74C3C]/80 hover:border-[#E74C3C]/60 hover:bg-[#E74C3C]/5"
-                                                    : "border-[#2ECC71]/20 text-[#2ECC71]/80 hover:border-[#2ECC71]/50 hover:bg-[#2ECC71]/5"
+                                                    : "border-[#C13A1A]/20 text-[#C13A1A]/80 hover:border-[#C13A1A]/50 hover:bg-[#C13A1A]/5"
                                                 }`}
                                         >
                                             {s.slot}
@@ -258,23 +258,23 @@ export default function BookingForm() {
                         <motion.div key="details" {...fadeSlide}>
                             <button
                                 onClick={() => setStep("TIME")}
-                                className="text-[#F4D03F]/50 text-xs uppercase tracking-wider hover:text-[#F4D03F] transition-colors mb-4"
+                                className="text-[#F5A800]/50 text-xs uppercase tracking-wider hover:text-[#F5A800] transition-colors mb-4"
                                 style={{ fontFamily: "var(--font-cinzel), serif" }}
                             >
                                 ← Til baka
                             </button>
 
-                            <p className="text-center text-[#F5E6CC]/60 text-sm mb-2 tracking-wider uppercase"
+                            <p className="text-center text-[#F5E8D0]/60 text-sm mb-2 tracking-wider uppercase"
                                 style={{ fontFamily: "var(--font-cinzel), serif" }}>
                                 Upplýsingar
                             </p>
-                            <p className="text-center text-[#F5E6CC]/30 text-xs mb-8">
+                            <p className="text-center text-[#F5E8D0]/30 text-xs mb-8">
                                 {dates.find(d => d.date === selectedDate)?.label} · kl. {selectedTime} · {guests} {guests === 1 ? "gestur" : "gestir"}
                             </p>
 
                             <form onSubmit={handleSubmit} className="space-y-5">
                                 <div>
-                                    <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]"
+                                    <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F5A800]"
                                         style={{ fontFamily: "var(--font-cinzel), serif" }}>
                                         Nafn
                                     </label>
@@ -284,12 +284,12 @@ export default function BookingForm() {
                                         onChange={(e) => setName(e.target.value)}
                                         required
                                         placeholder="Nafnið þitt"
-                                        className="w-full bg-transparent border-b border-[#F5E6CC]/15 py-3 text-[#F5E6CC] placeholder-[#F5E6CC]/20 focus:outline-none focus:border-[#F4D03F]/50 transition-colors"
+                                        className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-3 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F4D03F]"
+                                    <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F5A800]"
                                         style={{ fontFamily: "var(--font-cinzel), serif" }}>
                                         Netfang
                                     </label>
@@ -299,7 +299,7 @@ export default function BookingForm() {
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
                                         placeholder="netfangid@thitt.is"
-                                        className="w-full bg-transparent border-b border-[#F5E6CC]/15 py-3 text-[#F5E6CC] placeholder-[#F5E6CC]/20 focus:outline-none focus:border-[#F4D03F]/50 transition-colors"
+                                        className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-3 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors"
                                     />
                                 </div>
 
@@ -310,7 +310,7 @@ export default function BookingForm() {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full py-4 rounded-full text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 bg-transparent text-[#F4D03F] border border-[#D4A017] shadow-[0_0_15px_rgba(244,208,63,0.1)] hover:bg-[#F4D03F]/10 hover:shadow-[0_0_25px_rgba(244,208,63,0.2)] disabled:opacity-30"
+                                    className="w-full py-4 rounded-full text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 bg-transparent text-[#F5A800] border border-[#E8C87A] shadow-[0_0_15px_rgba(245,168,0,0.1)] hover:bg-[#F5A800]/10 hover:shadow-[0_0_25px_rgba(245,168,0,0.2)] disabled:opacity-30"
                                     style={{ fontFamily: "var(--font-cinzel), serif" }}
                                 >
                                     {loading ? "Bóka..." : "STAÐFESTA BÓKUN"}
@@ -327,49 +327,49 @@ export default function BookingForm() {
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
                                 transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
-                                className="w-16 h-16 mx-auto mb-6 rounded-full border-2 border-[#2ECC71] flex items-center justify-center"
+                                className="w-16 h-16 mx-auto mb-6 rounded-full border-2 border-[#C13A1A] flex items-center justify-center"
                             >
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2ECC71" strokeWidth="2.5">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C13A1A" strokeWidth="2.5">
                                     <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </motion.div>
 
-                            <h3 className="text-xl font-bold tracking-[0.15em] mb-2 text-[#2ECC71]"
+                            <h3 className="text-xl font-bold tracking-[0.15em] mb-2 text-[#C13A1A]"
                                 style={{ fontFamily: "var(--font-cinzel), serif" }}>
                                 BÓKUN STAÐFEST
                             </h3>
 
-                            <div className="bg-[#F5E6CC]/5 rounded-xl p-6 mb-8 space-y-3 text-left border border-[#F5E6CC]/10">
+                            <div className="bg-[#F5E8D0]/5 rounded-xl p-6 mb-8 space-y-3 text-left border border-[#F5E8D0]/10">
                                 <div className="flex justify-between">
-                                    <span className="text-[#F5E6CC]/40 text-xs uppercase tracking-wider">Nafn</span>
-                                    <span className="text-[#F5E6CC] text-sm">{name}</span>
+                                    <span className="text-[#F5E8D0]/40 text-xs uppercase tracking-wider">Nafn</span>
+                                    <span className="text-[#F5E8D0] text-sm">{name}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-[#F5E6CC]/40 text-xs uppercase tracking-wider">Dagsetning</span>
-                                    <span className="text-[#F5E6CC] text-sm">{dates.find(d => d.date === selectedDate)?.label}</span>
+                                    <span className="text-[#F5E8D0]/40 text-xs uppercase tracking-wider">Dagsetning</span>
+                                    <span className="text-[#F5E8D0] text-sm">{dates.find(d => d.date === selectedDate)?.label}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-[#F5E6CC]/40 text-xs uppercase tracking-wider">Tími</span>
-                                    <span className="text-[#F5E6CC] text-sm">kl. {selectedTime}</span>
+                                    <span className="text-[#F5E8D0]/40 text-xs uppercase tracking-wider">Tími</span>
+                                    <span className="text-[#F5E8D0] text-sm">kl. {selectedTime}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-[#F5E6CC]/40 text-xs uppercase tracking-wider">Gestir</span>
-                                    <span className="text-[#F5E6CC] text-sm">{guests}</span>
+                                    <span className="text-[#F5E8D0]/40 text-xs uppercase tracking-wider">Gestir</span>
+                                    <span className="text-[#F5E8D0] text-sm">{guests}</span>
                                 </div>
                                 {confirmationId && (
-                                    <div className="pt-3 border-t border-[#F5E6CC]/10">
-                                        <span className="text-[#F5E6CC]/30 text-[10px] uppercase tracking-wider">Bókunarnúmer: {confirmationId.slice(0, 8)}</span>
+                                    <div className="pt-3 border-t border-[#F5E8D0]/10">
+                                        <span className="text-[#F5E8D0]/30 text-[10px] uppercase tracking-wider">Bókunarnúmer: {confirmationId.slice(0, 8)}</span>
                                     </div>
                                 )}
                             </div>
 
-                            <p className="text-[#F5E6CC]/40 text-xs mb-6">
-                                Staðfesting hefur verið send á <span className="text-[#F4D03F]/70">{email}</span>
+                            <p className="text-[#F5E8D0]/40 text-xs mb-6">
+                                Staðfesting hefur verið send á <span className="text-[#F5A800]/70">{email}</span>
                             </p>
 
                             <button
                                 onClick={resetForm}
-                                className="text-[#F4D03F]/50 text-xs uppercase tracking-wider hover:text-[#F4D03F] transition-colors"
+                                className="text-[#F5A800]/50 text-xs uppercase tracking-wider hover:text-[#F5A800] transition-colors"
                                 style={{ fontFamily: "var(--font-cinzel), serif" }}
                             >
                                 Bóka annað borð
