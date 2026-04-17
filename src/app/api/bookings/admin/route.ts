@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
                 const resId = await createReservation({
                     date,
                     timeSlot,
-                    duration: 90,
+                    duration: 360, // Borðin eru tekin frátekin út kvöldið
                     name,
                     email,
                     guests,
