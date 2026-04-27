@@ -98,7 +98,7 @@ export default function RootLayout({
       </head>
       <body
         className={`${inter.variable} ${cinzel.variable} ${macondoFont.variable} antialiased`}
-        style={{ backgroundColor: '#140c09' }}
+        style={{ background: "radial-gradient(circle at 50% 40%, rgba(198,164,108,0.06), transparent 40%), #140c09" }}
       >
         {children}
       </body>
