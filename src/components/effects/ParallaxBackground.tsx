@@ -29,7 +29,7 @@ export default function ParallaxBackground() {
     }, []);
 
     const progress = Math.min(scrollY / (windowHeight * 2.5), 1);
-    const starOpacity = Math.max(1 - progress * 2.5, 0) * 0.28;
+    const starOpacity = Math.max(1 - progress * 2.5, 0) * 0.18;
     const jungleOpacity = Math.min(progress * 1.5, 0.35) * Math.max(1 - (progress - 0.5) * 2, 0.3);
     const goldenOpacity = Math.max((progress - 0.4) * 1.2, 0) * 0.5;
 
@@ -43,22 +43,22 @@ export default function ParallaxBackground() {
             >
                 <div className="absolute inset-0">
                     {/* ~5 small stars (halved from 10) */}
-                    <div className="absolute w-[1px] h-[1px] bg-white/60 rounded-full" style={{ top: '8%', left: '15%' }} />
-                    <div className="absolute w-[1px] h-[1px] bg-white/60 rounded-full" style={{ top: '5%', left: '68%' }} />
-                    <div className="absolute w-[1px] h-[1px] bg-white/60 rounded-full" style={{ top: '25%', left: '25%' }} />
-                    <div className="absolute w-[1px] h-[1px] bg-white/60 rounded-full" style={{ top: '30%', left: '55%' }} />
-                    <div className="absolute w-[1px] h-[1px] bg-white/60 rounded-full" style={{ top: '15%', left: '92%' }} />
+                    <div className="absolute w-[1px] h-[1px] bg-white/40 rounded-full" style={{ top: '8%', left: '15%' }} />
+                    <div className="absolute w-[1px] h-[1px] bg-white/40 rounded-full" style={{ top: '5%', left: '68%' }} />
+                    <div className="absolute w-[1px] h-[1px] bg-white/40 rounded-full" style={{ top: '25%', left: '25%' }} />
+                    <div className="absolute w-[1px] h-[1px] bg-white/40 rounded-full" style={{ top: '30%', left: '55%' }} />
+                    <div className="absolute w-[1px] h-[1px] bg-white/40 rounded-full" style={{ top: '15%', left: '92%' }} />
 
                     {/* ~2 faint accent stars (halved from 4, muted gold only) */}
-                    <div className="absolute w-[1.5px] h-[1.5px] bg-[#c6a46c]/40 rounded-full" style={{ top: '10%', left: '30%' }} />
-                    <div className="absolute w-[1.5px] h-[1.5px] bg-[#c6a46c]/40 rounded-full" style={{ top: '28%', left: '75%' }} />
+                    <div className="absolute w-[1.5px] h-[1.5px] bg-[#c6a46c]/25 rounded-full" style={{ top: '10%', left: '30%' }} />
+                    <div className="absolute w-[1.5px] h-[1.5px] bg-[#c6a46c]/25 rounded-full" style={{ top: '28%', left: '75%' }} />
                 </div>
 
                 {/* Very subtle warm haze instead of milky way */}
                 <div
                     className="absolute inset-0"
                     style={{
-                        background: "radial-gradient(ellipse 80% 15% at 50% 15%, rgba(198,164,108,0.02), transparent)",
+                        background: "radial-gradient(ellipse 80% 15% at 50% 15%, rgba(198,164,108,0.012), transparent)",
                     }}
                 />
             </div>

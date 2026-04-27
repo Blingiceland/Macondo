@@ -12,7 +12,7 @@ export default function NeonSign() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1.5, ease: "easeOut" }}
-                style={{ filter: "drop-shadow(0 0 10px rgba(245, 242, 238, 0.16))" }}
+                style={{ filter: "drop-shadow(0 0 8px rgba(245, 242, 238, 0.10))" }}
             >
                 <Image
                     src="/macondo-logo.png"
@@ -29,7 +29,7 @@ export default function NeonSign() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 0.82, y: 0 }}
                 transition={{ duration: 1, delay: 0.8 }}
-                className="mt-8 uppercase text-[15px] tracking-[0.22em] font-normal text-[#c6a46c]/[0.82]"
+                className="mt-8 uppercase text-[15px] tracking-[0.22em] font-normal text-[#c6a46c]/[0.55]"
                 style={{ fontFamily: "var(--font-cinzel), serif" }}
             >
                 Tequila. Cocktails. Late nights in Reykjavík.

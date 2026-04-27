@@ -36,7 +36,7 @@ export default function StickyNav() {
         document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
-    const navLinkClass = "text-[15px] uppercase tracking-[0.16em] font-medium text-[#c6a46c]/[0.85] hover:text-[#dfc08a] transition-colors relative group";
+    const navLinkClass = "text-[15px] uppercase tracking-[0.16em] font-medium text-[#c6a46c]/[0.65] hover:text-[#c6a46c] transition-colors relative group";
     const navLinkStyle = { fontFamily: "var(--font-cinzel), serif" };
 
     return (
@@ -73,7 +73,7 @@ export default function StickyNav() {
                         <Image
                             src="/macondo-logo.png" alt="Macondo" width={180} height={108}
                             className="h-[52px] w-auto opacity-90 group-hover:opacity-100 transition-opacity"
-                            style={{ filter: "drop-shadow(0 0 6px rgba(198,164,108,0.25)) drop-shadow(0 0 18px rgba(198,164,108,0.1))" }}
+                            style={{ filter: "drop-shadow(0 0 4px rgba(198,164,108,0.15)) drop-shadow(0 0 12px rgba(198,164,108,0.06))" }}
                         />
                     </button>
 
@@ -81,15 +81,15 @@ export default function StickyNav() {
                     <nav className="flex items-center justify-center gap-[42px]">
                         <button onClick={() => scrollTo("cocktails")} className={navLinkClass} style={navLinkStyle}>
                             Drykkjarseðill
-                            <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#c6a46c] transition-all duration-300 group-hover:w-full" />
+                            <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#c6a46c]/60 transition-all duration-300 group-hover:w-full" />
                         </button>
                         <button onClick={() => setSalaOpen(true)} className={navLinkClass} style={navLinkStyle}>
                             Salabókun
-                            <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#c6a46c] transition-all duration-300 group-hover:w-full" />
+                            <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#c6a46c]/60 transition-all duration-300 group-hover:w-full" />
                         </button>
                         <button onClick={() => router.push("/karaoke")} className={navLinkClass} style={navLinkStyle}>
                             Karókí
-                            <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#c6a46c] transition-all duration-300 group-hover:w-full" />
+                            <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#c6a46c]/60 transition-all duration-300 group-hover:w-full" />
                         </button>
                     </nav>
 
@@ -98,7 +98,7 @@ export default function StickyNav() {
                         {/* CTA */}
                         <button
                             onClick={() => scrollTo("reservation-form")}
-                            className="text-[13px] uppercase tracking-[0.16em] font-semibold text-[#c6a46c] border border-[#c6a46c]/[0.4] hover:bg-[#c6a46c] hover:text-[#0f0a08] transition-all duration-300 px-5 py-2"
+                            className="text-[13px] uppercase tracking-[0.16em] font-semibold text-[#c6a46c]/80 border border-[#c6a46c]/[0.25] hover:bg-[#c6a46c]/90 hover:text-[#0f0a08] transition-all duration-300 px-5 py-2"
                             style={{ fontFamily: "var(--font-cinzel), serif" }}
                         >
                             Bóka Borð
@@ -118,11 +118,11 @@ export default function StickyNav() {
                             href="https://pablodiscobar.is"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="hidden lg:inline-flex items-center gap-1 text-[13px] uppercase tracking-[0.14em] font-semibold text-[#d84acb] rounded-full px-3.5 py-[7px] transition-all duration-300 hover:text-[#f06ee3] hover:border-[#d84acb]/[0.38] hover:bg-[#d84acb]/[0.09]"
+                            className="hidden lg:inline-flex items-center gap-1 text-[12px] uppercase tracking-[0.14em] font-medium text-[#d84acb]/70 rounded-full px-3.5 py-[7px] transition-all duration-300 hover:text-[#d84acb] hover:border-[#d84acb]/[0.3] hover:bg-[#d84acb]/[0.07]"
                             style={{
                                 fontFamily: "var(--font-inter), sans-serif",
-                                background: "rgba(216, 74, 203, 0.06)",
-                                border: "1px solid rgba(216, 74, 203, 0.22)",
+                                background: "rgba(216, 74, 203, 0.03)",
+                                border: "1px solid rgba(216, 74, 203, 0.14)",
                             }}
                         >
                             Pablo Discobar <span className="text-[10px] ml-0.5 opacity-70">✦</span>
