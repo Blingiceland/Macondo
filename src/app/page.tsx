@@ -129,12 +129,12 @@ export default function Home() {
                 style={{ fontFamily: 'var(--font-cinzel), serif' }}>
                 Uppi á hæðinni
               </p>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-[0.08em] mb-4 uppercase text-[#f5f2ee]"
+              <h2 className="text-[36px] md:text-[42px] font-bold tracking-[0.08em] mb-4 uppercase text-[#f5f2ee]"
                 style={{ fontFamily: 'var(--font-cinzel), serif' }}>
                 Karókí
               </h2>
               <div className="w-16 h-[1px] mx-auto md:mx-0 bg-gradient-to-r from-[#c6a46c]/40 to-transparent mb-6" />
-              <p className="text-[#f5f2ee]/60 text-sm leading-relaxed max-w-md">
+              <p className="text-[#f5f2ee]/75 text-[16px] leading-relaxed max-w-md">
                 Við erum með 2 herbergi.
               </p>
             </div>
