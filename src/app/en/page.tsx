@@ -356,8 +356,8 @@ function NavEN() {
                                 WebkitMaskSize: 'contain',
                                 WebkitMaskRepeat: 'no-repeat',
                                 WebkitMaskPosition: 'left center',
-                                background: 'linear-gradient(180deg, #ff7a4a, #c94a28)',
-                                filter: 'drop-shadow(0 0 6px rgba(255, 106, 58, 0.35)) drop-shadow(0 0 18px rgba(255, 106, 58, 0.18)) drop-shadow(0 0 40px rgba(255, 80, 40, 0.08))'
+                                background: 'linear-gradient(180deg, #d7b97a, #a8894f)',
+                                filter: 'drop-shadow(0 0 4px rgba(198, 164, 108, 0.2)) drop-shadow(0 0 12px rgba(198, 164, 108, 0.06))'
                             }}
                         />
                     </a>
@@ -427,8 +427,8 @@ function NavEN() {
                                 WebkitMaskSize: 'contain',
                                 WebkitMaskRepeat: 'no-repeat',
                                 WebkitMaskPosition: 'left center',
-                                background: 'linear-gradient(180deg, #ff7a4a, #c94a28)',
-                                filter: 'drop-shadow(0 0 6px rgba(255, 106, 58, 0.35)) drop-shadow(0 0 18px rgba(255, 106, 58, 0.18)) drop-shadow(0 0 40px rgba(255, 80, 40, 0.08))'
+                                background: 'linear-gradient(180deg, #d7b97a, #a8894f)',
+                                filter: 'drop-shadow(0 0 4px rgba(198, 164, 108, 0.2)) drop-shadow(0 0 12px rgba(198, 164, 108, 0.06))'
                             }}
                         />
                     </a>
