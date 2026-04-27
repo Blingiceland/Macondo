@@ -405,11 +405,11 @@ function NavEN() {
                             href="https://pablodiscobar.is"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="hidden lg:inline-flex items-center gap-1 text-[12px] uppercase tracking-[0.14em] font-medium text-[#d84acb]/70 rounded-full px-3.5 py-[7px] transition-all duration-300 hover:text-[#d84acb] hover:border-[#d84acb]/[0.3] hover:bg-[#d84acb]/[0.07]"
+                            className="hidden lg:inline-flex items-center gap-1 text-[12px] uppercase tracking-[0.14em] font-medium text-[#d84acb]/80 rounded-full px-3.5 py-[7px] transition-all duration-300 hover:text-[#d84acb] hover:border-[#d84acb]/[0.3] hover:bg-[#d84acb]/[0.07]"
                             style={{
                                 fontFamily: "var(--font-inter), sans-serif",
-                                background: "rgba(216, 74, 203, 0.03)",
-                                border: "1px solid rgba(216, 74, 203, 0.14)",
+                                background: "transparent",
+                                border: "1px solid rgba(216, 74, 203, 0.2)",
                             }}
                         >
                             Pablo Discobar <span className="text-[10px] ml-0.5 opacity-70">✦</span>
