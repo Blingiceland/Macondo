@@ -44,9 +44,6 @@ export default function StickyNav() {
             <SalaBookingModal open={salaOpen} onClose={() => setSalaOpen(false)} lang="is" />
 
             <motion.header
-                initial={{ y: -80, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.6, delay: pathname === "/" ? 4.2 : 0, ease: "easeOut" }}
                 className={`fixed top-0 left-0 right-0 z-[90] transition-all duration-500 ${scrolled || pathname !== "/"
                     ? "backdrop-blur-md bg-[#140c09]/90 border-b border-white/[0.04] shadow-sm"
                     : "bg-transparent"
