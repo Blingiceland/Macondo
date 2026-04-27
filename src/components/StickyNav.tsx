@@ -104,7 +104,7 @@ export default function StickyNav() {
                         {/* CTA */}
                         <button
                             onClick={() => scrollTo("reservation-form")}
-                            className="text-[13px] uppercase tracking-[0.16em] font-semibold text-[#c6a46c]/80 border border-[#c6a46c]/[0.25] hover:bg-[#c6a46c]/90 hover:text-[#0f0a08] transition-all duration-300 px-5 py-2"
+                            className="text-[13px] uppercase tracking-[0.16em] font-semibold text-[#c6a46c] border border-[#c6a46c]/50 hover:bg-[#c6a46c]/90 hover:text-[#0f0a08] transition-all duration-300 px-5 py-2"
                             style={{ fontFamily: "var(--font-cinzel), serif" }}
                         >
                             Bóka Borð
@@ -162,7 +162,7 @@ export default function StickyNav() {
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => scrollTo("reservation-form")}
-                            className="text-[13px] uppercase tracking-[0.16em] font-semibold text-[#f5f2ee] border border-[#c6a46c]/[0.55] px-5 py-2 hover:bg-[#c6a46c] hover:text-[#0f0a08] transition-all duration-300"
+                            className="text-[13px] uppercase tracking-[0.16em] font-semibold text-[#c6a46c] border border-[#c6a46c]/50 px-5 py-2 hover:bg-[#c6a46c] hover:text-[#0f0a08] transition-all duration-300"
                             style={{ fontFamily: "var(--font-cinzel), serif" }}
                         >
                             Bóka Borð
