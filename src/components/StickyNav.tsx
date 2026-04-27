@@ -72,8 +72,8 @@ export default function StickyNav() {
                     >
                         <Image
                             src="/macondo-logo.png" alt="Macondo" width={180} height={108}
-                            className="h-[38px] w-auto opacity-90 group-hover:opacity-100 transition-opacity"
-                            style={{ filter: "drop-shadow(0 0 4px rgba(198,164,108,0.15)) drop-shadow(0 0 12px rgba(198,164,108,0.06))", transform: "translateY(1px)" }}
+                            className="h-[46px] w-auto opacity-90 group-hover:opacity-100 transition-opacity"
+                            style={{ filter: "drop-shadow(0 0 4px rgba(198,164,108,0.15)) drop-shadow(0 0 12px rgba(198,164,108,0.06))" }}
                         />
                     </button>
 

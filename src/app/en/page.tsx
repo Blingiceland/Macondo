@@ -350,8 +350,7 @@ function NavEN() {
                     {/* LEFT: Logo */}
                     <a href="/en" className="flex-shrink-0 group">
                         <Image src="/macondo-logo.png" alt="Macondo" width={180} height={108}
-                            className="h-[38px] w-auto opacity-90 group-hover:opacity-100 transition-opacity"
-                            style={{ transform: "translateY(1px)" }}
+                            className="h-[46px] w-auto opacity-90 group-hover:opacity-100 transition-opacity"
                         />
                     </a>
 
