@@ -340,7 +340,7 @@ function NavEN() {
 
             <header
                 className="fixed top-0 left-0 right-0 z-[90] backdrop-blur-md bg-[#0f0a08]/90 border-b border-white/[0.04] shadow-sm"
-                style={{ height: "96px" }}
+                style={{ height: "104px" }}
             >
                 {/* Desktop: 3-zone grid */}
                 <div

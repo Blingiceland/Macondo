@@ -51,7 +51,7 @@ export default function StickyNav() {
                     ? "backdrop-blur-md bg-[#0f0a08]/90 border-b border-white/[0.04] shadow-sm"
                     : "bg-transparent"
                     }`}
-                style={{ height: "96px" }}
+                style={{ height: "104px" }}
             >
                 {/* Desktop: 3-zone grid layout */}
                 <div
@@ -178,7 +178,7 @@ export default function StickyNav() {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
                         className="fixed inset-0 z-[85] bg-[#0f0a08]/95 backdrop-blur-lg flex flex-col items-center justify-center gap-8"
-                        style={{ paddingTop: "96px" }}
+                        style={{ paddingTop: "104px" }}
                     >
                         {[
                             { label: "Drykkjarseðill", action: () => scrollTo("cocktails") },
