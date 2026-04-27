@@ -6,7 +6,7 @@ export default function Footer() {
     return (
         <footer className="relative w-full z-10 mt-8">
             {/* Top divider line */}
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-[#C13A1A]/40 to-transparent" />
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-[#c6a46c]/40 to-transparent" />
 
             <div className="max-w-5xl mx-auto px-6 py-24">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
@@ -20,12 +20,12 @@ export default function Footer() {
                     >
                         <h3
                             className="text-2xl mb-3 tracking-wider"
-                            style={{ fontFamily: "var(--font-macondo-gf), cursive", color: "#C13A1A" }}
+                            style={{ fontFamily: "var(--font-macondo-gf), cursive", color: "#c6a46c" }}
                         >
                             MACONDO
                         </h3>
                         <p className="text-sm opacity-50 mb-1 text-[#f5f2ee]">Tequila Bar</p>
-                        <div className="w-12 h-px bg-[#C13A1A]/40 my-4 mx-auto md:mx-0" />
+                        <div className="w-12 h-px bg-[#c6a46c]/40 my-4 mx-auto md:mx-0" />
                         <address className="not-italic">
                             <p className="text-sm opacity-70 text-[#f5f2ee]">Veltusund 1</p>
                             <p className="text-sm opacity-70 text-[#f5f2ee]">101 Reykjavík</p>
@@ -42,7 +42,7 @@ export default function Footer() {
                             href="https://maps.google.com/?q=Veltusund+1+Reykjavik"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-block mt-3 text-xs uppercase tracking-widest opacity-40 hover:opacity-80 transition-opacity text-[#C13A1A] hover:text-[#C13A1A]"
+                            className="inline-block mt-3 text-xs uppercase tracking-widest opacity-40 hover:opacity-80 transition-opacity text-[#c6a46c] hover:text-[#c6a46c]"
                         >
                             Opna kort →
                         </a>
@@ -117,7 +117,7 @@ export default function Footer() {
                                 href="https://facebook.com/macondo.rvk"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group flex items-center gap-2 text-[#C13A1A] opacity-60 hover:opacity-100 transition-all"
+                                className="group flex items-center gap-2 text-[#c6a46c] opacity-60 hover:opacity-100 transition-all"
                             >
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />

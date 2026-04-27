@@ -201,7 +201,7 @@ function BookingFormEN() {
                                         <button key={s.slot} disabled={!s.available} onClick={() => { setSelectedTime(s.slot); setStep("DETAILS"); }}
                                             className={`py-3 rounded-lg border text-sm font-medium transition-all duration-200 ${!s.available ? "border-[#f5f2ee]/5 text-[#f5f2ee]/15 cursor-not-allowed line-through"
                                                 : s.tablesLeft <= 2 ? "border-[#E74C3C]/30 text-[#E74C3C]/80 hover:border-[#E74C3C]/60 hover:bg-[#E74C3C]/5"
-                                                    : "border-[#C13A1A]/20 text-[#C13A1A]/80 hover:border-[#C13A1A]/50 hover:bg-[#C13A1A]/5"
+                                                    : "border-[#c6a46c]/20 text-[#c6a46c]/80 hover:border-[#c6a46c]/50 hover:bg-[#c6a46c]/5"
                                                 }`}>
                                             {s.slot}
                                             {s.available && s.tablesLeft <= 2 && <div className="text-[9px] opacity-60 mt-0.5">Few left</div>}
@@ -242,10 +242,10 @@ function BookingFormEN() {
                     {step === "CONFIRMED" && (
                         <motion.div key="confirmed" {...fadeSlide} className="text-center">
                             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
-                                className="w-16 h-16 mx-auto mb-6 rounded-full border-2 border-[#C13A1A] flex items-center justify-center">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C13A1A" strokeWidth="2.5"><path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                                className="w-16 h-16 mx-auto mb-6 rounded-full border-2 border-[#c6a46c] flex items-center justify-center">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c6a46c" strokeWidth="2.5"><path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
                             </motion.div>
-                            <h3 className="text-xl font-bold tracking-[0.15em] mb-2 text-[#C13A1A]" style={{ fontFamily: "var(--font-cinzel), serif" }}>BOOKING CONFIRMED</h3>
+                            <h3 className="text-xl font-bold tracking-[0.15em] mb-2 text-[#c6a46c]" style={{ fontFamily: "var(--font-cinzel), serif" }}>BOOKING CONFIRMED</h3>
                             <div className="bg-[#f5f2ee]/5 rounded-xl p-6 mb-8 space-y-3 text-left border border-[#f5f2ee]/10">
                                 <div className="flex justify-between"><span className="text-[#f5f2ee]/40 text-xs uppercase tracking-wider">Name</span><span className="text-[#f5f2ee] text-sm">{name}</span></div>
                                 <div className="flex justify-between"><span className="text-[#f5f2ee]/40 text-xs uppercase tracking-wider">Date</span><span className="text-[#f5f2ee] text-sm">{dates.find(d => d.date === selectedDate)?.label}</span></div>
@@ -270,17 +270,17 @@ function BookingFormEN() {
 function FooterEN() {
     return (
         <footer className="relative w-full z-10 mt-8">
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-[#C13A1A]/40 to-transparent" />
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-[#c6a46c]/40 to-transparent" />
             <div className="max-w-5xl mx-auto px-6 py-16">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
                     <div className="text-center md:text-left">
-                        <h3 className="text-2xl mb-3 tracking-wider" style={{ fontFamily: "var(--font-macondo-gf), cursive", color: "#C13A1A" }}>MACONDO</h3>
+                        <h3 className="text-2xl mb-3 tracking-wider" style={{ fontFamily: "var(--font-macondo-gf), cursive", color: "#c6a46c" }}>MACONDO</h3>
                         <p className="text-sm opacity-50 mb-1 text-[#f5f2ee]">Tequila Bar</p>
-                        <div className="w-12 h-px bg-[#C13A1A]/40 my-4 mx-auto md:mx-0" />
+                        <div className="w-12 h-px bg-[#c6a46c]/40 my-4 mx-auto md:mx-0" />
                         <p className="text-sm opacity-70 text-[#f5f2ee]">Veltusund 1</p>
                         <p className="text-sm opacity-70 text-[#f5f2ee]">101 Reykjavík</p>
                         <a href="https://maps.google.com/?q=Veltusund+1+Reykjavik" target="_blank" rel="noopener noreferrer"
-                            className="inline-block mt-3 text-xs uppercase tracking-widest opacity-40 hover:opacity-80 transition-opacity text-[#C13A1A] hover:text-[#C13A1A]">
+                            className="inline-block mt-3 text-xs uppercase tracking-widest opacity-40 hover:opacity-80 transition-opacity text-[#c6a46c] hover:text-[#c6a46c]">
                             Open map →
                         </a>
                     </div>
@@ -305,7 +305,7 @@ function FooterEN() {
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="5" /><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" /></svg>
                                 <span className="text-sm tracking-wider hidden md:inline">Instagram</span>
                             </a>
-                            <a href="https://facebook.com/macondo.rvk" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 text-[#C13A1A] opacity-60 hover:opacity-100 transition-all">
+                            <a href="https://facebook.com/macondo.rvk" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 text-[#c6a46c] opacity-60 hover:opacity-100 transition-all">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
                                 <span className="text-sm tracking-wider hidden md:inline">Facebook</span>
                             </a>
