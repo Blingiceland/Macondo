@@ -77,8 +77,8 @@ export default function StickyNav() {
                                 WebkitMaskSize: 'contain',
                                 WebkitMaskRepeat: 'no-repeat',
                                 WebkitMaskPosition: 'left center',
-                                background: 'radial-gradient(ellipse at center, #d65c33 0%, #8c2a11 80%)',
-                                filter: 'drop-shadow(0 0 4px rgba(214, 92, 51, 0.3)) drop-shadow(0 0 16px rgba(140, 42, 17, 0.15))'
+                                background: '#ff6a3a',
+                                filter: 'drop-shadow(0 0 6px rgba(255, 106, 58, 0.35)) drop-shadow(0 0 18px rgba(255, 106, 58, 0.18)) drop-shadow(0 0 40px rgba(255, 80, 40, 0.08))'
                             }}
                         />
                     </button>
@@ -153,8 +153,8 @@ export default function StickyNav() {
                                 WebkitMaskSize: 'contain',
                                 WebkitMaskRepeat: 'no-repeat',
                                 WebkitMaskPosition: 'left center',
-                                background: 'radial-gradient(ellipse at center, #d65c33 0%, #8c2a11 80%)',
-                                filter: 'drop-shadow(0 0 4px rgba(214, 92, 51, 0.3)) drop-shadow(0 0 16px rgba(140, 42, 17, 0.15))'
+                                background: '#ff6a3a',
+                                filter: 'drop-shadow(0 0 6px rgba(255, 106, 58, 0.35)) drop-shadow(0 0 18px rgba(255, 106, 58, 0.18)) drop-shadow(0 0 40px rgba(255, 80, 40, 0.08))'
                             }}
                         />
                     </button>
