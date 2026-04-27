@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   description: 'Kokteilbar í hjarta Reykjavíkur. Handvaldir tequila kokteilar, magískt andrúmsloft og borðbókanir. Veltusund 1, 101 Reykjavík.',
   metadataBase: new URL('https://macondo.is'),
   icons: {
-    icon: '/macondo-logo.png',
-    apple: '/macondo-logo.png',
+    icon: '/macondo-logo-gold.png',
+    apple: '/macondo-logo-gold.png',
   },
   alternates: {
     canonical: '/',
