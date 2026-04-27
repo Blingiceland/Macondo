@@ -331,7 +331,7 @@ function NavEN() {
     const [salaOpen, setSalaOpen] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
 
-    const navLinkClass = "text-[15px] uppercase tracking-[0.16em] font-medium text-[#c6a46c]/[0.65] hover:text-[#c6a46c] transition-colors relative group";
+    const navLinkClass = "text-[15px] uppercase tracking-[0.16em] font-medium text-[#c6a46c]/70 hover:text-[#f5f2ee] transition-colors relative group";
     const navLinkStyle = { fontFamily: "var(--font-cinzel), serif" };
 
     return (
