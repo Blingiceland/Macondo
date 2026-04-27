@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Closed on Mondays (1) and Tuesdays (2)
-        const CLOSED_DAYS = [1, 2];
+        const CLOSED_DAYS = [0, 1];
         const dayOfWeek = new Date(date + "T12:00:00").getDay();
         if (CLOSED_DAYS.includes(dayOfWeek)) {
             return NextResponse.json(

@@ -11,6 +11,10 @@ export const metadata: Metadata = {
   title: 'Macondo — Tequila Bar Reykjavík',
   description: 'Kokteilbar í hjarta Reykjavíkur. Handvaldir tequila kokteilar, magískt andrúmsloft og borðbókanir. Veltusund 1, 101 Reykjavík.',
   metadataBase: new URL('https://macondo.is'),
+  icons: {
+    icon: '/macondo-logo.png',
+    apple: '/macondo-logo.png',
+  },
   alternates: {
     canonical: '/',
     languages: {
@@ -85,7 +89,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="is" style={{ backgroundColor: '#1A0A08' }}>
+    <html lang="is" style={{ backgroundColor: '#0f0a08' }}>
       <head>
         <script
           type="application/ld+json"
@@ -94,7 +98,7 @@ export default function RootLayout({
       </head>
       <body
         className={`${inter.variable} ${cinzel.variable} ${macondoFont.variable} antialiased`}
-        style={{ backgroundColor: '#1A0A08' }}
+        style={{ backgroundColor: '#0f0a08' }}
       >
         {children}
       </body>

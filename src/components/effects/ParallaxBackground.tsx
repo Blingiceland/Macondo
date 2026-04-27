@@ -28,87 +28,65 @@ export default function ParallaxBackground() {
         };
     }, []);
 
-    // Calculate progress (0→1) as user scrolls through different zones
     const progress = Math.min(scrollY / (windowHeight * 2.5), 1);
-
-    // Stars fade out, jungle fades in, then golden glow appears
-    const starOpacity = Math.max(1 - progress * 2.5, 0);
-    const jungleOpacity = Math.min(progress * 2, 0.6) * Math.max(1 - (progress - 0.5) * 2, 0.3);
-    const goldenOpacity = Math.max((progress - 0.4) * 1.5, 0);
+    const starOpacity = Math.max(1 - progress * 2.5, 0) * 0.28;
+    const jungleOpacity = Math.min(progress * 1.5, 0.35) * Math.max(1 - (progress - 0.5) * 2, 0.3);
+    const goldenOpacity = Math.max((progress - 0.4) * 1.2, 0) * 0.5;
 
     return (
         <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
 
-            {/* Layer 1: Starfield / Night Sky */}
+            {/* Layer 1: Sparse starfield — reduced count & opacity */}
             <div
                 className="absolute inset-0 transition-opacity duration-200"
                 style={{ opacity: starOpacity }}
             >
-                {/* Stars as CSS dots */}
                 <div className="absolute inset-0">
-                    {/* Small stars */}
-                    <div className="absolute w-[1px] h-[1px] bg-white rounded-full shadow-[0_0_2px_white]" style={{ top: '8%', left: '15%' }} />
-                    <div className="absolute w-[1px] h-[1px] bg-white rounded-full shadow-[0_0_2px_white]" style={{ top: '12%', left: '42%' }} />
-                    <div className="absolute w-[1px] h-[1px] bg-white rounded-full shadow-[0_0_2px_white]" style={{ top: '5%', left: '68%' }} />
-                    <div className="absolute w-[1px] h-[1px] bg-white rounded-full shadow-[0_0_2px_white]" style={{ top: '18%', left: '85%' }} />
-                    <div className="absolute w-[1px] h-[1px] bg-white rounded-full shadow-[0_0_2px_white]" style={{ top: '25%', left: '25%' }} />
-                    <div className="absolute w-[1px] h-[1px] bg-white rounded-full shadow-[0_0_2px_white]" style={{ top: '30%', left: '55%' }} />
-                    <div className="absolute w-[1px] h-[1px] bg-white rounded-full shadow-[0_0_2px_white]" style={{ top: '22%', left: '78%' }} />
-                    <div className="absolute w-[1px] h-[1px] bg-white rounded-full shadow-[0_0_2px_white]" style={{ top: '15%', left: '92%' }} />
-                    <div className="absolute w-[1px] h-[1px] bg-white rounded-full shadow-[0_0_2px_white]" style={{ top: '35%', left: '10%' }} />
-                    <div className="absolute w-[1px] h-[1px] bg-white rounded-full shadow-[0_0_2px_white]" style={{ top: '40%', left: '38%' }} />
+                    {/* ~5 small stars (halved from 10) */}
+                    <div className="absolute w-[1px] h-[1px] bg-white/60 rounded-full" style={{ top: '8%', left: '15%' }} />
+                    <div className="absolute w-[1px] h-[1px] bg-white/60 rounded-full" style={{ top: '5%', left: '68%' }} />
+                    <div className="absolute w-[1px] h-[1px] bg-white/60 rounded-full" style={{ top: '25%', left: '25%' }} />
+                    <div className="absolute w-[1px] h-[1px] bg-white/60 rounded-full" style={{ top: '30%', left: '55%' }} />
+                    <div className="absolute w-[1px] h-[1px] bg-white/60 rounded-full" style={{ top: '15%', left: '92%' }} />
 
-                    {/* Brighter accent stars */}
-                    <div className="absolute w-[2px] h-[2px] bg-white rounded-full shadow-[0_0_4px_#F5A800,0_0_8px_#F5A800]" style={{ top: '10%', left: '30%' }} />
-                    <div className="absolute w-[2px] h-[2px] bg-white rounded-full shadow-[0_0_4px_#C13A1A,0_0_8px_#C13A1A]" style={{ top: '20%', left: '60%' }} />
-                    <div className="absolute w-[2px] h-[2px] bg-white rounded-full shadow-[0_0_4px_#C8891A,0_0_8px_#C8891A]" style={{ top: '28%', left: '75%' }} />
-                    <div className="absolute w-[2px] h-[2px] bg-white rounded-full shadow-[0_0_4px_#C13A1A,0_0_8px_#C13A1A]" style={{ top: '8%', left: '50%' }} />
+                    {/* ~2 faint accent stars (halved from 4, muted gold only) */}
+                    <div className="absolute w-[1.5px] h-[1.5px] bg-[#c6a46c]/40 rounded-full" style={{ top: '10%', left: '30%' }} />
+                    <div className="absolute w-[1.5px] h-[1.5px] bg-[#c6a46c]/40 rounded-full" style={{ top: '28%', left: '75%' }} />
                 </div>
 
-                {/* Subtle milky way */}
+                {/* Very subtle warm haze instead of milky way */}
                 <div
                     className="absolute inset-0"
                     style={{
-                        background: "radial-gradient(ellipse 80% 15% at 50% 15%, rgba(193,58,26,0.04), transparent)",
+                        background: "radial-gradient(ellipse 80% 15% at 50% 15%, rgba(198,164,108,0.02), transparent)",
                     }}
                 />
             </div>
 
-            {/* Layer 2: Jungle Canopy — deep greens and blues */}
+            {/* Layer 2: Muted canopy */}
             <div
                 className="absolute inset-0 transition-opacity duration-300"
                 style={{
                     opacity: jungleOpacity,
-                    transform: `translateY(${scrollY * -0.08}px)`,
+                    transform: `translateY(${scrollY * -0.06}px)`,
                 }}
             >
-                {/* Top canopy gradient */}
-                <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-[#1A0A08]/90 via-[#C13A1A]/20 to-transparent" />
-
-                {/* Side vines */}
-                <div className="absolute top-0 left-0 w-1/6 h-full bg-gradient-to-r from-[#C13A1A]/15 to-transparent" />
-                <div className="absolute top-0 right-0 w-1/6 h-full bg-gradient-to-l from-[#C13A1A]/15 to-transparent" />
-
-                {/* Atmospheric haze */}
-                <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#1A0A08]/50 to-transparent" />
+                <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-[#0f0a08]/60 via-[#c6a46c]/[0.03] to-transparent" />
+                <div className="absolute top-0 left-0 w-1/6 h-full bg-gradient-to-r from-[#0f0a08]/30 to-transparent" />
+                <div className="absolute top-0 right-0 w-1/6 h-full bg-gradient-to-l from-[#0f0a08]/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#0f0a08]/40 to-transparent" />
             </div>
 
-            {/* Layer 3: Golden Glow — warmth of the bar */}
+            {/* Layer 3: Warm ambient — very subtle */}
             <div
                 className="absolute inset-0 transition-opacity duration-300"
                 style={{
                     opacity: goldenOpacity,
-                    transform: `translateY(${scrollY * -0.04}px)`,
+                    transform: `translateY(${scrollY * -0.03}px)`,
                 }}
             >
-                {/* Warm golden radial from center-bottom */}
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_80%,_#E8C87A12_0%,_transparent_70%)]" />
-
-                {/* Subtle pink accent */}
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_30%_at_70%_60%,_#C8891A06_0%,_transparent_70%)]" />
-
-                {/* Bottom warm gradient */}
-                <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#1A0A08]/20 to-transparent" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_80%,_rgba(198,164,108,0.04)_0%,_transparent_70%)]" />
+                <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#0f0a08]/15 to-transparent" />
             </div>
         </div>
     );
