@@ -25,9 +25,9 @@ export default function NeonSign() {
             {/* Tagline — smaller, tighter tracking, muted gold */}
             <motion.p
                 
-                animate={{ opacity: 0.82, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.8 }}
-                className="mt-8 uppercase text-[15px] tracking-[0.22em] font-normal text-[#c6a46c]/[0.55]"
+                className="mt-8 uppercase text-[15px] tracking-[0.22em] font-normal text-[#c6a46c]/[0.85]"
                 style={{ fontFamily: "var(--font-cinzel), serif" }}
             >
                 Tequila. Cocktails. Late nights in Reykjavík.
