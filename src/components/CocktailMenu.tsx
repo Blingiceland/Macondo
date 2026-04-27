@@ -32,17 +32,17 @@ const SHOTS: Drink[] = [
 
 export default function CocktailMenu() {
     return (
-        <div className="py-20 px-6 w-full max-w-6xl mx-auto">
+        <div className="pt-8 pb-28 px-6 w-full max-w-6xl mx-auto">
 
             {/* COCKTAILS SECTION */}
             <section id="cocktails" aria-label="Kokteilar">
-            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="mb-24">
-                <div className="text-center mb-12">
-                    <h2 className="text-2xl md:text-3xl font-bold tracking-[0.2em] uppercase text-[#c6a46c]"
+            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="mb-32">
+                <div className="text-center mb-16">
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-[0.1em] uppercase text-[#c6a46c]"
                         style={{ fontFamily: "var(--font-cinzel), serif" }}>
-                        REMEDIOS
+                        Remedios
                     </h2>
-                    <p className="text-xs md:text-sm uppercase tracking-[0.3em] mt-3 text-[#f5f2ee]/50" style={{ fontFamily: 'var(--font-cinzel), serif' }}>
+                    <p className="text-xs md:text-sm tracking-[0.2em] mt-3 text-[#f5f2ee]/40" style={{ fontFamily: 'var(--font-cinzel), serif' }}>
                         Kokteilar
                     </p>
                 </div>
@@ -92,12 +92,12 @@ export default function CocktailMenu() {
             {/* SHOTS SECTION */}
             <section id="shots" aria-label="Skot">
             <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
-                <div className="text-center mb-12">
-                    <h2 className="text-2xl md:text-3xl font-bold tracking-[0.2em] uppercase text-[#c6a46c]"
+                <div className="text-center mb-16">
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-[0.1em] uppercase text-[#c6a46c]"
                         style={{ fontFamily: "var(--font-cinzel), serif" }}>
-                        RITUALS
+                        Rituals
                     </h2>
-                    <p className="text-xs md:text-sm uppercase tracking-[0.3em] mt-3 text-[#f5f2ee]/50" style={{ fontFamily: 'var(--font-cinzel), serif' }}>
+                    <p className="text-xs md:text-sm tracking-[0.2em] mt-3 text-[#f5f2ee]/40" style={{ fontFamily: 'var(--font-cinzel), serif' }}>
                         Skot
                     </p>
                 </div>

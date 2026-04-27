@@ -152,13 +152,13 @@ export default function BookingForm() {
                 {/* Header */}
                 <div className="text-center mb-12">
                     <h2
-                        className="text-3xl md:text-4xl font-bold tracking-[0.15em] mb-3"
+                        className="text-3xl md:text-4xl font-bold tracking-[0.08em] mb-3"
                         style={{ fontFamily: "var(--font-cinzel), serif", color: "#c6a46c" }}
                     >
-                        BÓKA BORÐ
+                        Bóka borð
                     </h2>
                     <div className="w-24 h-[1px] mx-auto bg-gradient-to-r from-transparent via-[#c6a46c]/40 to-transparent mb-4" />
-                    <p className="text-[#f5f2ee]/50 text-xs tracking-widest uppercase" style={{ fontFamily: "var(--font-cinzel), serif" }}>
+                    <p className="text-[#f5f2ee]/40 text-xs tracking-[0.15em]" style={{ fontFamily: "var(--font-cinzel), serif" }}>
                         kl. 17:00 – 20:00 · Eitt sitting
                     </p>
                 </div>
@@ -168,7 +168,7 @@ export default function BookingForm() {
                     {/* ═══════════ STEP 1: DATE ═══════════ */}
                     {step === "DATE" && (
                         <motion.div key="date" {...fadeSlide}>
-                            <p className="text-center text-[#f5f2ee]/60 text-sm mb-8 tracking-wider uppercase"
+                            <p className="text-center text-[#f5f2ee]/50 text-sm mb-8 tracking-[0.1em]"
                                 style={{ fontFamily: "var(--font-cinzel), serif" }}>
                                 Veldu dag
                             </p>

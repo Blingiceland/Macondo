@@ -87,7 +87,7 @@ export default function Home() {
       {/* COCKTAILS SECTION */}
       <section id="cocktails" aria-label="Kokteilar" className="relative z-10 w-full flex flex-col items-center">
         <motion.div
-          className="text-center py-16 px-6 max-w-2xl mx-auto"
+          className="text-center pt-24 pb-20 px-6 max-w-2xl mx-auto"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -112,7 +112,7 @@ export default function Home() {
       <BookingForm />
 
       {/* KARAOKE SECTION */}
-      <section id="karaoke" aria-label="Karókí" className="relative z-10 w-full flex flex-col items-center py-24">
+      <section id="karaoke" aria-label="Karókí" className="relative z-10 w-full flex flex-col items-center py-32">
         <motion.div
           className="container mx-auto px-6 max-w-5xl"
           initial={{ opacity: 0, y: 30 }}
@@ -129,7 +129,7 @@ export default function Home() {
                 style={{ fontFamily: 'var(--font-cinzel), serif' }}>
                 Uppi á hæðinni
               </p>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-[0.15em] mb-4 uppercase text-[#f5f2ee]"
+              <h2 className="text-3xl md:text-4xl font-bold tracking-[0.08em] mb-4 uppercase text-[#f5f2ee]"
                 style={{ fontFamily: 'var(--font-cinzel), serif' }}>
                 Karókí
               </h2>
@@ -144,10 +144,10 @@ export default function Home() {
                 href="https://pablodiscobar.is/karaoke"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 px-8 py-3 rounded-full font-light text-xs uppercase tracking-[0.2em] transition-all duration-300 border border-[#c6a46c]/40 text-[#c6a46c] hover:bg-[#c6a46c] hover:text-[#0f0a08]"
+                className="group inline-flex items-center gap-3 px-8 py-3 rounded-full font-light text-xs tracking-[0.14em] transition-all duration-300 border border-[#c6a46c]/30 text-[#c6a46c]/80 hover:bg-[#c6a46c] hover:text-[#0f0a08]"
                 style={{ fontFamily: 'var(--font-cinzel), serif' }}
               >
-                <span>Bóka Karókí</span>
+                <span>Bóka karókí</span>
                 <span className="text-lg group-hover:translate-x-1 transition-transform">→</span>
               </a>
               <p className="text-[#f5f2ee]/20 text-[10px] text-center mt-3 uppercase tracking-widest">pablodiscobar.is</p>
