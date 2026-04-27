@@ -48,7 +48,7 @@ export default function StickyNav() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.6, delay: pathname === "/" ? 4.2 : 0, ease: "easeOut" }}
                 className={`fixed top-0 left-0 right-0 z-[90] transition-all duration-500 ${scrolled || pathname !== "/"
-                    ? "backdrop-blur-md bg-[#0f0a08]/90 border-b border-white/[0.04] shadow-sm"
+                    ? "backdrop-blur-md bg-[#140c09]/90 border-b border-white/[0.04] shadow-sm"
                     : "bg-transparent"
                     }`}
                 style={{ height: "104px" }}
@@ -104,7 +104,7 @@ export default function StickyNav() {
                         {/* CTA */}
                         <button
                             onClick={() => scrollTo("reservation-form")}
-                            className="text-[13px] uppercase tracking-[0.16em] font-semibold text-[#c6a46c] border border-[#c6a46c]/50 hover:bg-[#c6a46c]/90 hover:text-[#0f0a08] transition-all duration-300 px-5 py-2"
+                            className="text-[13px] uppercase tracking-[0.16em] font-semibold text-[#c6a46c] border border-[#c6a46c]/50 hover:bg-[#c6a46c]/90 hover:text-[#140c09] transition-all duration-300 px-5 py-2"
                             style={{ fontFamily: "var(--font-cinzel), serif" }}
                         >
                             Bóka Borð
@@ -162,7 +162,7 @@ export default function StickyNav() {
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => scrollTo("reservation-form")}
-                            className="text-[13px] uppercase tracking-[0.16em] font-semibold text-[#c6a46c] border border-[#c6a46c]/50 px-5 py-2 hover:bg-[#c6a46c] hover:text-[#0f0a08] transition-all duration-300"
+                            className="text-[13px] uppercase tracking-[0.16em] font-semibold text-[#c6a46c] border border-[#c6a46c]/50 px-5 py-2 hover:bg-[#c6a46c] hover:text-[#140c09] transition-all duration-300"
                             style={{ fontFamily: "var(--font-cinzel), serif" }}
                         >
                             Bóka Borð
@@ -190,7 +190,7 @@ export default function StickyNav() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed inset-0 z-[85] bg-[#0f0a08]/95 backdrop-blur-lg flex flex-col items-center justify-center gap-8"
+                        className="fixed inset-0 z-[85] bg-[#140c09]/95 backdrop-blur-lg flex flex-col items-center justify-center gap-8"
                         style={{ paddingTop: "104px" }}
                     >
                         {[

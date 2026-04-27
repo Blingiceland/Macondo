@@ -55,7 +55,7 @@ export default function CocktailMenu() {
                             
                             transition={{ delay: index * 0.1 }}
                         >
-                        <article className="group relative overflow-hidden rounded-lg bg-[#0f0a08]/50 border border-[#c6a46c]/20 hover:border-[#c6a46c]/50 transition-all duration-300 h-full">
+                        <article className="group relative overflow-hidden rounded-lg bg-[#140c09]/50 border border-[#c6a46c]/20 hover:border-[#c6a46c]/50 transition-all duration-300 h-full">
                             {drink.image && (
                                 <div className="relative w-full aspect-square overflow-hidden">
                                     <Image
@@ -110,7 +110,7 @@ export default function CocktailMenu() {
                             
                             transition={{ delay: index * 0.1 }}
                         >
-                        <article className="group relative overflow-hidden rounded-lg bg-[#0f0a08]/50 border border-[#c6a46c]/20 hover:border-[#c6a46c]/50 transition-all duration-300 h-full">
+                        <article className="group relative overflow-hidden rounded-lg bg-[#140c09]/50 border border-[#c6a46c]/20 hover:border-[#c6a46c]/50 transition-all duration-300 h-full">
                             {drink.image && (
                                 <div className="relative w-full aspect-square overflow-hidden">
                                     <Image

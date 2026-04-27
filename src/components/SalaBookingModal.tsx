@@ -146,7 +146,7 @@ export default function SalaBookingModal({ open, onClose, lang = "is" }: Props) 
                         transition={{ duration: 0.3 }}
                         className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl"
                         style={{
-                            background: "linear-gradient(135deg, #0f0a08 0%, #0e0605 100%)",
+                            background: "linear-gradient(135deg, #140c09 0%, #0e0605 100%)",
                             border: "1px solid rgba(198,164,108,0.15)",
                         }}
                     >

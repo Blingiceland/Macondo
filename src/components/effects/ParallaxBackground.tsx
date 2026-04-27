@@ -71,10 +71,10 @@ export default function ParallaxBackground() {
                     transform: `translateY(${scrollY * -0.06}px)`,
                 }}
             >
-                <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-[#0f0a08]/60 via-[#c6a46c]/[0.03] to-transparent" />
-                <div className="absolute top-0 left-0 w-1/6 h-full bg-gradient-to-r from-[#0f0a08]/30 to-transparent" />
-                <div className="absolute top-0 right-0 w-1/6 h-full bg-gradient-to-l from-[#0f0a08]/30 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#0f0a08]/40 to-transparent" />
+                <div className="absolute top-0 left-0 right-0 h-1/3 bg-gradient-to-b from-[#140c09]/60 via-[#c6a46c]/[0.03] to-transparent" />
+                <div className="absolute top-0 left-0 w-1/6 h-full bg-gradient-to-r from-[#140c09]/30 to-transparent" />
+                <div className="absolute top-0 right-0 w-1/6 h-full bg-gradient-to-l from-[#140c09]/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#140c09]/40 to-transparent" />
             </div>
 
             {/* Layer 3: Warm ambient — very subtle */}
@@ -86,7 +86,7 @@ export default function ParallaxBackground() {
                 }}
             >
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_80%,_rgba(198,164,108,0.04)_0%,_transparent_70%)]" />
-                <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#0f0a08]/15 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#140c09]/15 to-transparent" />
             </div>
         </div>
     );

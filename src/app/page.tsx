@@ -73,12 +73,12 @@ export default function Home() {
         <svg viewBox="0 0 1440 120" className="absolute bottom-0 w-full h-full" preserveAspectRatio="none">
           <path
             d="M0,60 C120,100 240,20 360,60 C480,100 600,30 720,55 C840,80 960,20 1080,50 C1200,80 1320,30 1440,60 L1440,120 L0,120 Z"
-            fill="#0f0a08"
+            fill="#140c09"
             fillOpacity="0.4"
           />
           <path
             d="M0,80 C160,50 320,90 480,70 C640,50 800,95 960,75 C1120,55 1280,85 1440,65 L1440,120 L0,120 Z"
-            fill="#0f0a08"
+            fill="#140c09"
             fillOpacity="0.6"
           />
         </svg>
@@ -120,7 +120,7 @@ export default function Home() {
           
           transition={{ duration: 0.8 }}
         >
-          <div className="relative overflow-hidden rounded-2xl border border-[#c6a46c]/10 bg-gradient-to-br from-[#0f0a08] via-[#1a1412] to-[#0f0a08] p-10 md:p-16 shadow-lg flex flex-col md:flex-row items-center gap-10">
+          <div className="relative overflow-hidden rounded-2xl border border-[#c6a46c]/10 bg-gradient-to-br from-[#140c09] via-[#1a1412] to-[#140c09] p-10 md:p-16 shadow-lg flex flex-col md:flex-row items-center gap-10">
             {/* Soft ambient glow */}
             <div className="absolute top-0 right-0 w-96 h-96 bg-[#c6a46c]/5 rounded-full blur-[100px] pointer-events-none" />
 

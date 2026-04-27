@@ -89,7 +89,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="is" style={{ backgroundColor: '#0f0a08' }}>
+    <html lang="is" style={{ backgroundColor: '#140c09' }}>
       <head>
         <script
           type="application/ld+json"
@@ -98,7 +98,7 @@ export default function RootLayout({
       </head>
       <body
         className={`${inter.variable} ${cinzel.variable} ${macondoFont.variable} antialiased`}
-        style={{ backgroundColor: '#0f0a08' }}
+        style={{ backgroundColor: '#140c09' }}
       >
         {children}
       </body>

@@ -339,7 +339,7 @@ function NavEN() {
             <SalaBookingModal open={salaOpen} onClose={() => setSalaOpen(false)} lang="en" />
 
             <header
-                className="fixed top-0 left-0 right-0 z-[90] backdrop-blur-md bg-[#0f0a08]/90 border-b border-white/[0.04] shadow-sm"
+                className="fixed top-0 left-0 right-0 z-[90] backdrop-blur-md bg-[#140c09]/90 border-b border-white/[0.04] shadow-sm"
                 style={{ height: "104px" }}
             >
                 {/* Desktop: 3-zone grid */}
@@ -388,7 +388,7 @@ function NavEN() {
                     <div className="flex items-center gap-7">
                         <button
                             onClick={() => document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })}
-                            className="text-[13px] uppercase tracking-[0.16em] font-semibold text-[#c6a46c] border border-[#c6a46c]/50 hover:bg-[#c6a46c]/90 hover:text-[#0f0a08] transition-all duration-300 px-5 py-2"
+                            className="text-[13px] uppercase tracking-[0.16em] font-semibold text-[#c6a46c] border border-[#c6a46c]/50 hover:bg-[#c6a46c]/90 hover:text-[#140c09] transition-all duration-300 px-5 py-2"
                             style={{ fontFamily: "var(--font-cinzel), serif" }}
                         >
                             Book Table
@@ -435,7 +435,7 @@ function NavEN() {
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })}
-                            className="text-[13px] uppercase tracking-[0.16em] font-semibold text-[#c6a46c] border border-[#c6a46c]/50 px-5 py-2 hover:bg-[#c6a46c] hover:text-[#0f0a08] transition-all duration-300"
+                            className="text-[13px] uppercase tracking-[0.16em] font-semibold text-[#c6a46c] border border-[#c6a46c]/50 px-5 py-2 hover:bg-[#c6a46c] hover:text-[#140c09] transition-all duration-300"
                             style={{ fontFamily: "var(--font-cinzel), serif" }}
                         >
                             Book Table
@@ -456,7 +456,7 @@ function NavEN() {
                         key="mobile-menu-en"
                          animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed inset-0 z-[85] bg-[#0f0a08]/95 backdrop-blur-lg flex flex-col items-center justify-center gap-8"
+                        className="fixed inset-0 z-[85] bg-[#140c09]/95 backdrop-blur-lg flex flex-col items-center justify-center gap-8"
                         style={{ paddingTop: "96px" }}
                     >
                         {[
@@ -498,7 +498,7 @@ function DrinkCard({ drink, color }: { drink: Drink; color: "yellow" | "pink" })
 
     return (
         <motion.div  
-            className={`group relative overflow-hidden rounded-lg bg-[#0f0a08]/50 border ${styles.border} transition-all duration-300 h-full`}>
+            className={`group relative overflow-hidden rounded-lg bg-[#140c09]/50 border ${styles.border} transition-all duration-300 h-full`}>
             {drink.image && (
                 <div className="relative w-full aspect-square overflow-hidden">
                     <Image src={drink.image} alt={drink.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw" />
@@ -547,8 +547,8 @@ export default function EnglishPage() {
             {/* DIVIDER */}
             <div className="relative w-full h-32 overflow-hidden z-10">
                 <svg viewBox="0 0 1440 120" className="absolute bottom-0 w-full h-full" preserveAspectRatio="none">
-                    <path d="M0,60 C120,100 240,20 360,60 C480,100 600,30 720,55 C840,80 960,20 1080,50 C1200,80 1320,30 1440,60 L1440,120 L0,120 Z" fill="#0f0a08" fillOpacity="0.4" />
-                    <path d="M0,80 C160,50 320,90 480,70 C640,50 800,95 960,75 C1120,55 1280,85 1440,65 L1440,120 L0,120 Z" fill="#0f0a08" fillOpacity="0.6" />
+                    <path d="M0,60 C120,100 240,20 360,60 C480,100 600,30 720,55 C840,80 960,20 1080,50 C1200,80 1320,30 1440,60 L1440,120 L0,120 Z" fill="#140c09" fillOpacity="0.4" />
+                    <path d="M0,80 C160,50 320,90 480,70 C640,50 800,95 960,75 C1120,55 1280,85 1440,65 L1440,120 L0,120 Z" fill="#140c09" fillOpacity="0.6" />
                 </svg>
             </div>
 
@@ -588,7 +588,7 @@ export default function EnglishPage() {
                 {/* DIVIDER */}
                 <div className="relative w-full h-24 overflow-hidden my-8">
                     <svg viewBox="0 0 1440 80" className="absolute top-0 w-full h-full" preserveAspectRatio="none">
-                        <path d="M0,40 C240,10 480,60 720,30 C960,0 1200,50 1440,20 L1440,0 L0,0 Z" fill="#0f0a08" fillOpacity="0.4" />
+                        <path d="M0,40 C240,10 480,60 720,30 C960,0 1200,50 1440,20 L1440,0 L0,0 Z" fill="#140c09" fillOpacity="0.4" />
                     </svg>
                 </div>
 
