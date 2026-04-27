@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+
 import { motion } from "framer-motion";
 
 export default function NeonSign() {
@@ -8,21 +8,19 @@ export default function NeonSign() {
         <div className="relative text-center select-none flex flex-col items-center">
             {/* Main logo — crisp, subtle luminosity only */}
             <motion.div
-                className="relative z-10"
+                className="relative z-10 w-80 md:w-[480px] lg:w-[640px] aspect-[5/3] mx-auto"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1.5, ease: "easeOut" }}
-                style={{ filter: "drop-shadow(0 0 8px rgba(245, 242, 238, 0.10))" }}
-            >
-                <Image
-                    src="/macondo-logo.png"
-                    alt="Macondo Tequila Lounge"
-                    width={600}
-                    height={360}
-                    priority
-                    className="w-80 md:w-[480px] lg:w-[640px] h-auto mx-auto"
-                />
-            </motion.div>
+                style={{ 
+                    WebkitMaskImage: 'url(/macondo-logo.png)',
+                    WebkitMaskSize: 'contain',
+                    WebkitMaskRepeat: 'no-repeat',
+                    WebkitMaskPosition: 'center',
+                    background: 'radial-gradient(ellipse at center, #d65c33 0%, #8c2a11 80%)',
+                    filter: 'drop-shadow(0 0 6px rgba(214, 92, 51, 0.4)) drop-shadow(0 0 32px rgba(140, 42, 17, 0.2))'
+                }}
+            />
             
             {/* Tagline — smaller, tighter tracking, muted gold */}
             <motion.p

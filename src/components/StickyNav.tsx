@@ -70,10 +70,16 @@ export default function StickyNav() {
                         aria-label="Fara efst á síðu"
                         className="flex flex-col items-start flex-shrink-0 group"
                     >
-                        <Image
-                            src="/macondo-logo.png" alt="Macondo" width={360} height={216}
-                            className="h-[92px] w-auto opacity-90 group-hover:opacity-100 transition-opacity"
-                            style={{ filter: "drop-shadow(0 0 4px rgba(198,164,108,0.15)) drop-shadow(0 0 12px rgba(198,164,108,0.06))" }}
+                        <div
+                            className="h-[92px] aspect-[5/3] opacity-90 group-hover:opacity-100 transition-opacity"
+                            style={{ 
+                                WebkitMaskImage: 'url(/macondo-logo.png)',
+                                WebkitMaskSize: 'contain',
+                                WebkitMaskRepeat: 'no-repeat',
+                                WebkitMaskPosition: 'left center',
+                                background: 'radial-gradient(ellipse at center, #d65c33 0%, #8c2a11 80%)',
+                                filter: 'drop-shadow(0 0 4px rgba(214, 92, 51, 0.3)) drop-shadow(0 0 16px rgba(140, 42, 17, 0.15))'
+                            }}
                         />
                     </button>
 
@@ -140,9 +146,16 @@ export default function StickyNav() {
                         aria-label="Fara efst á síðu"
                         className="flex-shrink-0"
                     >
-                        <Image
-                            src="/macondo-logo.png" alt="Macondo" width={140} height={84}
-                            className="h-10 w-auto opacity-90"
+                        <div
+                            className="h-10 aspect-[5/3] opacity-90"
+                            style={{ 
+                                WebkitMaskImage: 'url(/macondo-logo.png)',
+                                WebkitMaskSize: 'contain',
+                                WebkitMaskRepeat: 'no-repeat',
+                                WebkitMaskPosition: 'left center',
+                                background: 'radial-gradient(ellipse at center, #d65c33 0%, #8c2a11 80%)',
+                                filter: 'drop-shadow(0 0 4px rgba(214, 92, 51, 0.3)) drop-shadow(0 0 16px rgba(140, 42, 17, 0.15))'
+                            }}
                         />
                     </button>
 
