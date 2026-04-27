@@ -7,11 +7,8 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 const NAV_ITEMS = [
-    { label: "Drykkjaseðill", target: "/menu", type: "link" as const },
-    { label: "Kokteilar", target: "cocktails", type: "scroll" as const },
-    { label: "Skot", target: "shots", type: "scroll" as const },
-    { label: "Bóka borð", target: "reservation-form", type: "scroll" as const },
-    { label: "Karókí", target: "karaoke", type: "scroll" as const },
+    { label: "Drinks Menu", target: "cocktails", type: "scroll" as const },
+    { label: "Karókí", target: "/karaoke", type: "link" as const },
 ];
 
 export default function StickyNav() {
@@ -103,8 +100,8 @@ export default function StickyNav() {
                         key={item.target}
                         onClick={() => handleClick(item)}
                         className={`px-3 md:px-5 py-1.5 text-xs md:text-sm uppercase tracking-[0.15em] rounded-full transition-all duration-300 ${isActive(item)
-                            ? "bg-[#C13A1A]/15 text-[#C13A1A] shadow-[0_0_10px_rgba(193,58,26,0.1)]"
-                            : "text-[#F5E8D0]/40 hover:text-[#F5E8D0]/80"
+                            ? "bg-[#F5A800]/20 text-[#F5A800] border border-[#F5A800]/50 shadow-[0_0_15px_rgba(245,168,0,0.2)]"
+                            : "border border-[#F5E8D0]/30 text-[#F5E8D0]/90 hover:text-[#F5E8D0] hover:border-[#F5E8D0]/60 hover:bg-[#F5E8D0]/10"
                             }`}
                         style={{ fontFamily: "var(--font-cinzel), serif" }}
                     >
@@ -113,14 +110,14 @@ export default function StickyNav() {
                 ))}
                 {/* Cross-Link to Pablo */}
                 <a href="https://pablodiscobar.is"
-                    className="ml-2 md:ml-4 px-3 md:px-5 py-1.5 text-xs md:text-sm uppercase font-bold tracking-[0.15em] rounded-full transition-all duration-300 border border-[#F806CC]/30 text-[#F806CC]/80 hover:bg-[#F806CC]/10 hover:text-[#F806CC] hover:border-[#F806CC] hover:shadow-[0_0_15px_rgba(248,6,204,0.3)]"
+                    className="ml-2 md:ml-4 px-3 md:px-5 py-1.5 text-xs md:text-sm uppercase font-bold tracking-[0.15em] rounded-full transition-all duration-300 border border-[#F806CC]/60 text-[#F806CC] hover:bg-[#F806CC]/20 hover:text-white hover:border-[#F806CC] hover:shadow-[0_0_20px_rgba(248,6,204,0.4)]"
                     style={{ fontFamily: "var(--font-cinzel), serif" }}>
-                    Fara á Pablo
+                    Pablo Discobar
                 </a>
                 
                 {/* Language toggle */}
                 <Link href="/en"
-                    className="ml-2 md:ml-4 px-3 py-1.5 text-xs uppercase tracking-[0.15em] rounded-full border border-[#F5A800]/20 text-[#F5A800]/50 hover:text-[#F5A800] hover:border-[#F5A800]/50 transition-all"
+                    className="ml-2 md:ml-4 px-3 py-1.5 text-xs uppercase tracking-[0.15em] rounded-full border border-[#F5A800]/50 text-[#F5A800] hover:text-[#F5A800] hover:border-[#F5A800] hover:bg-[#F5A800]/10 transition-all"
                     style={{ fontFamily: "var(--font-cinzel), serif" }}>
                     EN
                 </Link>

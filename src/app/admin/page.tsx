@@ -1,601 +1,320 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
-
-/* ================================================================
-   TYPES
-   ================================================================ */
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Reservation {
     id: string;
-    tableNumber: number;
     date: string;
-    timeSlot: string;
-    duration: number;
     name: string;
     email: string;
+    phone: string;
     guests: number;
-    status: string;
     notes?: string;
+    status: "confirmed" | "cancelled";
 }
 
-interface BlockedSlot {
-    id: string;
+interface DayData {
     date: string;
-    timeSlot: string;
-    tableNumber: number;
-    reason?: string;
+    reservations: Reservation[];
+    booked: number;
+    available: number;
+    total: number;
 }
 
-interface TableConfig {
-    id: string;
-    number: number;
-    seats: number;
-    active: boolean;
-    label?: string;
+const TOTAL = 60;
+const LARGE_GROUP = 8;
+
+function formatDate(dateStr: string): string {
+    const d = new Date(dateStr + "T12:00:00");
+    const dayNames = ["Sun", "Mán", "Þri", "Mið", "Fim", "Fös", "Lau"];
+    const monthNames = ["jan", "feb", "mar", "apr", "maí", "jún", "júl", "ágú", "sep", "okt", "nóv", "des"];
+    return `${dayNames[d.getDay()]} ${d.getDate()}. ${monthNames[d.getMonth()]}`;
 }
 
-/* ================================================================
-   COMPONENT
-   ================================================================ */
+function getToday(): string {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
 
-export default function AdminDashboard() {
-    const router = useRouter();
-    const [token, setToken] = useState("");
-    const [selectedDate, setSelectedDate] = useState("all");
-
-    const [reservations, setReservations] = useState<Reservation[]>([]);
-    const [blockedSlots, setBlockedSlots] = useState<BlockedSlot[]>([]);
-    const [tables, setTables] = useState<TableConfig[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState<"bookings" | "block" | "tables" | "manual">("bookings");
-
-    // Block form state
-    const [blockDate, setBlockDate] = useState("");
-    const [blockTime, setBlockTime] = useState("all");
-    const [blockTable, setBlockTable] = useState(0);
-    const [blockReason, setBlockReason] = useState("");
-
-    // Manual form state
-    const [manualForm, setManualForm] = useState({
-        date: "",
-        timeSlot: "20:00",
-        guests: "2",
-        name: "",
-        email: "",
-        tableNumber: 0,
-        notes: "[Bein bókun / Símabókun]",
+function getNext14Days(): string[] {
+    return Array.from({ length: 14 }, (_, i) => {
+        const d = new Date();
+        d.setDate(d.getDate() + i);
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
     });
-    const [manualLoading, setManualLoading] = useState(false);
-    const [manualSuccess, setManualSuccess] = useState("");
-    const [manualError, setManualError] = useState("");
+}
 
-    // Auth helper
-    const authFetch = useCallback(async (url: string, options: RequestInit = {}) => {
-        return fetch(url, {
-            ...options,
-            headers: {
-                ...options.headers as Record<string, string>,
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
-        });
-    }, [token]);
+export default function AdminPage() {
+    const [password, setPassword] = useState("");
+    const [authed, setAuthed] = useState(false);
+    const [authError, setAuthError] = useState("");
+    const [selectedDate, setSelectedDate] = useState(getToday());
+    const [dayData, setDayData] = useState<DayData | null>(null);
+    const [allReservations, setAllReservations] = useState<Reservation[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [cancellingId, setCancellingId] = useState<string | null>(null);
+    const [view, setView] = useState<"day" | "all">("day");
 
-    // Check auth on mount
-    useEffect(() => {
-        const stored = sessionStorage.getItem("adminToken");
-        if (!stored) {
-            router.push("/admin/login");
-            return;
-        }
-        setToken(stored);
-    }, [router]);
+    const authHeader = `Bearer ${password}`;
 
-    // Fetch data when date changes
-    const fetchData = useCallback(async () => {
-        if (!token) return;
+    const fetchDay = useCallback(async () => {
+        if (!authed) return;
         setLoading(true);
         try {
-            const [resData, tableData] = await Promise.all([
-                authFetch(`/api/bookings/admin?date=${selectedDate}`).then(r => r.json()),
-                authFetch(`/api/bookings/admin?action=tables`).then(r => r.json()),
-            ]);
-            setReservations(resData.reservations || []);
-            setBlockedSlots(resData.blockedSlots || []);
-            setTables(tableData.tables || []);
-        } catch (err) {
-            console.error("Failed to fetch:", err);
-        }
+            const res = await fetch(`/api/bookings/admin?date=${selectedDate}`, {
+                headers: { authorization: authHeader },
+            });
+            if (res.status === 401) { setAuthed(false); return; }
+            const data = await res.json();
+            setDayData({ ...data, reservations: data.reservations ?? [] });
+        } catch { /* ignore */ }
         setLoading(false);
-    }, [token, selectedDate, authFetch]);
+    }, [authed, selectedDate, authHeader]);
+
+    const fetchAll = useCallback(async () => {
+        if (!authed) return;
+        setLoading(true);
+        try {
+            const res = await fetch(`/api/bookings/admin?date=all`, {
+                headers: { authorization: authHeader },
+            });
+            if (res.status === 401) { setAuthed(false); return; }
+            const data = await res.json();
+            setAllReservations(data.reservations || []);
+        } catch { /* ignore */ }
+        setLoading(false);
+    }, [authed, authHeader]);
 
     useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+        if (authed && view === "day") fetchDay();
+    }, [authed, view, fetchDay]);
 
-    // Cancel reservation
+    useEffect(() => {
+        if (authed && view === "all") fetchAll();
+    }, [authed, view, fetchAll]);
+
+    const handleLogin = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (password.trim()) { setAuthed(true); setAuthError(""); }
+        else setAuthError("Sláðu inn lykilorð");
+    };
+
     const handleCancel = async (id: string) => {
-        if (!confirm("Ertu viss um að þú viljir aflýsa þessari bókun?")) return;
-        await authFetch("/api/bookings/admin", {
-            method: "POST",
-            body: JSON.stringify({ action: "cancel", reservationId: id }),
-        });
-        fetchData();
-    };
-
-    // Block slot
-    const handleBlock = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        // If "all" is selected on the main dashboard, default to today for blocking
-        let targetBlockDate = blockDate || selectedDate;
-        if (targetBlockDate === "all") {
-            const d = new Date();
-            targetBlockDate = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-        }
-
-        await authFetch("/api/bookings/admin", {
-            method: "POST",
-            body: JSON.stringify({
-                action: "block",
-                date: targetBlockDate,
-                timeSlot: blockTime,
-                tableNumber: blockTable,
-                reason: blockReason,
-            }),
-        });
-        setBlockReason("");
-        fetchData();
-    };
-
-    // Unblock
-    const handleUnblock = async (id: string) => {
-        await authFetch("/api/bookings/admin", {
-            method: "POST",
-            body: JSON.stringify({ action: "unblock", blockId: id }),
-        });
-        fetchData();
-    };
-
-    // Manual Booking
-    const handleManualSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setManualLoading(true);
-        setManualSuccess("");
-        setManualError("");
-
+        if (!confirm("Aflýsa þessari bókun?")) return;
+        setCancellingId(id);
         try {
-            const res = await authFetch("/api/bookings/admin", {
+            await fetch("/api/bookings/admin", {
                 method: "POST",
-                body: JSON.stringify({
-                    action: "manual",
-                    ...manualForm,
-                    guests: parseInt(manualForm.guests) || 2,
-                    tableNumber: parseInt(manualForm.tableNumber as any) || 0,
-                }),
+                headers: { "Content-Type": "application/json", authorization: authHeader },
+                body: JSON.stringify({ action: "cancel", reservationId: id }),
             });
-            const data = await res.json();
-            if (data.success) {
-                setManualSuccess(`✓ Bókun vistuð! (${manualForm.name} — ${manualForm.date} @ ${manualForm.timeSlot})`);
-                setManualForm(f => ({ ...f, name: "", email: "", guests: "2", tableNumber: 0 }));
-                fetchData();
-            } else {
-                setManualError(data.error || "Villa kom upp við að vista");
-            }
-        } catch {
-            setManualError("Villa kom upp");
-        }
-        setManualLoading(false);
+            if (view === "day") fetchDay();
+            else fetchAll();
+        } catch { /* ignore */ }
+        setCancellingId(null);
     };
 
-    // Initialize tables
-    const handleInitTables = async () => {
-        await authFetch("/api/bookings/admin?action=init");
-        fetchData();
-    };
-
-    // Logout
-    const handleLogout = () => {
-        sessionStorage.removeItem("adminToken");
-        router.push("/admin/login");
-    };
-
-    // Time slots for the block dropdown
-    const timeOptions = [
-        "all",
-        "16:00", "16:30", "17:00", "17:30", "18:00", "18:30",
-        "19:00", "19:30", "20:00", "20:30", "21:00", "21:30",
-        "22:00", "22:30", "23:00", "23:30", "00:00", "00:30",
-        "01:00", "01:30", "02:00", "02:30",
-    ];
-
-    return (
-        <div className="min-h-screen bg-[#1A0A08] text-[#F5E8D0]">
-            {/* Header */}
-            <header className="border-b border-[#F5E8D0]/10 px-6 py-4">
-                <div className="max-w-6xl mx-auto flex items-center justify-between">
-                    <div>
-                        <h1 className="text-lg font-bold tracking-[0.15em] text-[#F5A800]"
+    /* ─── LOGIN ─── */
+    if (!authed) {
+        return (
+            <div className="min-h-screen bg-[#0e0605] flex items-center justify-center px-4">
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                    className="w-full max-w-sm">
+                    <h1 className="text-2xl font-bold tracking-[0.2em] text-[#F5A800] text-center mb-2 uppercase"
+                        style={{ fontFamily: "var(--font-cinzel), serif" }}>Macondo</h1>
+                    <p className="text-[#F5E8D0]/30 text-xs text-center tracking-widest uppercase mb-10">Admin yfirlit</p>
+                    <form onSubmit={handleLogin} className="space-y-4">
+                        <input type="password" value={password} onChange={e => setPassword(e.target.value)}
+                            placeholder="Lykilorð"
+                            className="w-full bg-transparent border border-[#F5E8D0]/15 rounded-lg px-4 py-3 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors text-sm" />
+                        {authError && <p className="text-red-400 text-xs">{authError}</p>}
+                        <button type="submit"
+                            className="w-full py-3 rounded-lg bg-[#F5A800]/10 border border-[#F5A800]/40 text-[#F5A800] text-sm font-bold tracking-widest uppercase hover:bg-[#F5A800]/20 transition-all"
                             style={{ fontFamily: "var(--font-cinzel), serif" }}>
-                            MACONDO — STJÓRNBORÐ
-                        </h1>
-                    </div>
-                    <div className="flex items-center gap-4">
-                        <a href="/" className="text-xs text-[#F5E8D0]/30 hover:text-[#F5E8D0]/60 transition-colors">
-                            ← Vefsíða
-                        </a>
-                        <button
-                            onClick={handleLogout}
-                            className="text-xs text-[#E74C3C]/50 hover:text-[#E74C3C] transition-colors"
-                        >
-                            Útskrá
+                            Innskrá
                         </button>
-                    </div>
-                </div>
-            </header>
+                    </form>
+                </motion.div>
+            </div>
+        );
+    }
 
-            <main className="max-w-6xl mx-auto px-6 py-8">
-                {/* Date picker + Tabs */}
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-                    <div className="flex items-center gap-3">
-                        <label className="text-xs uppercase tracking-wider text-[#F5A800]/60">Dagsetning</label>
-                        <select
-                            value={selectedDate === "all" ? "all" : "custom"}
-                            onChange={(e) => {
-                                if (e.target.value === "all") {
-                                    setSelectedDate("all");
-                                } else {
-                                    const d = new Date();
-                                    setSelectedDate(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`);
-                                }
-                            }}
-                            className="bg-[#1A0A08] border border-[#F5E8D0]/15 rounded-lg px-4 py-2 text-sm text-[#F5E8D0] focus:outline-none focus:border-[#F5A800]/40"
-                        >
-                            <option value="all">Allar framtíðarbókanir</option>
-                            <option value="custom">Velja dag...</option>
-                        </select>
+    const days = getNext14Days();
 
-                        {selectedDate !== "all" && (
-                            <input
-                                type="date"
-                                value={selectedDate}
-                                onChange={(e) => setSelectedDate(e.target.value)}
-                                className="bg-[#1A0A08] border border-[#F5E8D0]/15 rounded-lg px-4 py-2 text-sm text-[#F5E8D0] focus:outline-none focus:border-[#F5A800]/40"
-                            />
-                        )}
-                    </div>
+    /* ─── MAIN ─── */
+    return (
+        <div className="min-h-screen bg-[#0e0605] text-[#F5E8D0] px-4 py-8">
+            <div className="max-w-4xl mx-auto">
 
-                    <div className="flex gap-2 flex-wrap">
-                        {(["bookings", "block", "tables", "manual"] as const).map(tab => (
-                            <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
-                                className={`px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition-all ${activeTab === tab
-                                    ? "bg-[#F5A800]/10 text-[#F5A800] border border-[#F5A800]/30"
-                                    : "text-[#F5E8D0]/30 border border-transparent hover:text-[#F5E8D0]/60"
-                                    }`}
-                            >
-                                {tab === "bookings" ? "Bókanir" : tab === "block" ? "Loka" : tab === "tables" ? "Borð" : "Ný Bókun"}
-                            </button>
-                        ))}
+                {/* Header */}
+                <div className="flex items-center justify-between mb-8">
+                    <div>
+                        <h1 className="text-xl font-bold tracking-[0.2em] text-[#F5A800] uppercase"
+                            style={{ fontFamily: "var(--font-cinzel), serif" }}>Macondo Admin</h1>
+                        <p className="text-[#F5E8D0]/30 text-xs mt-1">Borðabókanir · kl. 17–20</p>
                     </div>
+                    <button onClick={() => setAuthed(false)}
+                        className="text-[#F5E8D0]/30 text-xs hover:text-[#F5E8D0]/70 transition-colors uppercase tracking-wider">
+                        Útskrá
+                    </button>
                 </div>
 
-                {loading ? (
-                    <div className="text-center py-20">
-                        <div className="inline-block w-6 h-6 border-2 border-[#F5A800]/20 border-t-[#F5A800] rounded-full animate-spin" />
-                    </div>
-                ) : (
+                {/* View toggle */}
+                <div className="flex gap-2 mb-6">
+                    {(["day", "all"] as const).map(v => (
+                        <button key={v} onClick={() => setView(v)}
+                            className={`px-4 py-2 rounded-full text-xs uppercase tracking-widest transition-all border ${view === v
+                                ? "border-[#F5A800]/60 bg-[#F5A800]/10 text-[#F5A800]"
+                                : "border-[#F5E8D0]/10 text-[#F5E8D0]/40 hover:text-[#F5E8D0]/70"}`}
+                            style={{ fontFamily: "var(--font-cinzel), serif" }}>
+                            {v === "day" ? "Dagleg yfirlit" : "Allar bókanir"}
+                        </button>
+                    ))}
+                </div>
+
+                {/* ─── DAY VIEW ─── */}
+                {view === "day" && (
                     <>
-                        {/* ============ BOOKINGS TAB ============ */}
-                        {activeTab === "bookings" && (
-                            <div>
-                                <div className="flex items-center justify-between mb-4">
-                                    <h2 className="text-sm uppercase tracking-wider text-[#F5A800]/70">
-                                        {selectedDate === "all" ? "Afgreiðslulausar bókanir" : `Bókanir — ${selectedDate}`}
-                                    </h2>
-                                    <span className="text-xs text-[#F5E8D0]/30">{reservations.length} bókanir</span>
-                                </div>
+                        {/* Date picker */}
+                        <div className="flex gap-2 overflow-x-auto pb-2 mb-6">
+                            {days.map(d => (
+                                <button key={d} onClick={() => { setSelectedDate(d); }}
+                                    className={`flex-shrink-0 px-3 py-2 rounded-lg border text-center transition-all text-xs ${selectedDate === d
+                                        ? "border-[#F5A800] bg-[#F5A800]/10 text-[#F5A800]"
+                                        : "border-[#F5E8D0]/10 text-[#F5E8D0]/50 hover:border-[#F5E8D0]/30"}`}>
+                                    {formatDate(d)}
+                                </button>
+                            ))}
+                        </div>
 
-                                {reservations.length === 0 ? (
-                                    <div className="text-center py-16 text-[#F5E8D0]/20">
-                                        <p className="text-lg mb-1">Engar bókanir</p>
-                                        <p className="text-xs">Engar borðabókanir á þessari dagsetningu</p>
-                                    </div>
-                                ) : (
-                                    <div className="space-y-3">
-                                        {reservations.map((r) => (
-                                            <div key={r.id} className="border border-[#F5E8D0]/10 rounded-xl p-4 flex items-center justify-between hover:border-[#F5E8D0]/20 transition-colors">
-                                                <div className="flex items-center gap-6">
-                                                    <div className="text-center min-w-[80px]">
-                                                        {selectedDate === "all" && (
-                                                            <div className="text-[10px] uppercase font-bold text-[#F5A800]/70 mb-1">{r.date.substring(5)}</div>
-                                                        )}
-                                                        <div className="text-lg font-bold text-[#C13A1A]">{r.timeSlot}</div>
-                                                        <div className="text-[10px] text-[#F5E8D0]/30">{r.duration} mín</div>
-                                                    </div>
-                                                    <div>
-                                                        <div className="text-sm font-medium">{r.name}</div>
-                                                        <div className="text-xs text-[#F5E8D0]/40">{r.email}</div>
-                                                    </div>
-                                                    <div className="hidden md:block">
-                                                        <span className="text-xs px-2 py-1 rounded bg-[#F5E8D0]/5 text-[#F5E8D0]/50">
-                                                            {r.guests} gestir · Borð {r.tableNumber}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    onClick={() => handleCancel(r.id)}
-                                                    className="text-xs text-[#E74C3C]/40 hover:text-[#E74C3C] transition-colors px-3 py-1 rounded border border-transparent hover:border-[#E74C3C]/20"
-                                                >
-                                                    Aflýsa
-                                                </button>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-
-                                {/* Blocked slots for today */}
-                                {blockedSlots.length > 0 && (
-                                    <div className="mt-8">
-                                        <h3 className="text-xs uppercase tracking-wider text-[#E74C3C]/60 mb-3">Lokaðir tímar</h3>
-                                        <div className="space-y-2">
-                                            {blockedSlots.map(b => (
-                                                <div key={b.id} className="flex items-center justify-between border border-[#E74C3C]/10 rounded-lg px-4 py-3">
-                                                    <div className="text-sm">
-                                                        <span className="text-[#E74C3C]/70">
-                                                            {b.timeSlot === "all" ? "Allan daginn" : `kl. ${b.timeSlot}`}
-                                                        </span>
-                                                        <span className="text-[#F5E8D0]/30 mx-2">·</span>
-                                                        <span className="text-[#F5E8D0]/40">
-                                                            {b.tableNumber === 0 ? "Öll borð" : `Borð ${b.tableNumber}`}
-                                                        </span>
-                                                        {b.reason && (
-                                                            <span className="text-[#F5E8D0]/20 ml-2 text-xs">({b.reason})</span>
-                                                        )}
-                                                    </div>
-                                                    <button
-                                                        onClick={() => handleUnblock(b.id)}
-                                                        className="text-xs text-[#C13A1A]/40 hover:text-[#C13A1A] transition-colors"
-                                                    >
-                                                        Opna
-                                                    </button>
-                                                </div>
-                                            ))}
+                        {loading ? (
+                            <div className="text-center py-16">
+                                <div className="inline-block w-6 h-6 border-2 border-[#F5A800]/20 border-t-[#F5A800] rounded-full animate-spin" />
+                            </div>
+                        ) : dayData ? (
+                            <>
+                                {/* Capacity bar */}
+                                <div className="bg-[#F5E8D0]/5 border border-[#F5E8D0]/10 rounded-xl p-5 mb-6">
+                                    <div className="flex justify-between items-end mb-3">
+                                        <div>
+                                            <p className="text-xs uppercase tracking-widest text-[#F5E8D0]/40 mb-1">Sæti</p>
+                                            <p className="text-3xl font-bold text-[#F5A800]">{dayData.booked}
+                                                <span className="text-[#F5E8D0]/30 text-base font-normal"> / {TOTAL}</span>
+                                            </p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className={`text-sm font-semibold ${dayData.available === 0 ? "text-red-400" : dayData.available <= 10 ? "text-orange-400" : "text-green-400"}`}>
+                                                {dayData.available === 0 ? "Fullbókað" : `${dayData.available} laus`}
+                                            </p>
+                                            <p className="text-[#F5E8D0]/30 text-xs">{dayData.reservations.length} bókanir</p>
                                         </div>
                                     </div>
-                                )}
-                            </div>
-                        )}
-
-                        {/* ============ BLOCK TAB ============ */}
-                        {activeTab === "block" && (
-                            <div className="max-w-md">
-                                <h2 className="text-sm uppercase tracking-wider text-[#F5A800]/70 mb-6">
-                                    Loka tímabili
-                                </h2>
-
-                                <form onSubmit={handleBlock} className="space-y-5">
-                                    <div>
-                                        <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Dagsetning</label>
-                                        <input
-                                            type="date"
-                                            value={blockDate || selectedDate}
-                                            onChange={(e) => setBlockDate(e.target.value)}
-                                            className="w-full bg-[#1A0A08] border border-[#F5E8D0]/15 rounded-lg px-4 py-2 text-sm text-[#F5E8D0] focus:outline-none focus:border-[#F5A800]/40"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Tími</label>
-                                        <select
-                                            value={blockTime}
-                                            onChange={(e) => setBlockTime(e.target.value)}
-                                            className="w-full bg-[#1A0A08] border border-[#F5E8D0]/15 rounded-lg px-4 py-2 text-sm text-[#F5E8D0] focus:outline-none focus:border-[#F5A800]/40"
-                                        >
-                                            {timeOptions.map(t => (
-                                                <option key={t} value={t}>{t === "all" ? "Allan daginn" : `kl. ${t}`}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Borð</label>
-                                        <select
-                                            value={blockTable}
-                                            onChange={(e) => setBlockTable(parseInt(e.target.value))}
-                                            className="w-full bg-[#1A0A08] border border-[#F5E8D0]/15 rounded-lg px-4 py-2 text-sm text-[#F5E8D0] focus:outline-none focus:border-[#F5A800]/40"
-                                        >
-                                            <option value={0}>Öll borð</option>
-                                            {tables.map(t => (
-                                                <option key={t.id} value={t.number}>Borð {t.number}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Ástæða (valfrjálst)</label>
-                                        <input
-                                            type="text"
-                                            value={blockReason}
-                                            onChange={(e) => setBlockReason(e.target.value)}
-                                            placeholder="t.d. Lokaður hópur"
-                                            className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-3 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors"
-                                        />
-                                    </div>
-
-                                    <button
-                                        type="submit"
-                                        className="w-full py-3 rounded-full text-sm font-bold tracking-[0.2em] uppercase bg-transparent text-[#E74C3C] border border-[#E74C3C]/30 hover:bg-[#E74C3C]/10 transition-all"
-                                    >
-                                        LOKA TÍMABILI
-                                    </button>
-                                </form>
-                            </div>
-                        )}
-
-                        {/* ============ TABLES TAB ============ */}
-                        {activeTab === "tables" && (
-                            <div>
-                                <div className="flex items-center justify-between mb-6">
-                                    <h2 className="text-sm uppercase tracking-wider text-[#F5A800]/70">
-                                        Borðastillingar
-                                    </h2>
-                                    {tables.length === 0 && (
-                                        <button
-                                            onClick={handleInitTables}
-                                            className="text-xs px-4 py-2 rounded-lg border border-[#C13A1A]/30 text-[#C13A1A] hover:bg-[#C13A1A]/10 transition-all"
-                                        >
-                                            Búa til 10 borð
-                                        </button>
-                                    )}
-                                </div>
-
-                                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                                    {tables.map(t => (
+                                    <div className="w-full bg-[#F5E8D0]/10 rounded-full h-2">
                                         <div
-                                            key={t.id}
-                                            className={`border rounded-xl p-4 text-center transition-all ${t.active
-                                                ? "border-[#C13A1A]/20 hover:border-[#C13A1A]/40"
-                                                : "border-[#E74C3C]/20 opacity-40"
-                                                }`}
-                                        >
-                                            <div className="text-2xl font-bold text-[#F5A800] mb-1">{t.number}</div>
-                                            <div className="text-xs text-[#F5E8D0]/30">{t.label || `Borð ${t.number}`}</div>
-                                            <div className="text-xs text-[#F5E8D0]/20 mt-1">{t.seats} sæti</div>
-                                            <div className={`text-[10px] mt-2 ${t.active ? "text-[#C13A1A]/60" : "text-[#E74C3C]/60"}`}>
-                                                {t.active ? "Virkt" : "Óvirkt"}
-                                            </div>
-                                        </div>
-                                    ))}
+                                            className="h-2 rounded-full transition-all duration-500"
+                                            style={{
+                                                width: `${Math.min(100, (dayData.booked / TOTAL) * 100)}%`,
+                                                background: dayData.booked >= TOTAL ? "#e74c3c" : dayData.booked > TOTAL * 0.8 ? "#f39c12" : "#F5A800",
+                                            }}
+                                        />
+                                    </div>
                                 </div>
 
-                                {tables.length > 0 && (
-                                    <p className="text-xs text-[#F5E8D0]/20 mt-6 text-center">
-                                        Til að breyta fjölda sæta eða gera borð óvirkt, hafðu samband við kerfisstjóra.
-                                    </p>
-                                )}
-                            </div>
-                        )}
-
-                        {/* ============ MANUAL BOOKING TAB ============ */}
-                        {activeTab === "manual" && (
-                            <div className="max-w-xl">
-                                <div className="mb-6">
-                                    <h2 className="text-sm uppercase tracking-wider text-[#F5A800]/70 mb-2">
-                                        Handvirk skráning
-                                    </h2>
-                                    <p className="text-xs text-[#F5E8D0]/40">
-                                        Fyrir bókanir sem koma gegnum síma eða skilaboð.
-                                    </p>
-                                </div>
-
-                                <form onSubmit={handleManualSubmit} className="space-y-5 bg-[#1A0A08] border border-[#F5E8D0]/10 rounded-xl p-6">
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Dagsetning</label>
-                                            <input
-                                                required
-                                                type="date"
-                                                value={manualForm.date}
-                                                onChange={(e) => setManualForm(f => ({ ...f, date: e.target.value }))}
-                                                className="w-full bg-[#1A0A08] border border-[#F5E8D0]/15 rounded-lg px-4 py-2 text-sm text-[#F5E8D0] focus:outline-none focus:border-[#F5A800]/40"
-                                            />
+                                {/* Reservations list */}
+                                <AnimatePresence>
+                                    {dayData.reservations.length === 0 ? (
+                                        <p className="text-center text-[#F5E8D0]/20 py-12 text-sm">Engar bókanir þennan dag</p>
+                                    ) : (
+                                        <div className="space-y-3">
+                                            {dayData.reservations.map((r, i) => (
+                                                <motion.div key={r.id}
+                                                    initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                                                    transition={{ delay: i * 0.05 }}
+                                                    className={`bg-[#F5E8D0]/3 border rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-4 ${r.guests >= LARGE_GROUP ? "border-orange-400/30 bg-orange-400/5" : "border-[#F5E8D0]/10"}`}>
+                                                    {/* Guest count badge */}
+                                                    <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl ${r.guests >= LARGE_GROUP ? "bg-orange-400/20 text-orange-400" : "bg-[#F5A800]/10 text-[#F5A800]"}`}>
+                                                        {r.guests}
+                                                    </div>
+                                                    {/* Info */}
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className="flex items-center gap-2 mb-1">
+                                                            <p className="font-semibold text-[#F5E8D0]">{r.name}</p>
+                                                            {r.guests >= LARGE_GROUP && (
+                                                                <span className="text-[9px] bg-orange-400/20 text-orange-300 px-2 py-0.5 rounded-full uppercase tracking-wider">Stór hópur</span>
+                                                            )}
+                                                        </div>
+                                                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-[#F5E8D0]/50">
+                                                            <a href={`tel:${r.phone}`} className="hover:text-[#F5A800] transition-colors">📞 {r.phone}</a>
+                                                            <a href={`mailto:${r.email}`} className="hover:text-[#F5A800] transition-colors truncate">✉ {r.email}</a>
+                                                        </div>
+                                                        {r.notes && (
+                                                            <p className="text-xs text-[#F5E8D0]/30 mt-1 italic">{r.notes}</p>
+                                                        )}
+                                                    </div>
+                                                    {/* Cancel */}
+                                                    <button onClick={() => handleCancel(r.id)}
+                                                        disabled={cancellingId === r.id}
+                                                        className="flex-shrink-0 text-xs text-red-400/50 hover:text-red-400 transition-colors uppercase tracking-wider disabled:opacity-30">
+                                                        {cancellingId === r.id ? "..." : "Aflýsa"}
+                                                    </button>
+                                                </motion.div>
+                                            ))}
                                         </div>
-                                        <div>
-                                            <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Tími</label>
-                                            <select
-                                                value={manualForm.timeSlot}
-                                                onChange={(e) => setManualForm(f => ({ ...f, timeSlot: e.target.value }))}
-                                                className="w-full bg-[#1A0A08] border border-[#F5E8D0]/15 rounded-lg px-4 py-2 text-sm text-[#F5E8D0] focus:outline-none focus:border-[#F5A800]/40"
-                                            >
-                                                {timeOptions.filter(t => t !== "all").map(t => (
-                                                    <option key={t} value={t}>{t}</option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Fjöldi</label>
-                                            <input
-                                                required
-                                                type="number"
-                                                min="1"
-                                                max="20"
-                                                value={manualForm.guests}
-                                                onChange={(e) => setManualForm(f => ({ ...f, guests: e.target.value }))}
-                                                className="w-full bg-[#1A0A08] border border-[#F5E8D0]/15 rounded-lg px-4 py-2 text-sm text-[#F5E8D0] focus:outline-none focus:border-[#F5A800]/40"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Borð (Valfrjálst)</label>
-                                            <select
-                                                value={manualForm.tableNumber}
-                                                onChange={(e) => setManualForm(f => ({ ...f, tableNumber: parseInt(e.target.value) }))}
-                                                className="w-full bg-[#1A0A08] border border-[#F5E8D0]/15 rounded-lg px-4 py-2 text-sm text-[#F5E8D0] focus:outline-none focus:border-[#F5A800]/40"
-                                            >
-                                                <option value={0}>Sjálfvirkt val</option>
-                                                {tables.map(t => (
-                                                    <option key={t.id} value={t.number}>Borð {t.number}</option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Nafn</label>
-                                        <input
-                                            required
-                                            type="text"
-                                            value={manualForm.name}
-                                            onChange={(e) => setManualForm(f => ({ ...f, name: e.target.value }))}
-                                            placeholder="Jón Jónsson"
-                                            className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-2 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Netfang / Sími</label>
-                                        <input
-                                            required
-                                            type="text"
-                                            value={manualForm.email}
-                                            onChange={(e) => setManualForm(f => ({ ...f, email: e.target.value }))}
-                                            placeholder="8001234 eða jon@gmail.com"
-                                            className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-2 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-xs uppercase tracking-wider text-[#F5E8D0]/40 mb-2">Athugasemd</label>
-                                        <input
-                                            type="text"
-                                            value={manualForm.notes}
-                                            onChange={(e) => setManualForm(f => ({ ...f, notes: e.target.value }))}
-                                            className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-2 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors"
-                                        />
-                                    </div>
-
-                                    {manualSuccess && <p className="text-[#2ECC71] text-xs font-bold">{manualSuccess}</p>}
-                                    {manualError && <p className="text-[#E74C3C] text-xs font-bold">{manualError}</p>}
-
-                                    <button
-                                        type="submit"
-                                        disabled={manualLoading}
-                                        className="w-full py-3 mt-4 rounded-full text-sm font-bold tracking-[0.2em] uppercase bg-[#C13A1A] text-white hover:bg-[#A12A10] transition-all disabled:opacity-50"
-                                    >
-                                        {manualLoading ? "Vistar..." : "Bóka Borð"}
-                                    </button>
-                                </form>
-                            </div>
-                        )}
+                                    )}
+                                </AnimatePresence>
+                            </>
+                        ) : null}
                     </>
                 )}
-            </main>
+
+                {/* ─── ALL VIEW ─── */}
+                {view === "all" && (
+                    loading ? (
+                        <div className="text-center py-16">
+                            <div className="inline-block w-6 h-6 border-2 border-[#F5A800]/20 border-t-[#F5A800] rounded-full animate-spin" />
+                        </div>
+                    ) : (
+                        <div className="space-y-2">
+                            {allReservations.length === 0 ? (
+                                <p className="text-center text-[#F5E8D0]/20 py-12 text-sm">Engar bókanir</p>
+                            ) : (
+                                <>
+                                    <p className="text-[#F5E8D0]/30 text-xs mb-4">{allReservations.length} bókanir — {allReservations.reduce((s, r) => s + r.guests, 0)} gestir samtals</p>
+                                    {allReservations.map((r, i) => (
+                                        <motion.div key={r.id}
+                                            initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: i * 0.03 }}
+                                            className={`border rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3 ${r.guests >= LARGE_GROUP ? "border-orange-400/30 bg-orange-400/5" : "border-[#F5E8D0]/8 bg-[#F5E8D0]/3"}`}>
+                                            <div className="flex-shrink-0 text-center min-w-[80px]">
+                                                <p className="text-xs text-[#F5E8D0]/40">{formatDate(r.date)}</p>
+                                                <p className="text-[10px] text-[#F5A800]/50 mt-0.5">kl. 17–20</p>
+                                            </div>
+                                            <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold ${r.guests >= LARGE_GROUP ? "bg-orange-400/20 text-orange-400" : "bg-[#F5A800]/10 text-[#F5A800]"}`}>
+                                                {r.guests}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="font-semibold text-[#F5E8D0] text-sm">{r.name}</p>
+                                                <div className="flex flex-wrap gap-x-4 text-xs text-[#F5E8D0]/40 mt-0.5">
+                                                    <a href={`tel:${r.phone}`} className="hover:text-[#F5A800] transition-colors">📞 {r.phone}</a>
+                                                    <span className="truncate">✉ {r.email}</span>
+                                                </div>
+                                                {r.notes && <p className="text-xs text-[#F5E8D0]/25 italic mt-0.5">{r.notes}</p>}
+                                            </div>
+                                            <button onClick={() => handleCancel(r.id)}
+                                                disabled={cancellingId === r.id}
+                                                className="flex-shrink-0 text-xs text-red-400/40 hover:text-red-400 transition-colors uppercase tracking-wider disabled:opacity-30">
+                                                {cancellingId === r.id ? "..." : "Aflýsa"}
+                                            </button>
+                                        </motion.div>
+                                    ))}
+                                </>
+                            )}
+                        </div>
+                    )
+                )}
+
+            </div>
         </div>
     );
 }

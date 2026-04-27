@@ -3,30 +3,19 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-/* ================================================================
-   TYPES
-   ================================================================ */
+type Step = "DATE" | "DETAILS" | "CONFIRMED";
 
-type Step = "DATE" | "TIME" | "DETAILS" | "CONFIRMED";
-
-interface SlotInfo {
-    slot: string;
-    available: boolean;
-    tablesLeft: number;
-}
-
-/* ================================================================
-   HELPERS
-   ================================================================ */
+const CLOSED_DAYS = [1, 2]; // 1 = Mánudagur, 2 = Þriðjudagur
 
 function getNext30Days(): { date: string; label: string; dayName: string }[] {
     const days: { date: string; label: string; dayName: string }[] = [];
     const dayNames = ["Sun", "Mán", "Þri", "Mið", "Fim", "Fös", "Lau"];
     const monthNames = ["jan", "feb", "mar", "apr", "maí", "jún", "júl", "ágú", "sep", "okt", "nóv", "des"];
-
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 60; i++) {
         const d = new Date();
         d.setDate(d.getDate() + i);
+        if (CLOSED_DAYS.includes(d.getDay())) continue; // sleppa lokuðum dögum
+        if (days.length >= 30) break;
         const yyyy = d.getFullYear();
         const mm = String(d.getMonth() + 1).padStart(2, "0");
         const dd = String(d.getDate()).padStart(2, "0");
@@ -39,51 +28,52 @@ function getNext30Days(): { date: string; label: string; dayName: string }[] {
     return days;
 }
 
-/* ================================================================
-   COMPONENT
-   ================================================================ */
-
 export default function BookingForm() {
     const [step, setStep] = useState<Step>("DATE");
     const [selectedDate, setSelectedDate] = useState("");
-    const [selectedTime, setSelectedTime] = useState("");
     const [guests, setGuests] = useState(2);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [slots, setSlots] = useState<SlotInfo[]>([]);
+    const [phone, setPhone] = useState("");
+    const [notes, setNotes] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [confirmationId, setConfirmationId] = useState("");
+    const [availableSeats, setAvailableSeats] = useState<number | null>(null);
+    const [checkingAvail, setCheckingAvail] = useState(false);
 
     const dates = getNext30Days();
 
-    // Fetch availability when date or guest count changes
-    const fetchSlots = useCallback(async () => {
-        if (!selectedDate) return;
-        setLoading(true);
-        setError("");
+    const fetchAvailability = useCallback(async (date: string) => {
+        setCheckingAvail(true);
         try {
-            const res = await fetch(`/api/bookings/available?date=${selectedDate}&guests=${guests}`);
+            const res = await fetch(`/api/bookings/available?date=${date}`);
             const data = await res.json();
-            if (data.slots) {
-                setSlots(data.slots);
-            }
+            setAvailableSeats(data.available ?? null);
         } catch {
-            setError("Gat ekki sótt lausar tímasetningar");
+            setAvailableSeats(null);
         }
-        setLoading(false);
-    }, [selectedDate, guests]);
+        setCheckingAvail(false);
+    }, []);
 
     useEffect(() => {
-        if (step === "TIME" && selectedDate) {
-            fetchSlots();
-        }
-    }, [step, selectedDate, guests, fetchSlots]);
+        if (selectedDate) fetchAvailability(selectedDate);
+    }, [selectedDate, fetchAvailability]);
 
-    // Handle booking submission
+    const handleDateSelect = (date: string) => {
+        setSelectedDate(date);
+        setError("");
+        setStep("DETAILS");
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!name || !email) return;
+        if (!name || !email || !phone) return;
+
+        if (availableSeats !== null && guests > availableSeats) {
+            setError(`Aðeins ${availableSeats} sæti laus á þessum degi`);
+            return;
+        }
 
         setLoading(true);
         setError("");
@@ -91,13 +81,7 @@ export default function BookingForm() {
             const res = await fetch("/api/bookings/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    date: selectedDate,
-                    timeSlot: selectedTime,
-                    guests,
-                    name,
-                    email,
-                }),
+                body: JSON.stringify({ date: selectedDate, guests, name, email, phone, notes }),
             });
             const data = await res.json();
             if (data.success) {
@@ -112,25 +96,27 @@ export default function BookingForm() {
         setLoading(false);
     };
 
-    // Reset form
     const resetForm = () => {
         setStep("DATE");
         setSelectedDate("");
-        setSelectedTime("");
         setGuests(2);
         setName("");
         setEmail("");
+        setPhone("");
+        setNotes("");
         setError("");
         setConfirmationId("");
+        setAvailableSeats(null);
     };
 
-    /* ---- Animation variants ---- */
     const fadeSlide = {
         initial: { opacity: 0, y: 20 },
         animate: { opacity: 1, y: 0 },
         exit: { opacity: 0, y: -20 },
         transition: { duration: 0.4 },
     };
+
+    const selectedDateLabel = dates.find(d => d.date === selectedDate)?.label ?? "";
 
     return (
         <section id="reservation-form" className="relative py-32 px-6">
@@ -144,52 +130,53 @@ export default function BookingForm() {
                     >
                         BÓKA BORÐ
                     </h2>
-                    <div className="w-24 h-[1px] mx-auto bg-gradient-to-r from-transparent via-[#F5A800]/40 to-transparent" />
+                    <div className="w-24 h-[1px] mx-auto bg-gradient-to-r from-transparent via-[#F5A800]/40 to-transparent mb-4" />
+                    <p className="text-[#F5E8D0]/50 text-xs tracking-widest uppercase" style={{ fontFamily: "var(--font-cinzel), serif" }}>
+                        kl. 17:00 – 20:00 · Eitt sitting
+                    </p>
                 </div>
 
                 <AnimatePresence mode="wait">
-                    {/* =============== STEP 1: DATE =============== */}
+
+                    {/* ═══════════ STEP 1: DATE ═══════════ */}
                     {step === "DATE" && (
                         <motion.div key="date" {...fadeSlide}>
-                            <p className="text-center text-[#F5E8D0]/60 text-sm mb-6 tracking-wider uppercase"
+                            <p className="text-center text-[#F5E8D0]/60 text-sm mb-8 tracking-wider uppercase"
                                 style={{ fontFamily: "var(--font-cinzel), serif" }}>
                                 Veldu dag
                             </p>
 
-                            {/* Guest count */}
+                            {/* Guest counter */}
                             <div className="flex items-center justify-center gap-4 mb-8">
                                 <span className="text-[#F5A800]/70 text-xs uppercase tracking-widest"
                                     style={{ fontFamily: "var(--font-cinzel), serif" }}>
                                     Gestir
                                 </span>
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-3">
                                     <button
                                         onClick={() => setGuests(Math.max(1, guests - 1))}
-                                        className="w-8 h-8 rounded-full border border-[#F5A800]/20 text-[#F5A800]/60 hover:border-[#F5A800]/50 hover:text-[#F5A800] transition-all text-sm"
+                                        className="w-8 h-8 rounded-full border border-[#F5A800]/30 text-[#F5A800]/70 hover:border-[#F5A800] hover:text-[#F5A800] transition-all text-lg leading-none"
                                     >−</button>
-                                    <span className="w-8 text-center text-[#F5A800] font-bold text-lg">{guests}</span>
+                                    <span className="w-10 text-center text-[#F5A800] font-bold text-xl">{guests}</span>
                                     <button
-                                        onClick={() => setGuests(Math.min(20, guests + 1))}
-                                        className="w-8 h-8 rounded-full border border-[#F5A800]/20 text-[#F5A800]/60 hover:border-[#F5A800]/50 hover:text-[#F5A800] transition-all text-sm"
+                                        onClick={() => setGuests(Math.min(60, guests + 1))}
+                                        className="w-8 h-8 rounded-full border border-[#F5A800]/30 text-[#F5A800]/70 hover:border-[#F5A800] hover:text-[#F5A800] transition-all text-lg leading-none"
                                     >+</button>
                                 </div>
                             </div>
 
                             {/* Date grid */}
-                            <div className="grid grid-cols-7 gap-2 mb-6">
+                            <div className="grid grid-cols-7 gap-1.5 mb-6">
                                 {dates.map((d) => (
                                     <button
                                         key={d.date}
-                                        onClick={() => {
-                                            setSelectedDate(d.date);
-                                            setStep("TIME");
-                                        }}
+                                        onClick={() => handleDateSelect(d.date)}
                                         className={`py-3 px-1 rounded-lg border text-center transition-all duration-200 hover:scale-105 ${selectedDate === d.date
                                             ? "border-[#F5A800] bg-[#F5A800]/10 text-[#F5A800]"
                                             : "border-[#F5E8D0]/10 text-[#F5E8D0]/60 hover:border-[#F5A800]/30 hover:text-[#F5E8D0]/90"
                                             }`}
                                     >
-                                        <div className="text-[10px] uppercase tracking-wider opacity-60">{d.dayName}</div>
+                                        <div className="text-[9px] uppercase tracking-wider opacity-60">{d.dayName}</div>
                                         <div className="text-xs font-semibold mt-1">{d.label}</div>
                                     </button>
                                 ))}
@@ -197,132 +184,105 @@ export default function BookingForm() {
                         </motion.div>
                     )}
 
-                    {/* =============== STEP 2: TIME =============== */}
-                    {step === "TIME" && (
-                        <motion.div key="time" {...fadeSlide}>
-                            <button
-                                onClick={() => setStep("DATE")}
-                                className="text-[#F5A800]/50 text-xs uppercase tracking-wider hover:text-[#F5A800] transition-colors mb-4"
-                                style={{ fontFamily: "var(--font-cinzel), serif" }}
-                            >
-                                ← Til baka
-                            </button>
-
-                            <p className="text-center text-[#F5E8D0]/60 text-sm mb-2 tracking-wider uppercase"
-                                style={{ fontFamily: "var(--font-cinzel), serif" }}>
-                                Veldu tíma
-                            </p>
-                            <p className="text-center text-[#F5E8D0]/30 text-xs mb-6">
-                                {dates.find(d => d.date === selectedDate)?.label} · {guests} {guests === 1 ? "gestur" : "gestir"}
-                            </p>
-
-                            {loading ? (
-                                <div className="text-center py-12">
-                                    <div className="inline-block w-6 h-6 border-2 border-[#F5A800]/20 border-t-[#F5A800] rounded-full animate-spin" />
-                                    <p className="text-[#F5E8D0]/40 text-xs mt-3">Sæki lausar tímasetningar...</p>
-                                </div>
-                            ) : (
-                                <div className="grid grid-cols-4 gap-2 mb-6">
-                                    {slots.map((s) => (
-                                        <button
-                                            key={s.slot}
-                                            disabled={!s.available}
-                                            onClick={() => {
-                                                setSelectedTime(s.slot);
-                                                setStep("DETAILS");
-                                            }}
-                                            className={`py-3 rounded-lg border text-sm font-medium transition-all duration-200 ${!s.available
-                                                ? "border-[#F5E8D0]/5 text-[#F5E8D0]/15 cursor-not-allowed line-through"
-                                                : s.tablesLeft <= 2
-                                                    ? "border-[#E74C3C]/30 text-[#E74C3C]/80 hover:border-[#E74C3C]/60 hover:bg-[#E74C3C]/5"
-                                                    : "border-[#C13A1A]/20 text-[#C13A1A]/80 hover:border-[#C13A1A]/50 hover:bg-[#C13A1A]/5"
-                                                }`}
-                                        >
-                                            {s.slot}
-                                            {s.available && s.tablesLeft <= 2 && (
-                                                <div className="text-[9px] opacity-60 mt-0.5">Fá borð</div>
-                                            )}
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
-
-                            {error && (
-                                <p className="text-[#E74C3C] text-sm text-center">{error}</p>
-                            )}
-                        </motion.div>
-                    )}
-
-                    {/* =============== STEP 3: DETAILS =============== */}
+                    {/* ═══════════ STEP 2: DETAILS ═══════════ */}
                     {step === "DETAILS" && (
                         <motion.div key="details" {...fadeSlide}>
                             <button
-                                onClick={() => setStep("TIME")}
-                                className="text-[#F5A800]/50 text-xs uppercase tracking-wider hover:text-[#F5A800] transition-colors mb-4"
+                                onClick={() => { setStep("DATE"); setError(""); }}
+                                className="text-[#F5A800]/50 text-xs uppercase tracking-wider hover:text-[#F5A800] transition-colors mb-6"
                                 style={{ fontFamily: "var(--font-cinzel), serif" }}
                             >
                                 ← Til baka
                             </button>
 
-                            <p className="text-center text-[#F5E8D0]/60 text-sm mb-2 tracking-wider uppercase"
-                                style={{ fontFamily: "var(--font-cinzel), serif" }}>
-                                Upplýsingar
-                            </p>
-                            <p className="text-center text-[#F5E8D0]/30 text-xs mb-8">
-                                {dates.find(d => d.date === selectedDate)?.label} · kl. {selectedTime} · {guests} {guests === 1 ? "gestur" : "gestir"}
-                            </p>
+                            {/* Date + availability summary */}
+                            <div className="text-center mb-8">
+                                <p className="text-[#F5E8D0]/80 text-sm mb-1">{selectedDateLabel} · kl. 17:00–20:00</p>
+                                {checkingAvail ? (
+                                    <p className="text-[#F5E8D0]/30 text-xs">Sæki upplýsingar...</p>
+                                ) : availableSeats !== null ? (
+                                    <p className={`text-xs font-mono ${availableSeats === 0 ? "text-red-400" : availableSeats <= 10 ? "text-orange-400" : "text-[#F5A800]/70"}`}>
+                                        {availableSeats === 0
+                                            ? "Fullbókað þennan dag"
+                                            : `${availableSeats} af 60 sætum laus`}
+                                    </p>
+                                ) : null}
+                            </div>
 
-                            <form onSubmit={handleSubmit} className="space-y-5">
-                                <div>
-                                    <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F5A800]"
-                                        style={{ fontFamily: "var(--font-cinzel), serif" }}>
-                                        Nafn
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        required
-                                        placeholder="Nafnið þitt"
-                                        className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-3 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors"
-                                    />
+                            {availableSeats === 0 ? (
+                                <div className="text-center py-8">
+                                    <p className="text-red-400 mb-4">Þessi dagur er fullbókaður.</p>
+                                    <button onClick={() => setStep("DATE")}
+                                        className="text-[#F5A800]/70 text-sm underline hover:text-[#F5A800] transition-colors">
+                                        Velja annan dag
+                                    </button>
                                 </div>
+                            ) : (
+                                <form onSubmit={handleSubmit} className="space-y-5">
+                                    {/* Guest counter (repeated for convenience) */}
+                                    <div className="flex items-center justify-between py-3 border-b border-[#F5E8D0]/10">
+                                        <label className="text-xs uppercase tracking-widest text-[#F5A800]/70"
+                                            style={{ fontFamily: "var(--font-cinzel), serif" }}>Gestir</label>
+                                        <div className="flex items-center gap-3">
+                                            <button type="button" onClick={() => setGuests(Math.max(1, guests - 1))}
+                                                className="w-7 h-7 rounded-full border border-[#F5A800]/30 text-[#F5A800]/70 hover:border-[#F5A800] hover:text-[#F5A800] transition-all text-base leading-none">−</button>
+                                            <span className="w-8 text-center text-[#F5A800] font-bold text-lg">{guests}</span>
+                                            <button type="button" onClick={() => setGuests(Math.min(60, guests + 1))}
+                                                className="w-7 h-7 rounded-full border border-[#F5A800]/30 text-[#F5A800]/70 hover:border-[#F5A800] hover:text-[#F5A800] transition-all text-base leading-none">+</button>
+                                        </div>
+                                    </div>
 
-                                <div>
-                                    <label className="block text-xs uppercase tracking-widest mb-2 opacity-70 text-[#F5A800]"
+                                    {/* Name */}
+                                    <div>
+                                        <label className="block text-xs uppercase tracking-widest mb-2 text-[#F5A800]/70"
+                                            style={{ fontFamily: "var(--font-cinzel), serif" }}>Nafn</label>
+                                        <input type="text" value={name} onChange={e => setName(e.target.value)} required
+                                            placeholder="Nafnið þitt"
+                                            className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-3 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors" />
+                                    </div>
+
+                                    {/* Phone */}
+                                    <div>
+                                        <label className="block text-xs uppercase tracking-widest mb-2 text-[#F5A800]/70"
+                                            style={{ fontFamily: "var(--font-cinzel), serif" }}>Símanúmer</label>
+                                        <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} required
+                                            placeholder="000-0000"
+                                            className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-3 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors" />
+                                    </div>
+
+                                    {/* Email */}
+                                    <div>
+                                        <label className="block text-xs uppercase tracking-widest mb-2 text-[#F5A800]/70"
+                                            style={{ fontFamily: "var(--font-cinzel), serif" }}>Netfang</label>
+                                        <input type="email" value={email} onChange={e => setEmail(e.target.value)} required
+                                            placeholder="netfang@þitt.is"
+                                            className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-3 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors" />
+                                    </div>
+
+                                    {/* Notes (optional) */}
+                                    <div>
+                                        <label className="block text-xs uppercase tracking-widest mb-2 text-[#F5A800]/40"
+                                            style={{ fontFamily: "var(--font-cinzel), serif" }}>Athugasemd <span className="normal-case tracking-normal opacity-60">(valfrjálst)</span></label>
+                                        <input type="text" value={notes} onChange={e => setNotes(e.target.value)}
+                                            placeholder="Séróskir, afmæli o.s.frv."
+                                            className="w-full bg-transparent border-b border-[#F5E8D0]/10 py-3 text-[#F5E8D0]/80 placeholder-[#F5E8D0]/15 focus:outline-none focus:border-[#F5A800]/30 transition-colors text-sm" />
+                                    </div>
+
+                                    {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+
+                                    <button type="submit" disabled={loading}
+                                        className="w-full py-4 rounded-full text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 bg-transparent text-[#F5A800] border border-[#E8C87A] shadow-[0_0_15px_rgba(245,168,0,0.1)] hover:bg-[#F5A800]/10 hover:shadow-[0_0_25px_rgba(245,168,0,0.2)] disabled:opacity-30"
                                         style={{ fontFamily: "var(--font-cinzel), serif" }}>
-                                        Netfang
-                                    </label>
-                                    <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                        placeholder="netfangid@thitt.is"
-                                        className="w-full bg-transparent border-b border-[#F5E8D0]/15 py-3 text-[#F5E8D0] placeholder-[#F5E8D0]/20 focus:outline-none focus:border-[#F5A800]/50 transition-colors"
-                                    />
-                                </div>
-
-                                {error && (
-                                    <p className="text-[#E74C3C] text-sm text-center">{error}</p>
-                                )}
-
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="w-full py-4 rounded-full text-sm font-bold tracking-[0.2em] uppercase transition-all duration-300 bg-transparent text-[#F5A800] border border-[#E8C87A] shadow-[0_0_15px_rgba(245,168,0,0.1)] hover:bg-[#F5A800]/10 hover:shadow-[0_0_25px_rgba(245,168,0,0.2)] disabled:opacity-30"
-                                    style={{ fontFamily: "var(--font-cinzel), serif" }}
-                                >
-                                    {loading ? "Bóka..." : "STAÐFESTA BÓKUN"}
-                                </button>
-                            </form>
+                                        {loading ? "Bóka..." : "STAÐFESTA BÓKUN"}
+                                    </button>
+                                </form>
+                            )}
                         </motion.div>
                     )}
 
-                    {/* =============== STEP 4: CONFIRMED =============== */}
+                    {/* ═══════════ STEP 3: CONFIRMED ═══════════ */}
                     {step === "CONFIRMED" && (
                         <motion.div key="confirmed" {...fadeSlide} className="text-center">
-                            {/* Checkmark */}
                             <motion.div
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
@@ -346,11 +306,11 @@ export default function BookingForm() {
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-[#F5E8D0]/40 text-xs uppercase tracking-wider">Dagsetning</span>
-                                    <span className="text-[#F5E8D0] text-sm">{dates.find(d => d.date === selectedDate)?.label}</span>
+                                    <span className="text-[#F5E8D0] text-sm">{selectedDateLabel}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-[#F5E8D0]/40 text-xs uppercase tracking-wider">Tími</span>
-                                    <span className="text-[#F5E8D0] text-sm">kl. {selectedTime}</span>
+                                    <span className="text-[#F5A800] text-sm">kl. 17:00 – 20:00</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-[#F5E8D0]/40 text-xs uppercase tracking-wider">Gestir</span>
@@ -358,24 +318,25 @@ export default function BookingForm() {
                                 </div>
                                 {confirmationId && (
                                     <div className="pt-3 border-t border-[#F5E8D0]/10">
-                                        <span className="text-[#F5E8D0]/30 text-[10px] uppercase tracking-wider">Bókunarnúmer: {confirmationId.slice(0, 8)}</span>
+                                        <span className="text-[#F5E8D0]/30 text-[10px] uppercase tracking-wider">
+                                            Bókunarnúmer: {confirmationId.slice(0, 8)}
+                                        </span>
                                     </div>
                                 )}
                             </div>
 
                             <p className="text-[#F5E8D0]/40 text-xs mb-6">
-                                Staðfesting hefur verið send á <span className="text-[#F5A800]/70">{email}</span>
+                                Staðfesting send á <span className="text-[#F5A800]/70">{email}</span>
                             </p>
 
-                            <button
-                                onClick={resetForm}
+                            <button onClick={resetForm}
                                 className="text-[#F5A800]/50 text-xs uppercase tracking-wider hover:text-[#F5A800] transition-colors"
-                                style={{ fontFamily: "var(--font-cinzel), serif" }}
-                            >
+                                style={{ fontFamily: "var(--font-cinzel), serif" }}>
                                 Bóka annað borð
                             </button>
                         </motion.div>
                     )}
+
                 </AnimatePresence>
             </div>
         </section>

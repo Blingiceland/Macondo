@@ -21,25 +21,23 @@ interface Drink {
 }
 
 const COCKTAILS: Drink[] = [
-    { name: "Mariposa Amarilla", description: "Tequila, passion fruit, sour lime, gold-dust rim.", price: "2400 ISK", image: "/images/The_Sanguine_Saint.png" },
-    { name: "Macondo Sunrise", description: "Tequila, grapefruit soda, grenadine, orange zest.", price: "2200 ISK", image: "/images/Eternal_Sunset.png" },
-    { name: "La Lluvia", description: "Mezcal, grapefruit, rosemary smoke, salt.", price: "2300 ISK", image: "/images/Graveyard_Dust.png" },
-    { name: "Aureliano", description: "Añejo tequila, agave, bitters, orange peel.", price: "2800 ISK", image: "/images/A_Stake_Through_The_Heart.png" },
-    { name: "Melquíades", description: "Smoky, bitter, dark. One for the alchemist.", price: "2600 ISK", image: "/images/Crimson_Peak.png" },
-    { name: "Remedios la Bella", description: "Elderflower, lime, tequila blanco. Ascends.", price: "2400 ISK", image: "/images/La_Llorona.png" },
-    { name: "Pilar Ternera", description: "Tequila, ginger, tamarind, chili-salt rim.", price: "2500 ISK", image: "/images/Lucifers_Reach.png" },
-    { name: "Úrsula", description: "Tequila, blackberry, basil, dark honey.", price: "2700 ISK", image: "/images/Midnight_Garden.png" },
+    { name: "YELLOW BUTTERFLY", description: "Padrecito tequila, Silvio Carta Limoncello, Adriatico Bianco Amaretto, Lemon, Egg white", price: "3490 ISK" },
+    { name: "BANANA CO.", description: "Padrecito, X by Xiaman Mezcal, Guajillo Chili, Ancho Chili, Banana Skyr, Lemon", price: "3490 ISK" },
+    { name: "RAIN FOR FOUR YEARS", description: "1800 Blanco, Plantaray Coconut Rum, Aloe Vera, Agave, Lime, Icelandic Glacial Sparkling Water", price: "3490 ISK" },
+    { name: "THE FIFTH LEAF", description: "Los Siete Misterios Mezcal, Lime leaf, Green Chili, Celery, Lime", price: "3490 ISK" },
+    { name: "THE PINK ECHO", description: "1800 Blanco, Strawberry, Agave, Lime, 3cent Lemonade", price: "3490 ISK" },
+    { name: "EL JARDÍN DE MACONDO", description: "Aguardiente, Cucumber, Lime, Agave, Icelandic Glacial Sparkling Water", price: "3490 ISK" },
+    { name: "MARGARITA", description: "1800 Blanco tequila, Cointreau, lime", price: "3390 ISK" },
+    { name: "PALOMA", description: "1800 Reposado Tequila, 3 cent Grapefruit, Lime, Salt", price: "3390 ISK" },
+    { name: "TOMMY'S MARGARITA", description: "Padrecito tequila, Lime, Agave, Salt", price: "3390 ISK" },
+    { name: "TEQUILA SUNRISE", description: "1800 Reposado tequila, Orange juice, grenadine", price: "3390 ISK" },
+    { name: "SPICY MARGARITA", description: "1800 Reposaso tequila, Chili, Lime, Agave, Tajin, Salt", price: "3490 ISK" },
 ];
 
 const SHOTS: Drink[] = [
-    { name: "El Hielo", description: "Frozen tequila blanco. The very first wonder.", price: "1500 ISK", image: "/images/Holy_Water.png" },
-    { name: "Tierra", description: "Oak-aged, deep, and earthy.", price: "1700 ISK", image: "/images/The_Antidote.png" },
-    { name: "Las Cenizas", description: "Thick, dark, 1-3 years aged. Everything turns to ash.", price: "2000 ISK", image: "/images/Venom.png" },
-    { name: "El Pergamino", description: "Coffee-agave fusion. Written on parchment.", price: "1600 ISK", image: "/images/Coffin_Nail.png" },
-    { name: "Fuego", description: "Mezcal and blazing chili heat. Everything burns.", price: "1600 ISK", image: "/images/Hellfire.png" },
-    { name: "El Circo", description: "Smoke and mirrors. The circus comes to town.", price: "1800 ISK", image: "/images/Smoke_And_Mirrors.png" },
-    { name: "Soledad", description: "Coconut, light, sweet, alone.", price: "1600 ISK", image: "/images/Pale_Ghost.png" },
-    { name: "Insomnia", description: "Herbal blend. No one sleeps in Macondo.", price: "1900 ISK", image: "/images/Viper_Bite.png" },
+    { name: "1800 ANEJO", description: "Smoked Cinnamon & Orange", price: "2200 ISK" },
+    { name: "CLASE AZUL REPOSADO", description: "Paired with Dark chocolate", price: "6500 ISK" },
+    { name: "PADRE AZUL BLANCO", description: "Dried peach", price: "2950 ISK" },
 ];
 
 /* ================================================================
@@ -292,6 +290,7 @@ function NavEN() {
                     { label: "Cocktails", href: "#cocktails" },
                     { label: "Shots", href: "#shots" },
                     { label: "Book a Table", href: "#booking" },
+                    { label: "Karaoke", href: "/karaoke" },
                 ].map((item) => {
                     const isLink = item.href.startsWith("/");
                     if (isLink) {
@@ -433,7 +432,7 @@ export default function EnglishPage() {
                 <div id="shots" className="py-10 px-6 w-full max-w-6xl mx-auto">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl font-bold tracking-[0.2em] uppercase text-[#C8891A] drop-shadow-[0_0_12px_rgba(200,137,26,0.6)]"
-                            style={{ fontFamily: "var(--font-macondo-gf), cursive" }}>LA ALQUIMIA</h2>
+                            style={{ fontFamily: "var(--font-macondo-gf), cursive" }}>RITUALS</h2>
                         <p className="text-xs opacity-40 uppercase tracking-widest mt-2 text-[#F5E8D0]">Shots</p>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
