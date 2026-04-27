@@ -77,7 +77,7 @@ export default function StickyNav() {
                                 WebkitMaskSize: 'contain',
                                 WebkitMaskRepeat: 'no-repeat',
                                 WebkitMaskPosition: 'left center',
-                                background: '#ff6a3a',
+                                background: 'linear-gradient(180deg, #ff7a4a, #c94a28)',
                                 filter: 'drop-shadow(0 0 6px rgba(255, 106, 58, 0.35)) drop-shadow(0 0 18px rgba(255, 106, 58, 0.18)) drop-shadow(0 0 40px rgba(255, 80, 40, 0.08))'
                             }}
                         />
@@ -153,7 +153,7 @@ export default function StickyNav() {
                                 WebkitMaskSize: 'contain',
                                 WebkitMaskRepeat: 'no-repeat',
                                 WebkitMaskPosition: 'left center',
-                                background: '#ff6a3a',
+                                background: 'linear-gradient(180deg, #ff7a4a, #c94a28)',
                                 filter: 'drop-shadow(0 0 6px rgba(255, 106, 58, 0.35)) drop-shadow(0 0 18px rgba(255, 106, 58, 0.18)) drop-shadow(0 0 40px rgba(255, 80, 40, 0.08))'
                             }}
                         />
