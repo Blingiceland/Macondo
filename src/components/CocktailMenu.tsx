@@ -36,7 +36,7 @@ export default function CocktailMenu() {
 
             {/* COCKTAILS SECTION */}
             <section id="cocktails" aria-label="Kokteilar">
-            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="mb-32">
+            <motion.div   className="mb-32">
                 <div className="text-center mb-16">
                     <h2 className="text-2xl md:text-3xl font-bold tracking-[0.1em] uppercase text-[#c6a46c]"
                         style={{ fontFamily: "var(--font-cinzel), serif" }}>
@@ -51,8 +51,8 @@ export default function CocktailMenu() {
                     {COCKTAILS.map((drink, index) => (
                         <motion.li
                             key={`cocktail-${index}`}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            
+                            
                             transition={{ delay: index * 0.1 }}
                         >
                         <article className="group relative overflow-hidden rounded-lg bg-[#0f0a08]/50 border border-[#c6a46c]/20 hover:border-[#c6a46c]/50 transition-all duration-300 h-full">
@@ -91,7 +91,7 @@ export default function CocktailMenu() {
 
             {/* SHOTS SECTION */}
             <section id="shots" aria-label="Skot">
-            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
+            <motion.div  >
                 <div className="text-center mb-16">
                     <h2 className="text-2xl md:text-3xl font-bold tracking-[0.1em] uppercase text-[#c6a46c]"
                         style={{ fontFamily: "var(--font-cinzel), serif" }}>
@@ -106,8 +106,8 @@ export default function CocktailMenu() {
                     {SHOTS.map((drink, index) => (
                         <motion.li
                             key={`shot-${index}`}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            
+                            
                             transition={{ delay: index * 0.1 }}
                         >
                         <article className="group relative overflow-hidden rounded-lg bg-[#0f0a08]/50 border border-[#c6a46c]/20 hover:border-[#c6a46c]/50 transition-all duration-300 h-full">

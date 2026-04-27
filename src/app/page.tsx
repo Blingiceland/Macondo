@@ -46,7 +46,7 @@ export default function Home() {
         {/* Logo — absolutely centered to match intro position */}
         <motion.div
           className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none"
-          initial={{ opacity: 0 }}
+          
           animate={introComplete ? { opacity: 1 } : {}}
           transition={{ duration: 1, delay: 0.3 }}
         >
@@ -58,7 +58,7 @@ export default function Home() {
         {/* Scroll indicator */}
         <motion.div
           className="absolute bottom-10 left-1/2 -translate-x-1/2"
-          initial={{ opacity: 0 }}
+          
           animate={introComplete ? { opacity: 0.3, y: [0, 8, 0] } : {}}
           transition={{ duration: 2, repeat: Infinity, delay: 2 }}
         >
@@ -88,9 +88,9 @@ export default function Home() {
       <section id="cocktails" aria-label="Kokteilar" className="relative z-10 w-full flex flex-col items-center">
         <motion.div
           className="text-center pt-24 pb-20 px-6 max-w-2xl mx-auto"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          
+          
+          
           transition={{ duration: 0.8 }}
         >
           <p
@@ -115,9 +115,9 @@ export default function Home() {
       <section id="karaoke" aria-label="Karókí" className="relative z-10 w-full flex flex-col items-center py-32">
         <motion.div
           className="container mx-auto px-6 max-w-5xl"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          
+          
+          
           transition={{ duration: 0.8 }}
         >
           <div className="relative overflow-hidden rounded-2xl border border-[#c6a46c]/10 bg-gradient-to-br from-[#0f0a08] via-[#1a1412] to-[#0f0a08] p-10 md:p-16 shadow-lg flex flex-col md:flex-row items-center gap-10">

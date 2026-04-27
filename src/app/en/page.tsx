@@ -454,7 +454,7 @@ function NavEN() {
                 {mobileOpen && (
                     <motion.div
                         key="mobile-menu-en"
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                         animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
                         className="fixed inset-0 z-[85] bg-[#0f0a08]/95 backdrop-blur-lg flex flex-col items-center justify-center gap-8"
                         style={{ paddingTop: "96px" }}
@@ -497,7 +497,7 @@ function DrinkCard({ drink, color }: { drink: Drink; color: "yellow" | "pink" })
     const styles = { border: "border-[#c6a46c]/20 hover:border-[#c6a46c]/50", title: "text-[#c6a46c]", price: "text-[#c6a46c]", line: "from-[#c6a46c]/40" };
 
     return (
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+        <motion.div  
             className={`group relative overflow-hidden rounded-lg bg-[#0f0a08]/50 border ${styles.border} transition-all duration-300 h-full`}>
             {drink.image && (
                 <div className="relative w-full aspect-square overflow-hidden">
@@ -538,7 +538,7 @@ export default function EnglishPage() {
                 <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(circle at 50% 42%, rgba(198,164,108,0.055), transparent 38%)' }} />
 
                 <div className="z-10 text-center max-w-4xl px-6">
-                    <motion.div className="min-h-32 mb-16 flex items-center justify-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
+                    <motion.div className="min-h-32 mb-16 flex items-center justify-center"  animate={{ opacity: 1 }} transition={{ duration: 1 }}>
                         <NeonSign />
                     </motion.div>
                 </div>
@@ -554,7 +554,7 @@ export default function EnglishPage() {
 
             {/* CONTENT */}
             <div className="relative z-10 w-full flex flex-col items-center">
-                <motion.div className="text-center py-16 px-6 max-w-2xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                <motion.div className="text-center py-16 px-6 max-w-2xl mx-auto"   >
                     <p className="text-lg md:text-xl font-light leading-relaxed opacity-60" style={{ fontFamily: 'var(--font-cinzel), serif', color: '#f5f2ee' }}>
                         Every drink in Macondo tells a story —<br />
                         of gold and solitude, rain and butterflies.

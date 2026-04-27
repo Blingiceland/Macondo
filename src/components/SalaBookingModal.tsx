@@ -132,7 +132,7 @@ export default function SalaBookingModal({ open, onClose, lang = "is" }: Props) 
             {open && (
                 <motion.div
                     key="sala-overlay"
-                    initial={{ opacity: 0 }}
+                    
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     className="fixed inset-0 z-[200] flex items-center justify-center p-4"
@@ -140,7 +140,7 @@ export default function SalaBookingModal({ open, onClose, lang = "is" }: Props) 
                     onClick={(e) => { if (e.target === e.currentTarget) handleClose(); }}
                 >
                     <motion.div
-                        initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                        
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.96 }}
                         transition={{ duration: 0.3 }}
@@ -170,7 +170,7 @@ export default function SalaBookingModal({ open, onClose, lang = "is" }: Props) 
 
                                 {/* STEP 1: DATE */}
                                 {step === "DATE" && (
-                                    <motion.div key="date" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                                    <motion.div key="date"  animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                                         <p className="text-center text-[#f5f2ee]/50 text-xs tracking-widest uppercase mb-6"
                                             style={{ fontFamily: "var(--font-cinzel), serif" }}>{T.veldu}</p>
 
@@ -235,7 +235,7 @@ export default function SalaBookingModal({ open, onClose, lang = "is" }: Props) 
 
                                 {/* STEP 2: DETAILS */}
                                 {step === "DETAILS" && (
-                                    <motion.div key="details" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                                    <motion.div key="details"  animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                                         <button onClick={() => setStep("DATE")}
                                             className="text-[#c6a46c]/50 text-xs uppercase tracking-wider hover:text-[#c6a46c] transition-colors mb-6"
                                             style={{ fontFamily: "var(--font-cinzel), serif" }}>
@@ -276,7 +276,7 @@ export default function SalaBookingModal({ open, onClose, lang = "is" }: Props) 
 
                                 {/* STEP 3: CONFIRMED */}
                                 {step === "CONFIRMED" && (
-                                    <motion.div key="confirmed" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                                    <motion.div key="confirmed"  animate={{ opacity: 1 }}
                                         className="text-center py-8">
                                         <div className="text-5xl mb-6">🌿</div>
                                         <h3 className="text-xl font-bold text-[#c6a46c] tracking-wider uppercase mb-3"

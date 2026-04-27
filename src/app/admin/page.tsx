@@ -119,7 +119,7 @@ export default function AdminPage() {
     if (!authed) {
         return (
             <div className="min-h-screen bg-[#0e0605] flex items-center justify-center px-4">
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                <motion.div  animate={{ opacity: 1, y: 0 }}
                     className="w-full max-w-sm">
                     <h1 className="text-2xl font-bold tracking-[0.2em] text-[#F5A800] text-center mb-2 uppercase"
                         style={{ fontFamily: "var(--font-cinzel), serif" }}>Macondo</h1>
@@ -229,7 +229,7 @@ export default function AdminPage() {
                                         <div className="space-y-3">
                                             {dayData.reservations.map((r, i) => (
                                                 <motion.div key={r.id}
-                                                    initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                                                     animate={{ opacity: 1, y: 0 }}
                                                     transition={{ delay: i * 0.05 }}
                                                     className={`bg-[#F5E8D0]/3 border rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-4 ${r.guests >= LARGE_GROUP ? "border-orange-400/30 bg-orange-400/5" : "border-[#F5E8D0]/10"}`}>
                                                     {/* Guest count badge */}
@@ -283,7 +283,7 @@ export default function AdminPage() {
                                     <p className="text-[#F5E8D0]/30 text-xs mb-4">{allReservations.length} bókanir — {allReservations.reduce((s, r) => s + r.guests, 0)} gestir samtals</p>
                                     {allReservations.map((r, i) => (
                                         <motion.div key={r.id}
-                                            initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: i * 0.03 }}
                                             className={`border rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3 ${r.guests >= LARGE_GROUP ? "border-orange-400/30 bg-orange-400/5" : "border-[#F5E8D0]/8 bg-[#F5E8D0]/3"}`}>
                                             <div className="flex-shrink-0 text-center min-w-[80px]">

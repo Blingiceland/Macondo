@@ -35,7 +35,7 @@ export default function HeroIntro({ onComplete }: HeroIntroProps) {
                     {/* Ambient radial glow */}
                     <motion.div
                         className="absolute inset-0 pointer-events-none"
-                        initial={{ opacity: 0 }}
+                        
                         animate={{ opacity: 1 }}
                         transition={{ duration: 2 }}
                     >
@@ -46,7 +46,7 @@ export default function HeroIntro({ onComplete }: HeroIntroProps) {
                     <div className="text-center px-8">
                         {/* Logo fades + scales in */}
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.85, filter: "blur(12px)" }}
+                            
                             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                             transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
                             style={{

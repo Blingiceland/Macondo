@@ -13,9 +13,9 @@ export default function Footer() {
 
                     {/* Column 1: Brand + Address */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        
+                        
+                        
                         className="text-center md:text-left"
                     >
                         <h3
@@ -50,9 +50,9 @@ export default function Footer() {
 
                     {/* Column 2: Opening Hours */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        
+                        
+                        
                         transition={{ delay: 0.1 }}
                         className="text-center"
                     >
@@ -83,9 +83,9 @@ export default function Footer() {
 
                     {/* Column 3: Social Links */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        
+                        
+                        
                         transition={{ delay: 0.2 }}
                         className="text-center md:text-right"
                     >

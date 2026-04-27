@@ -163,7 +163,7 @@ export default function DrinksMenu() {
             {/* Hero */}
             <div className="pt-20 pb-8 text-center px-6">
                 <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
+                    
                     animate={{ opacity: 1, y: 0 }}
                     className="text-4xl md:text-5xl font-bold tracking-[0.15em] mb-3"
                     style={{ fontFamily: "var(--font-macondo-gf), cursive", color: "#C13A1A", textShadow: "0 0 20px rgba(193,58,26,0.3)" }}
@@ -171,7 +171,7 @@ export default function DrinksMenu() {
                     DRINKS MENU
                 </motion.h1>
                 <motion.p
-                    initial={{ opacity: 0 }}
+                    
                     animate={{ opacity: 0.4 }}
                     transition={{ delay: 0.3 }}
                     className="text-sm italic tracking-wider"
@@ -184,7 +184,7 @@ export default function DrinksMenu() {
             <div className="max-w-2xl mx-auto px-6 pb-24 space-y-16">
 
                 {/* HAPPY HOUR */}
-                <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                <motion.section   >
                     <SectionHeader title="Happy Hour" subtitle={HAPPY_HOUR.hours} color="yellow" />
                     <div className="bg-[#F5A800]/5 border border-[#F5A800]/15 rounded-lg p-6">
                         {HAPPY_HOUR.items.map((item, i) => (
@@ -194,7 +194,7 @@ export default function DrinksMenu() {
                 </motion.section>
 
                 {/* SPRITZ HOUR */}
-                <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                <motion.section   >
                     <SectionHeader title="Spritz Hour" subtitle={SPRITZ_HOUR.hours} color="pink" />
                     <div className="bg-[#C8891A]/5 border border-[#C8891A]/15 rounded-lg p-6">
                         {SPRITZ_HOUR.items.map((item, i) => (
@@ -204,7 +204,7 @@ export default function DrinksMenu() {
                 </motion.section>
 
                 {/* COCKTAILS */}
-                <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                <motion.section   >
                     <SectionHeader title="Cocktails" color="green" />
                     <div className="bg-[#C13A1A]/5 border border-[#C13A1A]/15 rounded-lg p-6">
                         {COCKTAILS.map((item, i) => (
@@ -214,7 +214,7 @@ export default function DrinksMenu() {
                 </motion.section>
 
                 {/* MULES */}
-                <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                <motion.section   >
                     <SectionHeader title="Mules" subtitle="+ 3 Cents Ginger Beer, lime" color="blue" />
                     <div className="bg-[#3D1810]/5 border border-[#3D1810]/15 rounded-lg p-6">
                         {MULES.map((item, i) => (
@@ -224,7 +224,7 @@ export default function DrinksMenu() {
                 </motion.section>
 
                 {/* COCKTAIL JUGS */}
-                <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                <motion.section   >
                     <div className="text-center py-8 bg-[#F5A800]/5 border border-[#F5A800]/10 rounded-lg">
                         <h3 className="text-lg tracking-[0.2em] uppercase text-[#F5A800] mb-1" style={{ fontFamily: "var(--font-macondo-gf), cursive" }}>
                             Cocktail Jugs
@@ -235,7 +235,7 @@ export default function DrinksMenu() {
                 </motion.section>
 
                 {/* BEER */}
-                <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                <motion.section   >
                     <SectionHeader title="Bjór" color="yellow" />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="bg-[#F5A800]/5 border border-[#F5A800]/10 rounded-lg p-6">
@@ -254,7 +254,7 @@ export default function DrinksMenu() {
                 </motion.section>
 
                 {/* SHOTS */}
-                <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                <motion.section   >
                     <SectionHeader title="Shots" color="pink" />
                     <div className="bg-[#C8891A]/5 border border-[#C8891A]/15 rounded-lg p-6">
                         {SHOTS.map((item, i) => (
@@ -264,7 +264,7 @@ export default function DrinksMenu() {
                 </motion.section>
 
                 {/* WINE */}
-                <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                <motion.section   >
                     <SectionHeader title="Vín" color="green" />
                     <div className="bg-[#C13A1A]/5 border border-[#C13A1A]/15 rounded-lg p-6 space-y-4">
                         {WINES.map((wine, i) => (
