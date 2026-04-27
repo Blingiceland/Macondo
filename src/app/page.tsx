@@ -144,7 +144,7 @@ export default function Home() {
                 href="https://pablodiscobar.is/karaoke"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 px-8 py-3 rounded-full font-light text-xs tracking-[0.14em] transition-all duration-300 border border-[#c6a46c]/30 text-[#c6a46c]/80 hover:bg-[#c6a46c] hover:text-[#0f0a08]"
+                className="group inline-flex items-center gap-3 px-[34px] py-[16px] rounded-full font-light text-[14px] tracking-[0.14em] transition-all duration-300 border border-[#c6a46c]/[0.65] text-[#c6a46c] hover:border-[#c6a46c] hover:text-[#f5f2ee]"
                 style={{ fontFamily: 'var(--font-cinzel), serif' }}
               >
                 <span>Bóka karókí</span>
