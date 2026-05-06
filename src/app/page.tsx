@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState, useCallback } from "react";
 import CocktailMenu from "@/components/CocktailMenu";
+import PhotoGallery from "@/components/PhotoGallery";
 import BookingForm from "@/components/BookingForm";
 import Footer from "@/components/Footer";
 import StickyNav from "@/components/StickyNav";
@@ -107,7 +108,7 @@ export default function Home() {
         </div>
       </section>
 
-
+      <PhotoGallery />
 
       <BookingForm />
 
