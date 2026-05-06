@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 interface Drink {
     name: string;
@@ -28,7 +28,7 @@ const SHOTS: Drink[] = [
     { name: "PADRE AZUL BLANCO", description: "Dried peach", price: "2950 ISK" },
 ];
 
-const cardVariants = {
+const cardVariants: Variants = {
     hidden: { opacity: 0, y: 32 },
     visible: (i: number) => ({
         opacity: 1,
@@ -41,7 +41,7 @@ const cardVariants = {
     }),
 };
 
-const sectionVariants = {
+const sectionVariants: Variants = {
     hidden: { opacity: 0, y: 24 },
     visible: {
         opacity: 1,
