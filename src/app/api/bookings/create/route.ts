@@ -3,7 +3,7 @@ import { createReservation, LARGE_GROUP_THRESHOLD, SITTING_LABEL } from "@/lib/b
 import nodemailer from "nodemailer";
 import { CLOSED_DAYS, closedDaysTextIs } from "@/lib/business";
 
-const ADMIN_EMAIL = "discobar@discobar.is";
+const ADMIN_EMAIL = "pablo@discobar.is";
 
 /** Escape-ar notendatexta áður en hann fer inn í HTML-póst. */
 function esc(value: unknown): string {
@@ -140,7 +140,7 @@ export async function POST(request: NextRequest) {
                         </div>
 
                         <p style="margin-top: 40px; color: #F5E8D0; opacity: 0.3; font-size: 11px;">
-                            Macondo · Veltusund 1 · 101 Reykjavík · discobar@discobar.is
+                            Macondo · Veltusund 1 · 101 Reykjavík · ${ADMIN_EMAIL}
                         </p>
                     </div>
                 `,
