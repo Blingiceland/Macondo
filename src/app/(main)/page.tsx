@@ -37,28 +37,49 @@ export default function Home() {
       <main>
 
       {/* HERO SECTION */}
-      <section id="hero" aria-label="Forsíða" className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+      <section id="hero" aria-label="Forsíða" className="min-h-[68svh] md:min-h-[72vh] flex flex-col items-center justify-center relative overflow-hidden pt-[var(--nav-h)] pb-16">
         {/* Visually hidden h1 for SEO/accessibility */}
         <h1 className="sr-only">Macondo — Tequila Bar Reykjavík</h1>
+
+        {/* Staðarmynd með dökku yfirlagi sem rennur saman við bakgrunninn */}
+        <div className="absolute inset-0 z-0" aria-hidden="true">
+          <Image
+            src="/images/hero-venue.jpg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center hero-photo"
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(180deg, rgba(20,12,9,0.80) 0%, rgba(20,12,9,0.64) 45%, rgba(20,12,9,0.88) 82%, #140c09 100%)" }}
+          />
+          {/* Dekkra svæði á bak við lógóið svo það lesist gegn barnum */}
+          <div className="absolute inset-0 hero-vignette" />
+        </div>
 
         {/* Hero ambient — subtle warm center glow */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(circle at 50% 42%, rgba(198,164,108,0.055), transparent 38%)' }} />
 
-        {/* Logo — absolutely centered to match intro position */}
+        {/* Logo, slagorð og aðgerð */}
         <motion.div
-          className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none"
-          
+          className="relative z-10 flex items-center justify-center"
           animate={introComplete ? { opacity: 1 } : {}}
           transition={{ duration: 1, delay: 0.3 }}
         >
-          <NeonSign />
+          <NeonSign
+            tagline="Tequila. Kokteilar. Síðkvöld í Reykjavík."
+            ctaLabel="Bóka borð"
+            onCta={scrollToReservation}
+          />
         </motion.div>
 
         {/* Removed Hero Quote and CTA for cleaner layout */}
 
         {/* Scroll indicator */}
         <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
+          className="absolute bottom-5 left-1/2 -translate-x-1/2"
           
           animate={introComplete ? { opacity: 0.3, y: [0, 8, 0] } : {}}
           transition={{ duration: 2, repeat: Infinity, delay: 2 }}
@@ -70,7 +91,7 @@ export default function Home() {
       </section>
 
       {/* JUNGLE DIVIDER */}
-      <div className="relative w-full h-32 overflow-hidden z-10" aria-hidden="true">
+      <div className="relative w-full h-12 overflow-hidden z-10" aria-hidden="true">
         <svg viewBox="0 0 1440 120" className="absolute bottom-0 w-full h-full" preserveAspectRatio="none">
           <path
             d="M0,60 C120,100 240,20 360,60 C480,100 600,30 720,55 C840,80 960,20 1080,50 C1200,80 1320,30 1440,60 L1440,120 L0,120 Z"
@@ -88,7 +109,7 @@ export default function Home() {
       {/* COCKTAILS SECTION */}
       <section id="cocktails" aria-label="Kokteilar" className="relative z-10 w-full flex flex-col items-center">
         <motion.div
-          className="text-center pt-24 pb-20 px-6 max-w-2xl mx-auto"
+          className="text-center pt-6 pb-10 px-6 max-w-2xl mx-auto"
           
           
           
@@ -98,7 +119,7 @@ export default function Home() {
             className="text-lg md:text-xl font-light leading-relaxed opacity-60"
             style={{ fontFamily: 'var(--font-cinzel), serif', color: '#f5f2ee' }}
           >
-            Sérhver dropi í Macondo segir sögu —<br />
+            Sérhver dropi í Macondo segir sögu — <br className="hidden md:inline" />
             um gull og einsemd, regn og fiðrildi.
           </p>
         </motion.div>
@@ -136,7 +157,7 @@ export default function Home() {
               </h2>
               <div className="w-16 h-[1px] mx-auto md:mx-0 bg-gradient-to-r from-[#c6a46c]/40 to-transparent mb-6" />
               <p className="text-[#f5f2ee]/75 text-[16px] leading-relaxed max-w-md">
-                Við erum með 2 herbergi.
+                Tvö einkaherbergi uppi á hæðinni. Syngið eins og enginn heyri og komið svo niður í kokteil. Bókað í gegnum Pablo Discobar.
               </p>
             </div>
 

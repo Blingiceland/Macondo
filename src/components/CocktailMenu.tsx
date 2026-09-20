@@ -1,156 +1,134 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
+
+/* ================================================================
+   DRYKKJASEÐILL — listaform eins og á prentuðum seðli
+   ================================================================ */
 
 interface Drink {
     name: string;
     description: string;
-    price: string;
+    /** Verð í krónum. */
+    price: number;
 }
 
 const COCKTAILS: Drink[] = [
-    { name: "YELLOW BUTTERFLY", description: "Padrecito tequila, Silvio Carta Limoncello, Adriatico Bianco Amaretto, Lemon, Egg white", price: "3490 ISK" },
-    { name: "BANANA CO.", description: "Padrecito, X by Xiaman Mezcal, Guajillo Chili, Ancho Chili, Banana Skyr, Lemon", price: "3490 ISK" },
-    { name: "RAIN FOR FOUR YEARS", description: "1800 Blanco, Plantaray Coconut Rum, Aloe Vera, Agave, Lime, Icelandic Glacial Sparkling Water", price: "3490 ISK" },
-    { name: "THE FIFTH LEAF", description: "Los Siete Misterios Mezcal, Lime leaf, Green Chili, Celery, Lime", price: "3490 ISK" },
-    { name: "THE PINK ECHO", description: "1800 Blanco, Strawberry, Agave, Lime, 3cent Lemonade", price: "3490 ISK" },
-    { name: "EL JARDÍN DE MACONDO", description: "Aguardiente, Cucumber, Lime, Agave, Icelandic Glacial Sparkling Water", price: "3490 ISK" },
-    { name: "MARGARITA", description: "1800 Blanco tequila, Cointreau, lime", price: "3390 ISK" },
-    { name: "PALOMA", description: "1800 Reposado Tequila, 3 cent Grapefruit, Lime, Salt", price: "3390 ISK" },
-    { name: "TOMMY'S MARGARITA", description: "Padrecito tequila, Lime, Agave, Salt", price: "3390 ISK" },
-    { name: "TEQUILA SUNRISE", description: "1800 Reposado tequila, Orange juice, grenadine", price: "3390 ISK" },
-    { name: "SPICY MARGARITA", description: "1800 Reposado tequila, Chili, Lime, Agave, Tajin, Salt", price: "3490 ISK" },
+    { name: "Yellow Butterfly", description: "Padrecito tequila, Silvio Carta Limoncello, Adriatico Bianco Amaretto, Lemon, Egg white", price: 3490 },
+    { name: "Banana Co.", description: "Padrecito, X by Xiaman Mezcal, Guajillo Chili, Ancho Chili, Banana Skyr, Lemon", price: 3490 },
+    { name: "Rain for Four Years", description: "1800 Blanco, Plantaray Coconut Rum, Aloe Vera, Agave, Lime, Icelandic Glacial Sparkling Water", price: 3490 },
+    { name: "The Fifth Leaf", description: "Los Siete Misterios Mezcal, Lime leaf, Green Chili, Celery, Lime", price: 3490 },
+    { name: "The Pink Echo", description: "1800 Blanco, Strawberry, Agave, Lime, 3cent Lemonade", price: 3490 },
+    { name: "El Jardín de Macondo", description: "Aguardiente, Cucumber, Lime, Agave, Icelandic Glacial Sparkling Water", price: 3490 },
+    { name: "Margarita", description: "1800 Blanco tequila, Cointreau, Lime", price: 3390 },
+    { name: "Paloma", description: "1800 Reposado Tequila, 3 cent Grapefruit, Lime, Salt", price: 3390 },
+    { name: "Tommy's Margarita", description: "Padrecito tequila, Lime, Agave, Salt", price: 3390 },
+    { name: "Tequila Sunrise", description: "1800 Reposado tequila, Orange juice, Grenadine", price: 3390 },
+    { name: "Spicy Margarita", description: "1800 Reposado tequila, Chili, Lime, Agave, Tajín, Salt", price: 3490 },
 ];
 
 const SHOTS: Drink[] = [
-    { name: "1800 ANEJO", description: "Smoked Cinnamon & Orange", price: "2200 ISK" },
-    { name: "CLASE AZUL REPOSADO", description: "Paired with Dark chocolate", price: "6500 ISK" },
-    { name: "PADRE AZUL BLANCO", description: "Dried peach", price: "2950 ISK" },
+    { name: "1800 Añejo", description: "Smoked cinnamon & orange", price: 2200 },
+    { name: "Clase Azul Reposado", description: "Paired with dark chocolate", price: 6500 },
+    { name: "Padre Azul Blanco", description: "Dried peach", price: 2950 },
 ];
 
-const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 32 },
-    visible: (i: number) => ({
-        opacity: 1,
-        y: 0,
-        transition: {
-            delay: i * 0.06,
-            duration: 0.5,
-            ease: [0.22, 1, 0.36, 1],
-        },
-    }),
-};
+const LABELS = {
+    is: { cocktails: "Kokteilar", shots: "Skot", note: "Öll verð í íslenskum krónum" },
+    en: { cocktails: "Cocktails", shots: "Shots", note: "All prices in Icelandic krónur" },
+} as const;
 
-const sectionVariants: Variants = {
-    hidden: { opacity: 0, y: 24 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-    },
-};
+function formatPrice(price: number, lang: "is" | "en"): string {
+    const n = price.toLocaleString(lang === "is" ? "de-DE" : "en-US");
+    return lang === "is" ? `${n} kr.` : `${n} ISK`;
+}
 
-function DrinkCard({ drink, index }: { drink: Drink; index: number }) {
+const cinzel = { fontFamily: "var(--font-cinzel), serif" };
+
+function MenuItem({ drink, index, lang }: { drink: Drink; index: number; lang: "is" | "en" }) {
     return (
         <motion.li
-            custom={index}
-            variants={cardVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            className="list-none"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-30px" }}
+            transition={{ delay: (index % 6) * 0.05, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="group list-none py-4 border-b border-[#c6a46c]/[0.12]"
         >
-            <article className="group relative overflow-hidden rounded-lg bg-[#140c09]/60 border border-[#c6a46c]/20 hover:border-[#c6a46c]/50 transition-all duration-300 h-full flex flex-col p-5 shadow-md hover:shadow-[0_0_20px_rgba(198,164,108,0.10)]">
-                {/* Gold accent top bar */}
-                <div className="absolute top-0 left-0 w-0 h-[1.5px] bg-gradient-to-r from-[#c6a46c] to-[#e8c98a] group-hover:w-full transition-all duration-500 ease-out" />
-
-                <div className="flex justify-between items-baseline mb-3">
-                    <h3 className="text-sm font-bold tracking-wider text-[#c6a46c] leading-snug">
-                        {drink.name}
-                    </h3>
-                    <span className="text-xs opacity-80 whitespace-nowrap ml-3 text-[#c6a46c] font-mono">
-                        {drink.price}
-                    </span>
-                </div>
-                <div
-                    className="h-px w-full mb-3 bg-gradient-to-r from-[#c6a46c]/30 to-transparent"
+            <div className="flex items-baseline gap-3">
+                <h3
+                    className="text-[15px] md:text-[16px] font-semibold tracking-[0.1em] uppercase text-[#e2cc98] group-hover:text-[#f5f2ee] transition-colors duration-300"
+                    style={cinzel}
+                >
+                    {drink.name}
+                </h3>
+                {/* Punktalína milli nafns og verðs, eins og á prentuðum seðli */}
+                <span
                     aria-hidden="true"
+                    className="flex-1 min-w-6 border-b border-dotted border-[#c6a46c]/40 -translate-y-1"
                 />
-                <p className="text-xs opacity-55 font-light tracking-wide text-[#f5f2ee] leading-relaxed flex-1">
-                    {drink.description}
-                </p>
-            </article>
+                <span className="text-[13px] font-mono tracking-wide text-[#c6a46c] whitespace-nowrap">
+                    {formatPrice(drink.price, lang)}
+                </span>
+            </div>
+            <p className="mt-1.5 text-[13px] leading-relaxed font-light text-[#f5f2ee]/50 md:pr-12">
+                {drink.description}
+            </p>
         </motion.li>
     );
 }
 
-export default function CocktailMenu() {
+function SectionHeading({ title, label }: { title: string; label: string }) {
     return (
-        <div className="pt-8 pb-20 px-6 w-full max-w-6xl mx-auto">
+        <motion.div
+            className="text-center mb-8"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
+            <h2
+                className="text-2xl md:text-3xl font-bold tracking-[0.12em] uppercase text-[#c6a46c]"
+                style={cinzel}
+            >
+                {title}
+            </h2>
+            <p className="text-xs md:text-sm tracking-[0.25em] uppercase mt-2 text-[#f5f2ee]/40" style={cinzel}>
+                {label}
+            </p>
+            <div className="w-12 h-px mx-auto mt-5 bg-gradient-to-r from-transparent via-[#c6a46c]/60 to-transparent" />
+        </motion.div>
+    );
+}
 
-            {/* COCKTAILS SECTION */}
-            <section id="cocktails" aria-label="Kokteilar">
-                <motion.div
-                    className="mb-28"
-                    variants={sectionVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-80px" }}
-                >
-                    <div className="text-center mb-14">
-                        <h2
-                            className="text-2xl md:text-3xl font-bold tracking-[0.1em] uppercase text-[#c6a46c]"
-                            style={{ fontFamily: "var(--font-cinzel), serif" }}
-                        >
-                            Remedios
-                        </h2>
-                        <p
-                            className="text-xs md:text-sm tracking-[0.2em] mt-3 text-[#f5f2ee]/40"
-                            style={{ fontFamily: "var(--font-cinzel), serif" }}
-                        >
-                            Kokteilar
-                        </p>
-                    </div>
+export default function CocktailMenu({ lang = "is" }: { lang?: "is" | "en" }) {
+    const t = LABELS[lang];
 
-                    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-0">
-                        {COCKTAILS.map((drink, index) => (
-                            <DrinkCard key={drink.name} drink={drink} index={index} />
-                        ))}
-                    </ul>
-                </motion.div>
+    return (
+        <div className="pt-4 pb-16 px-6 w-full max-w-5xl mx-auto">
+
+            {/* KOKTEILAR */}
+            <section id="cocktails" aria-label={t.cocktails} className="mb-20">
+                <SectionHeading title="Remedios" label={t.cocktails} />
+                <ul className="grid grid-cols-1 md:grid-cols-2 md:gap-x-16 p-0 m-0">
+                    {COCKTAILS.map((drink, index) => (
+                        <MenuItem key={drink.name} drink={drink} index={index} lang={lang} />
+                    ))}
+                </ul>
             </section>
 
-            {/* SHOTS SECTION */}
-            <section id="shots" aria-label="Skot">
-                <motion.div
-                    variants={sectionVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-80px" }}
-                >
-                    <div className="text-center mb-14">
-                        <h2
-                            className="text-2xl md:text-3xl font-bold tracking-[0.1em] uppercase text-[#c6a46c]"
-                            style={{ fontFamily: "var(--font-cinzel), serif" }}
-                        >
-                            Rituals
-                        </h2>
-                        <p
-                            className="text-xs md:text-sm tracking-[0.2em] mt-3 text-[#f5f2ee]/40"
-                            style={{ fontFamily: "var(--font-cinzel), serif" }}
-                        >
-                            Skot
-                        </p>
-                    </div>
-
-                    <ul className="grid grid-cols-1 md:grid-cols-3 gap-5 p-0">
-                        {SHOTS.map((drink, index) => (
-                            <DrinkCard key={drink.name} drink={drink} index={index} />
-                        ))}
-                    </ul>
-                </motion.div>
+            {/* SKOT */}
+            <section id="shots" aria-label={t.shots}>
+                <SectionHeading title="Rituals" label={t.shots} />
+                <ul className="max-w-2xl mx-auto p-0 m-0">
+                    {SHOTS.map((drink, index) => (
+                        <MenuItem key={drink.name} drink={drink} index={index} lang={lang} />
+                    ))}
+                </ul>
             </section>
 
+            <p className="text-center mt-10 text-[11px] tracking-[0.2em] uppercase text-[#f5f2ee]/25" style={cinzel}>
+                {t.note}
+            </p>
         </div>
     );
 }

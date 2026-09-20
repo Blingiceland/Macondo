@@ -2,17 +2,16 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { OPEN_DAYS, DAY_ABBR } from "@/lib/business";
 
 type Step = "DATE" | "DETAILS" | "CONFIRMED";
 
-const CLOSED_DAYS = [0, 1]; // 0 = Sunnudagur, 1 = Mánudagur
-const OPEN_DAYS = [2, 3, 4, 5, 6]; // Þri, Mið, Fim, Fös, Lau
 
 interface DayInfo { date: string; label: string; dayName: string; }
 
 /** Returns weeks as rows of 5 (Tue-Sat). Each inner array is one week. */
 function getWeeklyCalendar(weeksAhead = 5, weekOffset = 0): DayInfo[][] {
-    const dayNames = ["", "", "Þri", "Mið", "Fim", "Fös", "Lau"];
+    const dayNames = ["Sun", "Mán", "Þri", "Mið", "Fim", "Fös", "Lau"];
     const monthNames = ["jan", "feb", "mar", "apr", "maí", "jún", "júl", "ágú", "sep", "okt", "nóv", "des"];
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -29,9 +28,9 @@ function getWeeklyCalendar(weeksAhead = 5, weekOffset = 0): DayInfo[][] {
 
     for (let w = 0; w < weeksAhead; w++) {
         const week: DayInfo[] = [];
-        for (const openDay of OPEN_DAYS) { // 2,3,4,5,6 = Tue-Sat
+        for (const openDay of OPEN_DAYS) { // opnir dagar úr business.ts, vikan byrjar á þriðjudegi
             const d = new Date(startDate);
-            d.setDate(startDate.getDate() + w * 7 + (openDay - 2));
+            d.setDate(startDate.getDate() + w * 7 + ((openDay - 2 + 7) % 7));
             if (d < today) {
                 // Past day — push null placeholder so grid stays aligned
                 week.push({ date: "", label: "", dayName: dayNames[openDay] });
@@ -195,28 +194,28 @@ export default function BookingForm() {
                             {/* Weekly calendar grid */}
                             <div className="space-y-2 mb-6">
                                 {/* Header row */}
-                                <div className="grid grid-cols-5 gap-2 mb-1 relative">
+                                <div className="grid gap-2 mb-1 relative" style={{ gridTemplateColumns: `repeat(${OPEN_DAYS.length}, minmax(0, 1fr))` }}>
                                     <button 
                                         onClick={() => setWeekOffset(Math.max(0, weekOffset - 4))}
                                         disabled={weekOffset === 0}
-                                        className="absolute -left-16 top-0 bottom-0 flex items-center justify-center text-7xl text-[#c6a46c]/50 hover:text-[#c6a46c] hover:scale-110 disabled:opacity-0 transition-all"
+                                        className="absolute -left-6 md:-left-16 w-6 md:w-16 top-0 bottom-0 flex items-center justify-center text-2xl md:text-7xl text-[#c6a46c]/50 hover:text-[#c6a46c] hover:scale-110 disabled:opacity-0 transition-all"
                                         aria-label="Fyrri vikur"
                                     >
                                         &larr;
                                     </button>
                                     <button 
                                         onClick={() => setWeekOffset(weekOffset + 4)}
-                                        className="absolute -right-16 top-0 bottom-0 flex items-center justify-center text-7xl text-[#c6a46c]/50 hover:text-[#c6a46c] hover:scale-110 transition-all"
+                                        className="absolute -right-6 md:-right-16 w-6 md:w-16 top-0 bottom-0 flex items-center justify-center text-2xl md:text-7xl text-[#c6a46c]/50 hover:text-[#c6a46c] hover:scale-110 transition-all"
                                         aria-label="Næstu vikur"
                                     >
                                         &rarr;
                                     </button>
-                                    {["Þri", "Mið", "Fim", "Fös", "Lau"].map(d => (
-                                        <div key={d} className="text-center text-[10px] uppercase tracking-widest text-[#f5f2ee]/25 py-1">{d}</div>
+                                    {OPEN_DAYS.map(d => (
+                                        <div key={d} className="text-center text-[10px] uppercase tracking-widest text-[#f5f2ee]/25 py-1">{DAY_ABBR.is[d]}</div>
                                     ))}
                                 </div>
                                 {weeks.map((week, wi) => (
-                                    <div key={wi} className="grid grid-cols-5 gap-2">
+                                    <div key={wi} className="grid gap-2" style={{ gridTemplateColumns: `repeat(${OPEN_DAYS.length}, minmax(0, 1fr))` }}>
                                         {week.map((d, di) => (
                                             d.date === "" ? (
                                                 // Past/empty slot

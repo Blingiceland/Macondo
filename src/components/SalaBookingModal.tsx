@@ -2,14 +2,12 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const CLOSED_DAYS = [0, 1];
-const OPEN_DAYS = [2, 3, 4, 5, 6];
+import { OPEN_DAYS, DAY_ABBR } from "@/lib/business";
 
 interface DayInfo { date: string; label: string; dayName: string; }
 
 function getWeeklyCalendar(weeksAhead = 6, weekOffset = 0): DayInfo[][] {
-    const dayNames = ["", "", "Þri", "Mið", "Fim", "Fös", "Lau"];
+    const dayNames = ["Sun", "Mán", "Þri", "Mið", "Fim", "Fös", "Lau"];
     const monthNames = ["jan", "feb", "mar", "apr", "maí", "jún", "júl", "ágú", "sep", "okt", "nóv", "des"];
     const today = new Date(); today.setHours(0, 0, 0, 0);
     const startDate = new Date(today);
@@ -20,7 +18,7 @@ function getWeeklyCalendar(weeksAhead = 6, weekOffset = 0): DayInfo[][] {
         const week: DayInfo[] = [];
         for (const od of OPEN_DAYS) {
             const d = new Date(startDate);
-            d.setDate(startDate.getDate() + w * 7 + (od - 2));
+            d.setDate(startDate.getDate() + w * 7 + ((od - 2 + 7) % 7));
             if (d < today) { week.push({ date: "", label: "", dayName: dayNames[od] }); }
             else {
                 week.push({
@@ -189,7 +187,7 @@ export default function SalaBookingModal({ open, onClose, lang = "is" }: Props) 
 
                                         {/* Weekly calendar */}
                                         <div className="space-y-2 mb-6">
-                                            <div className="grid grid-cols-5 gap-2 mb-1 relative">
+                                            <div className="grid gap-2 mb-1 relative" style={{ gridTemplateColumns: `repeat(${OPEN_DAYS.length}, minmax(0, 1fr))` }}>
                                                 <button 
                                                     onClick={() => setWeekOffset(Math.max(0, weekOffset - 4))}
                                                     disabled={weekOffset === 0}
@@ -203,12 +201,12 @@ export default function SalaBookingModal({ open, onClose, lang = "is" }: Props) 
                                                 >
                                                     &rarr;
                                                 </button>
-                                                {["Þri", "Mið", "Fim", "Fös", "Lau"].map(d => (
-                                                    <div key={d} className="text-center text-[10px] uppercase tracking-widest text-[#f5f2ee]/25 py-1">{d}</div>
+                                                {OPEN_DAYS.map(d => (
+                                                    <div key={d} className="text-center text-[10px] uppercase tracking-widest text-[#f5f2ee]/25 py-1">{DAY_ABBR[lang][d]}</div>
                                                 ))}
                                             </div>
                                             {weeks.map((week, wi) => (
-                                                <div key={wi} className="grid grid-cols-5 gap-2">
+                                                <div key={wi} className="grid gap-2" style={{ gridTemplateColumns: `repeat(${OPEN_DAYS.length}, minmax(0, 1fr))` }}>
                                                     {week.map((d, di) => d.date === "" ? (
                                                         <div key={di} className="py-3 rounded-xl border border-[#f5f2ee]/5 opacity-20" />
                                                     ) : (

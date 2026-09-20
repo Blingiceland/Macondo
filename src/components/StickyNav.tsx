@@ -48,14 +48,14 @@ export default function StickyNav() {
                     ? "backdrop-blur-md bg-[#140c09]/90 border-b border-white/[0.04] shadow-sm"
                     : "bg-transparent"
                     }`}
-                style={{ height: "104px" }}
+                style={{ height: "var(--nav-h)" }}
             >
                 {/* Desktop: 3-zone grid layout */}
                 <div
                     className="hidden md:grid h-full max-w-[1400px] mx-auto items-center"
                     style={{
-                        gridTemplateColumns: "220px 1fr auto",
-                        padding: "0 72px",
+                        gridTemplateColumns: "160px 1fr auto",
+                        padding: "0 48px",
                     }}
                 >
                     {/* LEFT: Logo */}
@@ -68,7 +68,7 @@ export default function StickyNav() {
                         className="flex flex-col items-start flex-shrink-0 group"
                     >
                         <div
-                            className="h-[92px] aspect-[5/3] opacity-90 group-hover:opacity-100 transition-opacity"
+                            className="h-[68px] aspect-[5/3] opacity-90 group-hover:opacity-100 transition-opacity"
                             style={{ 
                                 WebkitMaskImage: 'url(/macondo-logo.png)',
                                 WebkitMaskSize: 'contain',
@@ -121,14 +121,14 @@ export default function StickyNav() {
                             href="https://pablodiscobar.is"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="hidden lg:inline-flex items-center gap-1 text-[12px] uppercase tracking-[0.14em] font-medium text-[#d84acb]/80 rounded-full px-3.5 py-[7px] transition-all duration-300 hover:text-[#d84acb] hover:border-[#d84acb]/[0.3] hover:bg-[#d84acb]/[0.07]"
+                            className="hidden lg:inline-flex items-center gap-1 text-[12px] uppercase tracking-[0.14em] font-medium text-[#f5f2ee]/45 rounded-full px-3.5 py-[7px] transition-all duration-300 hover:text-[#f5f2ee]/85 hover:border-[#f5f2ee]/25"
                             style={{
                                 fontFamily: "var(--font-inter), sans-serif",
                                 background: "transparent",
-                                border: "1px solid rgba(216, 74, 203, 0.2)",
+                                border: "1px solid rgba(245, 242, 238, 0.12)",
                             }}
                         >
-                            Pablo Discobar <span className="text-[10px] ml-0.5 opacity-70">✦</span>
+                            Pablo Discobar <span className="text-[10px] ml-0.5 text-[#d84acb]/70">✦</span>
                         </a>
                     </div>
                 </div>
@@ -144,7 +144,7 @@ export default function StickyNav() {
                         className="flex-shrink-0"
                     >
                         <div
-                            className="h-10 aspect-[5/3] opacity-90"
+                            className="h-11 aspect-[5/3] opacity-90"
                             style={{ 
                                 WebkitMaskImage: 'url(/macondo-logo.png)',
                                 WebkitMaskSize: 'contain',
@@ -188,7 +188,7 @@ export default function StickyNav() {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
                         className="fixed inset-0 z-[85] bg-[#140c09]/95 backdrop-blur-lg flex flex-col items-center justify-center gap-8"
-                        style={{ paddingTop: "104px" }}
+                        style={{ paddingTop: "var(--nav-h)" }}
                     >
                         {[
                             { label: "Drykkjarseðill", action: () => scrollTo("cocktails") },
@@ -213,14 +213,14 @@ export default function StickyNav() {
                             href="https://pablodiscobar.is"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[13px] uppercase tracking-[0.14em] font-semibold text-[#d84acb] rounded-full px-4 py-2 transition-all"
+                            className="text-[13px] uppercase tracking-[0.14em] font-semibold text-[#f5f2ee]/60 rounded-full px-4 py-2 transition-all"
                             style={{
                                 fontFamily: "var(--font-inter), sans-serif",
-                                background: "rgba(216, 74, 203, 0.06)",
-                                border: "1px solid rgba(216, 74, 203, 0.22)",
+                                background: "rgba(245, 242, 238, 0.04)",
+                                border: "1px solid rgba(245, 242, 238, 0.14)",
                             }}
                         >
-                            Pablo Discobar <span className="text-[10px] opacity-70">✦</span>
+                            Pablo Discobar <span className="text-[10px] text-[#d84acb]/70">✦</span>
                         </a>
 
                         <Link

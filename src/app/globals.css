@@ -36,9 +36,25 @@
   --font-sans: var(--font-inter), sans-serif;
 }
 
+/* Hæð fasta headersins — notuð af nav, hero og scroll-offset */
+:root {
+  --nav-h: 64px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --nav-h: 72px;
+  }
+}
+
 body {
   background-color: var(--color-macondo-night);
   color: var(--color-macondo-cream);
+}
+
+/* Hlutar sem skrollað er að lenda ekki undir headernum */
+:where(section, div)[id] {
+  scroll-margin-top: calc(var(--nav-h) + 12px);
 }
 
 /* Butterfly float animation */
@@ -146,4 +162,34 @@ body {
 
 .animate-shimmer {
   animation: heat-shimmer 4s ease-in-out infinite;
+}
+/* Hero-mynd: mjög hægt zoom út, slökkt ef notandi vill litla hreyfingu */
+.hero-photo {
+  transform: scale(1.06);
+  animation: hero-settle 12s ease-out forwards;
+  transform-origin: center;
+}
+
+@keyframes hero-settle {
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-photo {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* Dekkra svæði á bak við lógó og slagorð í hero; stærra á síma þar sem myndin er þrengri */
+.hero-vignette {
+  background: radial-gradient(ellipse 80% 42% at 50% 40%, rgba(20, 12, 9, 0.72), transparent 100%);
+}
+
+@media (min-width: 768px) {
+  .hero-vignette {
+    background: radial-gradient(ellipse 36% 32% at 50% 36%, rgba(20, 12, 9, 0.62), transparent 100%);
+  }
 }

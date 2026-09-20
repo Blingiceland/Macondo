@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { BUSINESS, hoursRows } from "@/lib/business";
 
 export default function Footer() {
     return (
@@ -27,19 +28,19 @@ export default function Footer() {
                         <p className="text-sm opacity-50 mb-1 text-[#f5f2ee]">Tequila Bar</p>
                         <div className="w-12 h-px bg-[#c6a46c]/40 my-4 mx-auto md:mx-0" />
                         <address className="not-italic">
-                            <p className="text-sm opacity-70 text-[#f5f2ee]">Veltusund 1</p>
-                            <p className="text-sm opacity-70 text-[#f5f2ee]">101 Reykjavík</p>
+                            <p className="text-sm opacity-70 text-[#f5f2ee]">{BUSINESS.address.street}</p>
+                            <p className="text-sm opacity-70 text-[#f5f2ee]">{BUSINESS.address.postalCode} {BUSINESS.address.city}</p>
                             <a
-                                href="mailto:pablo@discobar.is"
+                                href={`mailto:${BUSINESS.publicEmail}`}
                                 className="text-sm opacity-50 hover:opacity-80 transition-opacity text-[#f5f2ee] block mt-1"
                             >
-                                pablo@discobar.is
+                                {BUSINESS.publicEmail}
                             </a>
                         </address>
 
                         {/* Map link */}
                         <a
-                            href="https://maps.google.com/?q=Veltusund+1+Reykjavik"
+                            href={BUSINESS.mapsUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-block mt-3 text-xs uppercase tracking-widest opacity-40 hover:opacity-80 transition-opacity text-[#c6a46c] hover:text-[#c6a46c]"
@@ -64,20 +65,17 @@ export default function Footer() {
                         </h4>
 
                         <div className="space-y-3 text-sm text-[#f5f2ee]">
-                            <div className="flex justify-between max-w-[200px] mx-auto">
-                                <span className="opacity-50">Sun — Mán</span>
-                                <span className="opacity-40 font-mono text-xs">Lokað</span>
-                            </div>
-                            <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#c6a46c]/20 to-transparent mx-auto" />
-                            <div className="flex justify-between max-w-[200px] mx-auto">
-                                <span className="opacity-50">Þri — Fim</span>
-                                <span className="opacity-80 font-mono">15 — 23</span>
-                            </div>
-                            <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#c6a46c]/20 to-transparent mx-auto" />
-                            <div className="flex justify-between max-w-[200px] mx-auto">
-                                <span className="opacity-50">Fös — Lau</span>
-                                <span className="opacity-80 font-mono">15 — 01</span>
-                            </div>
+                            {hoursRows("is").map((row, i) => (
+                                <div key={row.days}>
+                                    {i > 0 && <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#c6a46c]/20 to-transparent mx-auto mb-3" />}
+                                    <div className="flex justify-between max-w-[200px] mx-auto">
+                                        <span className="opacity-50">{row.days}</span>
+                                        {row.hours
+                                            ? <span className="opacity-80 font-mono">{row.hours}</span>
+                                            : <span className="opacity-40 font-mono text-xs">Lokað</span>}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </motion.div>
 
@@ -99,7 +97,7 @@ export default function Footer() {
                         <div className="flex justify-center md:justify-end gap-6">
                             {/* Instagram */}
                             <a
-                                href="https://instagram.com/macondo.rvk"
+                                href={BUSINESS.social.instagram}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="group flex items-center gap-2 text-[#c6a46c] opacity-60 hover:opacity-100 transition-all"
@@ -114,7 +112,7 @@ export default function Footer() {
 
                             {/* Facebook */}
                             <a
-                                href="https://facebook.com/macondo.rvk"
+                                href={BUSINESS.social.facebook}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="group flex items-center gap-2 text-[#c6a46c] opacity-60 hover:opacity-100 transition-all"

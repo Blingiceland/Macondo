@@ -1,8 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createReservation, LARGE_GROUP_THRESHOLD, SITTING_LABEL } from "@/lib/booking";
 import nodemailer from "nodemailer";
+import { CLOSED_DAYS, closedDaysTextIs } from "@/lib/business";
 
 const ADMIN_EMAIL = "discobar@discobar.is";
+
+/** Escape-ar notendatexta áður en hann fer inn í HTML-póst. */
+function esc(value: unknown): string {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+/** Fjarlægir línuskil svo notendatexti geti ekki bætt við póst-hausum. */
+function oneLine(value: unknown): string {
+    return String(value ?? "").replace(/[\r\n]+/g, " ").trim();
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function createTransporter() {
     return nodemailer.createTransport({
@@ -35,20 +53,29 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        if (typeof name !== "string" || typeof email !== "string" || typeof phone !== "string") {
+            return NextResponse.json({ error: "Ógild gögn" }, { status: 400 });
+        }
+        if (!EMAIL_RE.test(email) || /[\r\n]/.test(email)) {
+            return NextResponse.json({ error: "Ógilt netfang" }, { status: 400 });
+        }
+        if (name.length > 200 || phone.length > 40 || (typeof notes === "string" && notes.length > 2000)) {
+            return NextResponse.json({ error: "Texti of langur" }, { status: 400 });
+        }
+
         const guestCount = parseInt(guests);
-        if (guestCount < 1 || guestCount > 60) {
+        if (!Number.isFinite(guestCount) || guestCount < 1 || guestCount > 60) {
             return NextResponse.json(
                 { error: "Fjöldi gesta verður að vera á milli 1 og 60" },
                 { status: 400 }
             );
         }
 
-        // Closed on Mondays (1) and Tuesdays (2)
-        const CLOSED_DAYS = [0, 1];
-        const dayOfWeek = new Date(date + "T12:00:00").getDay();
+        // Lokaðir dagar koma úr sameiginlegu stillingunni í lib/business.ts
+        const dayOfWeek = new Date(date + "T12:00:00").getDay() as (typeof CLOSED_DAYS)[number];
         if (CLOSED_DAYS.includes(dayOfWeek)) {
             return NextResponse.json(
-                { error: "Macondo er lokað á mánudögum og þriðjudögum" },
+                { error: `Macondo er lokað á ${closedDaysTextIs()}` },
                 { status: 400 }
             );
         }
@@ -67,6 +94,12 @@ export async function POST(request: NextRequest) {
             const transporter = createTransporter();
             const formattedDate = formatDate(date);
             const isLargeGroup = guestCount >= LARGE_GROUP_THRESHOLD;
+            // Öll notendagögn escape-uð fyrir HTML og hreinsuð fyrir hausa
+            const safeName = esc(oneLine(name));
+            const safeEmail = esc(oneLine(email));
+            const safePhone = esc(oneLine(phone));
+            const safeNotes = notes ? esc(String(notes)) : "";
+            const subjectName = oneLine(name);
 
             // 1) Confirmation to guest
             await transporter.sendMail({
@@ -84,7 +117,7 @@ export async function POST(request: NextRequest) {
                         <table style="width: 100%; border-collapse: collapse;">
                             <tr>
                                 <td style="color: #F5E8D0; opacity: 0.5; font-size: 12px; padding: 10px 0; border-bottom: 1px solid rgba(245,232,208,0.1); text-transform: uppercase; letter-spacing: 1px;">Nafn</td>
-                                <td style="color: #F5E8D0; font-size: 14px; padding: 10px 0; border-bottom: 1px solid rgba(245,232,208,0.1); text-align: right;">${name}</td>
+                                <td style="color: #F5E8D0; font-size: 14px; padding: 10px 0; border-bottom: 1px solid rgba(245,232,208,0.1); text-align: right;">${safeName}</td>
                             </tr>
                             <tr>
                                 <td style="color: #F5E8D0; opacity: 0.5; font-size: 12px; padding: 10px 0; border-bottom: 1px solid rgba(245,232,208,0.1); text-transform: uppercase; letter-spacing: 1px;">Dagsetning</td>
@@ -119,7 +152,7 @@ export async function POST(request: NextRequest) {
                 to: ADMIN_EMAIL,
                 subject: isLargeGroup
                     ? `🚨 Stór hópur (${guestCount} gestir) — ${formattedDate}`
-                    : `Ný bókun — ${name} · ${guestCount} gestir · ${formattedDate}`,
+                    : `Ný bókun — ${subjectName} · ${guestCount} gestir · ${formattedDate}`,
                 html: `
                     <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto;">
                         ${isLargeGroup ? `
@@ -131,12 +164,12 @@ export async function POST(request: NextRequest) {
                         </div>`}
                         <div style="background: #f9f9f9; padding: 24px; border-radius: 0 0 6px 6px;">
                             <table style="width: 100%; border-collapse: collapse;">
-                                <tr><td style="padding: 8px 0; color: #666; font-size: 13px;">Nafn</td><td style="padding: 8px 0; font-weight: bold;">${name}</td></tr>
-                                <tr><td style="padding: 8px 0; color: #666; font-size: 13px;">Netfang</td><td style="padding: 8px 0;"><a href="mailto:${email}">${email}</a></td></tr>
-                                <tr><td style="padding: 8px 0; color: #666; font-size: 13px;">Símanúmer</td><td style="padding: 8px 0; font-size: 16px; font-weight: bold;"><a href="tel:${phone}">${phone}</a></td></tr>
+                                <tr><td style="padding: 8px 0; color: #666; font-size: 13px;">Nafn</td><td style="padding: 8px 0; font-weight: bold;">${safeName}</td></tr>
+                                <tr><td style="padding: 8px 0; color: #666; font-size: 13px;">Netfang</td><td style="padding: 8px 0;"><a href="mailto:${safeEmail}">${safeEmail}</a></td></tr>
+                                <tr><td style="padding: 8px 0; color: #666; font-size: 13px;">Símanúmer</td><td style="padding: 8px 0; font-size: 16px; font-weight: bold;"><a href="tel:${safePhone}">${safePhone}</a></td></tr>
                                 <tr><td style="padding: 8px 0; color: #666; font-size: 13px;">Dagsetning</td><td style="padding: 8px 0;">${formattedDate}</td></tr>
                                 <tr><td style="padding: 8px 0; color: #666; font-size: 13px;">Gestir</td><td style="padding: 8px 0; font-size: 20px; font-weight: bold; color: ${isLargeGroup ? "#e74c3c" : "#1A0A08"};">${guestCount}</td></tr>
-                                ${notes ? `<tr><td style="padding: 8px 0; color: #666; font-size: 13px;">Athugasemd</td><td style="padding: 8px 0; font-style: italic;">${notes}</td></tr>` : ""}
+                                ${safeNotes ? `<tr><td style="padding: 8px 0; color: #666; font-size: 13px;">Athugasemd</td><td style="padding: 8px 0; font-style: italic;">${safeNotes}</td></tr>` : ""}
                                 <tr><td style="padding: 8px 0; color: #999; font-size: 12px;">Bókunarnr.</td><td style="padding: 8px 0; font-family: monospace; color: #999; font-size: 12px;">${reservationId.slice(0, 8)}</td></tr>
                             </table>
                         </div>
