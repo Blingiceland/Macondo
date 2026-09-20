@@ -356,10 +356,10 @@ function NavEN() {
                             Venue Booking
                             <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#c6a46c]/60 transition-all duration-300 group-hover:w-full" />
                         </button>
-                        <Link href="/karaoke" className={navLinkClass} style={navLinkStyle}>
+                        <a href="https://pablodiscobar.is/karaoke" className={navLinkClass} style={navLinkStyle}>
                             Karaoke
                             <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#c6a46c]/60 transition-all duration-300 group-hover:w-full" />
-                        </Link>
+                        </a>
                     </nav>
 
                     {/* RIGHT: CTA + Language + Pablo badge */}
@@ -441,7 +441,7 @@ function NavEN() {
                             { label: "Drinks Menu", action: () => { setMobileOpen(false); document.getElementById("cocktails")?.scrollIntoView({ behavior: "smooth" }); } },
                             { label: "Table Booking", action: () => { setMobileOpen(false); document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" }); } },
                             { label: "Venue Booking", action: () => { setMobileOpen(false); setSalaOpen(true); } },
-                            { label: "Karaoke", action: () => { setMobileOpen(false); window.location.href = "/karaoke"; } },
+                            { label: "Karaoke", action: () => { setMobileOpen(false); window.location.href = "https://pablodiscobar.is/karaoke"; } },
                         ].map(item => (
                             <button key={item.label} onClick={item.action}
                                 className="text-[18px] uppercase tracking-[0.18em] font-medium text-[#f5f2ee]/80 hover:text-[#c6a46c] transition-colors"

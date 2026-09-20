@@ -2,8 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/business";
 
 /**
- * Aðeins opinberar síður. /admin, /api og /menu (ótengd prófunarsíða
- * með Pablo-seðli) eru viljandi ekki hér.
+ * Aðeins opinberar síður. /admin og /api eru viljandi ekki hér; /karaoke vísar á pablodiscobar.is.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
     // Uppfæra þegar efni breytist í raun; sífellt hreyfanleg dagsetning
@@ -28,12 +27,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
             alternates: {
                 languages: { is: `${SITE_URL}/`, en: `${SITE_URL}/en` },
             },
-        },
-        {
-            url: `${SITE_URL}/karaoke`,
-            lastModified: updated,
-            changeFrequency: "monthly",
-            priority: 0.5,
         },
     ];
 }

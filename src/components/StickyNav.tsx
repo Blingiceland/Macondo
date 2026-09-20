@@ -90,10 +90,10 @@ export default function StickyNav() {
                             Salabókun
                             <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#c6a46c]/60 transition-all duration-300 group-hover:w-full" />
                         </button>
-                        <button onClick={() => router.push("/karaoke")} className={navLinkClass} style={navLinkStyle}>
+                        <a href="https://pablodiscobar.is/karaoke" className={navLinkClass} style={navLinkStyle}>
                             Karókí
                             <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#c6a46c]/60 transition-all duration-300 group-hover:w-full" />
-                        </button>
+                        </a>
                     </nav>
 
                     {/* RIGHT: CTA + Language + Pablo badge */}
@@ -194,7 +194,7 @@ export default function StickyNav() {
                             { label: "Drykkjarseðill", action: () => scrollTo("cocktails") },
                             { label: "Borðabókun", action: () => scrollTo("reservation-form") },
                             { label: "Salabókun", action: () => { setMobileOpen(false); setSalaOpen(true); } },
-                            { label: "Karókí", action: () => { setMobileOpen(false); router.push("/karaoke"); } },
+                            { label: "Karókí", action: () => { setMobileOpen(false); window.location.href = "https://pablodiscobar.is/karaoke"; } },
                         ].map(item => (
                             <button
                                 key={item.label}
